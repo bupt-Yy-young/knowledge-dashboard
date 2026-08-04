@@ -783,121 +783,216 @@ const JOB_SPRINTS = [
   }
 ];
 ;
-/* NLTK 上游真实漏洞修复复盘：依据已合并 PR 的描述、补丁与回归测试整理。 */
-const NLTK_CASE_SOURCE = '源码依据：<a href="https://github.com/nltk/nltk/pull/3683" target="_blank" rel="noopener">NLTK PR #3683</a>、<a href="https://github.com/nltk/nltk/pull/3684" target="_blank" rel="noopener">NLTK PR #3684</a>。#3683 明确对应 CVE-2026-12615；#3684 按当前 PR 公开信息记录为 CWE-1333 ReDoS 修复，不额外虚构 CVE 编号。';
+/* 独立漏洞复盘页数据。公开案例与本地审计案例分开标注，不进入题库计数。 */
+const VULNERABILITY_CASES = [
+  {
+    id:'nltk-cve-2026-12615', product:'NLTK', version:'Stanford / Java wrappers',
+    title:'CVE-2026-12615：异常路径残留明文临时文件并污染全局 Java 配置',
+    severity:'High', status:'已合并', confidence:'上游确认', cwe:'CWE-459 / CWE-362', type:'资源生命周期',
+    summary:'多个 Wrapper 把用户文本写入具名临时文件后调用 Java。旧实现只在正常返回后删除文件并恢复进程级 Java 参数，异常会跳过清理，并发调用还会互相覆盖共享配置。',
+    conditions:['应用实际调用 StanfordTokenizer、Parser、Tagger 或 Segmenter','输入可能包含敏感文本','Java 启动、classpath、参数或运行环境可以进入异常路径','进程复用或多请求并发会放大全局状态问题'],
+    chain:[
+      ['Source','不可信或敏感文本进入 Stanford/Java Wrapper。'],
+      ['Mechanism','文本落入 delete=False 临时文件；Wrapper 修改模块级 _java_options，再启动外部 Java。'],
+      ['Failure','java()、communicate() 或输出解码抛异常，顺序执行的 unlink 与配置恢复被绕过。'],
+      ['Impact','临时目录残留明文；后续请求继承错误 JVM 参数，或并发请求发生状态串扰。']
+    ],
+    evidence:['故障注入发生在文件已经写入之后，而不是创建之前','异常返回后断言临时路径不存在','GLOBAL 与 LOCAL Java options 对照，确认单次调用不修改全局值','覆盖 Tokenizer、Parser、Tagger、Segmenter 以及 unlink 自身失败'],
+    remediation:['为 java() 增加 keyword-only 的 per-call options','Wrapper 直接传递本次参数，停止修改进程级共享状态','将 unlink 放入 finally，并区分 FileNotFoundError、主操作失败与清理失败','为临时目录增加最小权限和过期清扫作为纵深防御'],
+    boundary:'不是直接 RCE。实际严重性取决于敏感数据、临时目录权限、能否稳定触发 Java 失败，以及进程是否长期复用。',
+    pitch:'这个案例同时暴露了两个工程问题：异常路径没有覆盖资源生命周期，以及本应属于单次调用的参数被放进了进程级共享状态。修复不是简单补一个 finally，而是把 Java options 改成 per-call 值，再用 finally 保证临时文件在所有退出路径删除。',
+    source:{label:'NLTK PR #3683',url:'https://github.com/nltk/nltk/pull/3683'}
+  },
+  {
+    id:'nltk-pr-3684-redos', product:'NLTK', version:'AlpinoCorpusReader',
+    title:'PR #3684：Alpino 节点归一化正则出现 O(n²) 回溯型 ReDoS',
+    severity:'Medium', status:'已合并', confidence:'上游合并', cwe:'CWE-1333', type:'算法复杂度',
+    summary:'AlpinoCorpusReader._normalize 使用多个 lazy wildcard 依次寻找属性。含早期锚点但缺少 word 或闭合符的超长单行会迫使回溯引擎反复重新分配匹配边界。',
+    conditions:['应用读取攻击者可控的 Alpino 格式语料','输入能到达 words、tagged_words、tagged_sents 或 parsed_sents','攻击行保留 begin/pos 等早期锚点并故意缺少尾部必需字面量'],
+    chain:[
+      ['Source','单个超长、接近合法但最终不匹配的 node 行。'],
+      ['Mechanism','第一个 .*? 有 O(n) 个停止位置，每个位置又驱动后续 wildcard 扫描 O(n) 剩余文本。'],
+      ['Evidence','输入规模翻倍时耗时约四倍，500→1000→2000→4000 呈平方增长。'],
+      ['Impact','同步解析 Worker 的 CPU 核心被占用，造成吞吐下降、排队和服务拒绝。']
+    ],
+    evidence:['PoC 经过公开 words() 入口而非只调用孤立正则','使用 near-miss 输入，避免把大文件 I/O 混入机制','独立进程和 hard deadline 防止 CI 被回归正则卡死','正常语料在四个公开 API 上保持相同输出'],
+    remediation:['用行锚定和 [^>\\n] 一次截取单个标签','再以简单属性扫描提取 begin、pos、word、cat','显式保留旧实现对数字、word 字符和缺失字段的约束','增加大输入 deadline 测试和输入尺寸预算'],
+    boundary:'公开 PR 当前只明确 CWE-1333，没有在页面中给出独立 CVE 编号；这里不把二次复杂度误写成指数复杂度。',
+    pitch:'我会先用倍增实验确认增长阶，再解释为什么多个可重叠的 lazy wildcard 产生平方回溯。修复的核心不是把 lazy 改成 greedy，而是把模糊回溯改成边界明确的线性标签扫描，同时用兼容性测试证明正常语义不变。',
+    source:{label:'NLTK PR #3684',url:'https://github.com/nltk/nltk/pull/3684'}
+  },
+  {
+    id:'nltk-proxy-ssrf', product:'NLTK', version:'3.10.0 pathsec',
+    title:'代理与 Split-DNS 绕过 pathsec 的 SSRF 目的地址约束',
+    severity:'High（条件）', status:'报告就绪', confidence:'E2/V2', cwe:'CWE-918', type:'SSRF',
+    summary:'直接连接会固定经过本地 DNS 校验的 IP，但配置 HTTP 代理后保护被关闭，原始主机名交给代理再次解析。本地解析与代理解析不一致时，校验对象和实际连接对象分离。',
+    conditions:['NLTK URL 加载路径接受攻击者控制地址','运行环境配置 HTTP/HTTPS 出站代理','代理能够解析或访问客户端本地不可见的内部名称'],
+    chain:[['Source','攻击者提交代理侧可解析的内部域名或可重绑定域名。'],['Mechanism','本地校验无结果时没有 fail closed；proxied=True 时不安装 connect-time IP pinning。'],['Boundary','代理独立 DNS 解析并从其网络位置发起实际连接。'],['Impact','可访问代理可达的内网 API、服务发现名称或元数据端点。']],
+    evidence:['独立启动内部 HTTP 服务和标准 forward proxy','直连 127.0.0.1 被拒绝作为负控','无代理访问 unresolved host 失败','经代理调用 pathsec.urlopen 与 nltk.data.load 均返回内部标记'],
+    remediation:['严格模式下对代理请求 fail closed，或显式把 SSRF 策略委托给可信代理','拒绝本地 DNS 无结果的目的地址','若需端到端保证，代理传输也必须绑定已验证的数值 IP 并保留 Host/SNI'],
+    boundary:'需要代理配置和上层应用暴露 URL 加载能力；HTTPS CONNECT 与不同企业代理策略仍需分别验证。',
+    pitch:'根因不是普通 allowlist 写错，而是 DNS 校验与实际连接发生在两个解析域，产生经典 TOCTOU 式网络身份错配。',
+    source:{label:'本地审计 C-001',url:''}
+  },
+  {
+    id:'nltk-pickle-allowlist-rce', product:'NLTK', version:'3.10.0 model loaders',
+    title:'模块前缀 Pickle Allowlist 可被目标库与依赖 Gadget 绕过并执行命令',
+    severity:'High', status:'报告就绪', confidence:'E2/V2', cwe:'CWE-502', type:'反序列化',
+    summary:'AllowlistUnpickler 允许整个 nltk.tokenize 或 sklearn 模块树，却没有审核具体 callable。攻击者可选择允许命名空间内已有的 subprocess Gadget，通过 pickle REDUCE 执行代码。',
+    conditions:['应用接受或加载攻击者可控的 Punkt/TransitionParser 模型','模型字节进入所谓安全的 allowlisted pickle loader','进程拥有可产生实际影响的文件、网络或命令权限'],
+    chain:[['Source','恶意模型 Pickle 控制 GLOBAL、REDUCE 与参数。'],['Mechanism','find_class 只判断 module 前缀，允许 nltk.tokenize.repp 或 sklearn.utils._testing 中的危险 callable。'],['Sink','ReppTokenizer._execute 或测试辅助函数启动子进程。'],['Impact','以 Python 服务权限执行任意命令。']],
+    evidence:['完整目标包运行时创建受控 marker','Punkt 内建 Gadget 不依赖第三方可选包','scikit-learn 1.7.2 实际回放，并核对多个支持版本源码','exact-global allowlist 负控拒绝相同 Payload 且不生成 marker'],
+    remediation:['不能把可执行对象格式当作不可信数据格式','若必须兼容，使用精确且审核过的 module + qualname 集合','拒绝函数、方法和无关类，即便它们属于业务模块前缀','优先迁移到显式 Schema 和不可执行模型格式'],
+    boundary:'NLTK 本身不提供默认网络上传服务；远程性依赖模型上传、共享仓库、缓存投毒或供应链入口。',
+    pitch:'这个案例说明 allowlist 的粒度决定安全性。允许一个模块树等于把该命名空间未来新增的所有 callable 都纳入信任，修补一个 os.system Gadget 并不能关闭 Pickle 的执行模型。',
+    source:{label:'本地审计 C-002/C-011',url:''}
+  },
+  {
+    id:'nltk-jar-cache-rce', product:'NLTK', version:'3.10.0 StanfordSegmenter',
+    title:'SHA-256 缓存仅绑定 mtime 与 size，可复用旧摘要执行被替换 JAR',
+    severity:'High（条件）', status:'报告就绪', confidence:'E2/V2', cwe:'CWE-345 / CWE-367', type:'完整性绕过',
+    summary:'JAR 审批缓存用 (st_mtime_ns, st_size) 判断文件未变。攻击者以等长恶意 JAR 替换路径并恢复 mtime 后，系统复用已批准摘要，再把可变路径交给 Java。',
+    conditions:['攻击者能替换配置的 JAR 路径','同一 StanfordSegmenter 对象已经用合法 JAR 预热摘要缓存','恶意 JAR 能保持相同大小并恢复原 mtime'],
+    chain:[['Source','共享目录或供应链步骤替换已批准 JAR。'],['Mechanism','缓存命中只比较可伪造元数据，不重新哈希内容。'],['Boundary','验证的是旧字节摘要，执行的却是相同路径上的新字节。'],['Impact','恶意 Java 类以 Python 进程权限运行，并可重复触发。']],
+    evidence:['合法与恶意 JAR SHA-256 不同但文件大小、mtime 相同','冷缓存、新对象、清空缓存三组负控均能阻断','热缓存路径通过 public segment() 执行 marker','inode/ctime 变化印证发生了对象替换'],
+    remediation:['安全决策前重新哈希，避免 pathname-only 摘要缓存','把验证与执行绑定到同一个打开对象','将批准字节复制到私有、不可写、内容寻址目录后执行','拒绝从共享可写目录加载安全敏感 JAR'],
+    boundary:'攻击者先要具备 JAR 路径替换权限，因此是本地/供应链型 High，不应包装成无认证远程 RCE。',
+    pitch:'本质是安全检查缓存失去内容身份：mtime 和 size 是性能启发式，不是认证属性。真正修复要让验证对象和执行对象不可分离。',
+    source:{label:'本地审计 C-012',url:''}
+  },
+  {
+    id:'nltk-zip-bomb-budget', product:'NLTK', version:'3.10.0 downloader',
+    title:'ZIP Bomb 防护只检查单成员，多个阈值以下文件绕过归档总预算',
+    severity:'Medium', status:'条件候选', confidence:'E2/V2', cwe:'CWE-409', type:'资源耗尽',
+    summary:'压缩比检查仅在单个成员达到 32 MiB 时启用，且没有总解压字节、成员数或累计压缩比限制。攻击者可堆叠大量小型高压缩比成员。',
+    conditions:['下载器或其他入口处理攻击者控制 ZIP','目标磁盘、inode 或 CPU 配额有限','单个成员保持在保护激活阈值以下'],
+    chain:[['Source','大量各自低于阈值的高压缩比成员。'],['Mechanism','每个成员独立通过，归档级累计值从未计算。'],['Evidence','约 34 KiB 归档展开为 32 MiB，单个 33 MiB 成员负控被拒绝。'],['Impact','耗尽数据卷空间、inode 或解压 CPU。']],
+    evidence:['16 个 2 MiB 成员全部通过','扩张约 971 倍','成员数增加时输出线性增长','提取目录受控且测试后清理'],
+    remediation:['解压前统计总声明大小和成员数','增加 archive-wide 压缩比、路径深度和名称长度预算','任何累计预算超限时在写入第一个成员前整体拒绝'],
+    boundary:'远程利用依赖不可信包索引或 ZIP 摄入路径；受控 PoC 只证明累计预算缺口。',
+    pitch:'单对象安全检查不能推出集合安全。资源防护必须同时有 per-item 和 aggregate budget。',
+    source:{label:'本地审计 C-003',url:''}
+  },
+  {
+    id:'nltk-pathsec-toctou', product:'NLTK', version:'3.10.0 pathsec',
+    title:'路径校验与实际 open 分离，符号链接竞态可越出授权根目录',
+    severity:'Medium（条件）', status:'条件候选', confidence:'E2/V2', cwe:'CWE-367', type:'文件系统竞态',
+    summary:'pathsec 先 resolve 并校验路径，随后把原始可变路径再次传给 builtins.open 或 ZipFile。共享目录中的 symlink 在检查后、使用前被替换即可改变真实目标。',
+    conditions:['攻击者能修改授权根目录内的 symlink/目录项','受害进程随后以更高权限读写该路径','应用存在内容返回、写入或 ZIP 访问语义'],
+    chain:[['Source','授权根内看似安全的符号链接。'],['Check','resolve 后确认目标位于根目录。'],['Race','攻击者在检查与 open 之间替换链接。'],['Impact','实际 read/write/ZipFile 操作落到根目录外对象。']],
+    evidence:['稳定外部 symlink 会被阻断','插桩竞态复现根外读、写和 ZIP 访问','无插桩并发交换也观察到外部 marker','明确区分机制成功与远程可达性'],
+    remediation:['使用 descriptor-relative component walking','每层采用 no-follow 语义','在验证后的同一文件描述符上完成 I/O','避免验证字符串路径后再次解析路径'],
+    boundary:'需要共享目录写权限和竞态窗口；只有存在跨权限进程时才形成强安全边界。',
+    pitch:'这是文件系统版 TOCTOU：路径不是稳定身份，校验 path A 后再次按名字打开，得到的可能已经是 object B。',
+    source:{label:'本地审计 C-010',url:''}
+  },
+  {
+    id:'nextcloud-ai-delegation-regex', product:'Nextcloud', version:'Server 34.0.1',
+    title:'AI 设置委派使用未锚定通配正则，可修改无关 core 全局配置',
+    severity:'Medium / 条件 High', status:'报告就绪', confidence:'完整本地运行', cwe:'CWE-863', type:'授权绕过',
+    summary:'AI 管理设置声明 /ai..*/ 作为可编辑键规则。Provisioning API 直接 preg_match：正则未 ^ 锚定，点号也未转义，因此任何包含 ai 加任意字符的无关 key 都可能被 AI-only 委派用户命中。',
+    conditions:['普通用户属于仅被委派 Artificial Intelligence 设置的组','管理员确实启用了该委派','目标 core AppConfig key 名称恰好匹配宽泛正则'],
+    chain:[['Source','AI-only delegated 用户提交任意 app config key。'],['Mechanism','/ai..*/ 在 key 任意位置搜索，. 匹配任意字符。'],['Boundary','设置页级委派被扩大成无关 core 配置写权限。'],['Impact','修改用户创建策略或匿名文件投递页免责声明等全局行为。']],
+    evidence:['普通用户修改目标 key 返回 403','AI 委派用户修改不匹配 default_quota 返回 403','同一用户修改 newUser.requireEmail 与 disclaimer 返回 200','UI 和管理员创建用户流程观察到真实策略变化'],
+    remediation:['改成精确前缀判断或锚定并转义的 /^ai\\..*/','授权规则采用结构化 namespace 而不是自由正则','对所有委派设置建立允许/拒绝矩阵回归测试'],
+    boundary:'需要管理员预先委派 AI 设置；已证明全局完整性影响，不声称 XSS、RCE 或无认证利用。',
+    pitch:'这是典型“UI 权限看起来最小，但底层对象匹配过宽”。回答时要把委派主体、配置对象和真实业务后果三层连起来。',
+    source:{label:'本地审计 CAND-P2-002',url:''}
+  },
+  {
+    id:'mlflow-job-idor', product:'MLflow', version:'3.14.0',
+    title:'Job 读取与取消路由缺少资源级授权，形成跨用户状态访问',
+    severity:'High（条件）', status:'报告就绪', confidence:'E2/V2', cwe:'CWE-639 / CWE-862', type:'对象级授权',
+    summary:'认证只证明调用者已登录，legacy/native job handler 按 job_id 直接访问全局 store，没有验证 job 与 experiment、workspace 或调用主体的归属。',
+    conditions:['启用认证、数据库 job store 与 server job execution','攻击者有普通账号并知道 victim job ID','Job 承载 evaluation/scorer 等有业务归属的结果'],
+    chain:[['Source','低权限用户提交其他用户 job_id。'],['Mechanism','_get_job/_cancel_job 直接调用全局 get_job/cancel_job。'],['Boundary','普通 experiment API 受 ACL 保护，但二级 Job 通道没有继承父资源权限。'],['Impact','读取 parsed result，取消 pending/running job；结果可能含 trace、assessment 或模型响应。']],
+    evidence:['NO_PERMISSIONS 用户访问 experiment 为 403','同一用户 GET seeded victim job 为 200 并获得 marker','PATCH cancel 返回 200 且状态变 CANCELED','匿名请求仍为 401，证明是授权而非认证问题'],
+    remediation:['Job 记录绑定 owner、workspace 和父资源','所有 get/cancel/delete 通过统一资源 validator','使用不可枚举 ID 只能纵深防御，不能替代授权','为二级异步对象建立父资源权限继承测试'],
+    boundary:'generic Job 曾被描述为内部共享控制面，因此最稳的报告范围是被复用于 experiment/trace-scoped evaluation 后产生的授权缺口。',
+    pitch:'我会先强调 authentication 已生效，问题是对象级 authorization 丢失；再用 403→200 对照证明父资源与异步子资源的策略不一致。',
+    source:{label:'本地审计 F15',url:''}
+  },
+  {
+    id:'mlflow-prompt-route-authz', product:'MLflow', version:'3.14.0',
+    title:'Prompt Optimization 动态 Job 路由未匹配已注册 Validator',
+    severity:'Medium / 条件 High', status:'报告就绪', confidence:'E2/V2', cwe:'CWE-863', type:'路由授权',
+    summary:'源码为带 <job_id> 的模板路由注册了权限校验，但运行时查找器对普通 Flask 请求做 concrete path 精确匹配，参数化匹配列表又漏掉 prompt job。于是静态 Create/Search 受保护，动态 Get/Cancel/Delete 绕过。',
+    conditions:['使用 Prompt Optimization Job','攻击者已认证但无 victim experiment 权限','知道目标 prompt job/run ID'],
+    chain:[['Policy','设计与文档声明 prompt job 继承父 experiment 权限。'],['Mismatch','Validator 以模板路径保存，请求到来时是具体 ID 路径。'],['Bypass','_find_validator 没有为该动态路由做模板匹配。'],['Impact','跨用户读取、取消或删除 prompt optimization job/run。']],
+    evidence:['experiment GET、victim run GET、prompt Create/Search 都为 403','动态 Prompt Job Get 为 200','Cancel 令 victim run KILLED，Delete 令生命周期变 deleted','无需启动真实 provider 即可证明控制面授权缺口'],
+    remediation:['使用框架路由 endpoint 名或 route rule 做授权映射','参数路由统一解析，不维护易遗漏的特殊路径列表','对每个模板路由自动生成 concrete ID 权限回归测试'],
+    boundary:'最低影响为 Medium；是否 High 取决于结果敏感性和取消/删除带来的业务损失。',
+    pitch:'这个案例很适合说明“代码里有鉴权装饰器不等于运行时执行了鉴权”，必须从请求路径追到 validator 实际命中结果。',
+    source:{label:'本地审计 F15 Prompt',url:''}
+  },
+  {
+    id:'vllm-response-store-idor', product:'vLLM', version:'0.25.1 Responses API',
+    title:'Responses Store 只按 ID 保存状态，未绑定认证主体',
+    severity:'High（条件）', status:'报告就绪', confidence:'E2/V2', cwe:'CWE-639', type:'多租户授权',
+    summary:'response、message 与 event 放在进程级 ID-only 字典。retrieve、cancel、previous_response_id 和 caller-selected request_id overwrite 都不接收或比较 principal。',
+    conditions:['VLLM_ENABLE_RESPONSES_API_STORE=1','同一服务承载多个 API key/主体','攻击者知道 response ID 或可选择冲突 request_id'],
+    chain:[['Source','主体 B 提交主体 A 的 response_id。'],['Mechanism','认证中间件只验证 Token 布尔值，不向后传递可用于所有权校验的身份。'],['Boundary','对象访问仅凭 ID，跨越 API-key/tenant 边界。'],['Impact','读取响应、作为 previous_response 链式引用、取消排队响应或覆盖已知 ID。']],
+    evidence:['未知 ID 和 store-disabled 负控','目标 serving/protocol/store 方法的真实代码回放','B 对 A 状态完成读取、链式引用、取消和覆盖','保留 E2/V2，不虚称完整 GPU/模型运行时'],
+    remediation:['存储对象绑定 authenticated principal/tenant','服务端生成不可冲突 ID','retrieve/stream/previous/cancel/overwrite 全路径执行对象级授权','缓存键和审计日志携带主体'],
+    boundary:'影响限于已存储 Responses 状态，不声称服务级接管；高严重度依赖高敏感内容和多租户部署。',
+    pitch:'这是 AI 服务中的 BOLA：认证存在，但状态对象没有 owner。最关键的设计修复是身份传播，而不是把 response ID 变长。',
+    source:{label:'本地审计 C-0005',url:''}
+  },
+  {
+    id:'vllm-realtime-queue-dos', product:'vLLM', version:'0.25.1 Realtime',
+    title:'Realtime 音频 append 进入无界 float32 队列，缺少连接级聚合预算',
+    severity:'Medium（条件）', status:'报告就绪', confidence:'E2/V2', cwe:'CWE-770', type:'内存 DoS',
+    summary:'每个音频块有单块上限，但解码为 float32 后 put_nowait 进入默认 maxsize=0 的 asyncio.Queue。客户端只 append、不 commit/消费即可持续积累。',
+    conditions:['/v1/realtime 对客户端开放','连接可持续发送合法的子阈值 PCM16 块','服务没有外围连接速率和总字节限制'],
+    chain:[['Source','单连接反复 append 合法小块。'],['Mechanism','单块校验后 PCM16→float32，内存体积放大，再进入无界队列。'],['Boundary','没有累计 bytes、samples、duration、queue length 或 backpressure。'],['Impact','内存持续增长，最终触发 Worker/服务可用性下降。']],
+    evidence:['256 个子限制块可保留约 32 MiB float32','单个超限块会被拒绝作为负控','队列默认 maxsize=0 且 put_nowait 不施加背压'],
+    remediation:['使用 bounded queue','限制连接级累计字节、样本和音频时长','增加 append 速率、空闲时间和 commit deadline','断连与异常时确定性清空队列'],
+    boundary:'当前是有界回放，未以破坏方式证明真实 OOM；外围网关限流会改变利用成本。',
+    pitch:'单请求大小限制不等于会话级安全，流式协议必须同时约束每块、累计量、速率和未消费 backlog。',
+    source:{label:'本地审计 C-0006',url:''}
+  },
+  {
+    id:'vllm-video-all-frames', product:'vLLM', version:'0.25.1 multimodal video',
+    title:'request-level num_frames=-1 可移除默认采样上限并触发全视频解码',
+    severity:'Medium（条件）', status:'报告就绪', confidence:'E2/V2', cwe:'CWE-770', type:'媒体资源放大',
+    summary:'media_io_kwargs 覆盖默认 32 帧；通用 OpenCV sampler 把 -1 解释为全部源帧，且该后端不执行 max_duration。小请求参数可以放大为整段视频解码。',
+    conditions:['通用 opencv 视频后端','接口接受 request-level media_io_kwargs','攻击者能提供较长或高分辨率视频'],
+    chain:[['Source','请求设置 video.num_frames=-1。'],['Mechanism','运行时参数覆盖服务默认；-1 被解释为 all。'],['Amplification','5 分钟×30fps 选择 9000 帧。'],['Impact','1080p RGB 解码建模约 52.14 GiB，发生在模型推理之前。']],
+    evidence:['默认 32 帧负控','目标 sampler 参数流回放','以帧数×宽×高×通道计算解码内存下界','明确未做破坏性大分配'],
+    remediation:['请求参数 allowlist 与数值 clamp','禁止非可信请求使用 -1/all','所有视频后端统一执行总帧、时长、尺寸和解码字节预算'],
+    boundary:'是资源放大候选；实际内存峰值受 codec、帧表示和流水线释放策略影响。',
+    pitch:'问题不是视频天然很大，而是请求参数能删除服务端安全默认值。安全配置合并必须满足用户值只能收紧、不能放宽硬上限。',
+    source:{label:'本地审计 C-0009',url:''}
+  },
+  {
+    id:'vllm-forged-video-metadata', product:'vLLM', version:'0.25.1 GLM 4.6V',
+    title:'伪造 total_num_frames 元数据驱动模型侧时间戳线性放大',
+    severity:'Medium（条件）', status:'报告就绪', confidence:'E2/V2', cwe:'CWE-400', type:'元数据放大',
+    summary:'data:video/jpeg 实际只携带少量帧，但 total_num_frames 只验证为正且不小于实际数。模型 helper 按声明值创建列表并扫描，采样上限在放大之后才生效。',
+    conditions:['GLM 4.6V-family 视频路径','输入使用预提取帧格式','do_sample_frames=true 且 total_num_frames 可控'],
+    chain:[['Source','2 帧输入声明 total_num_frames=1,000,000。'],['Mechanism','MediaIO 接受伪造声明，模型时间戳 helper 以 metadata 数而非解码帧数循环。'],['Evidence','目标 helper 峰值 tracemalloc 约 50.6 MiB，并按声明规模线性增长。'],['Impact','更大声明消耗 CPU/内存，形成前处理 DoS。']],
+    evidence:['真实目标 helper 回放','实际帧数与声明帧数形成强对照','采样最终仅返回有限时间戳，但此前成本已经发生'],
+    remediation:['total_num_frames 由服务端根据真实媒体派生','强制声明值等于或接近实际帧数','所有 metadata-derived 循环先施加硬上限'],
+    boundary:'当前没有完整服务 RSS/OOM 和并发证据，因此维持 bounded Medium。',
+    pitch:'元数据不应被当作资源分配依据。即使最终输出被 cap，只要 cap 发生在昂贵循环之后，仍然挡不住放大攻击。',
+    source:{label:'本地审计 C-0013',url:''}
+  },
+  {
+    id:'vllm-mm-resize-bypass', product:'vLLM', version:'0.25.1 Hunyuan-VL family',
+    title:'mm_processor_kwargs.min_pixels 可绕过 max_pixels 并放大图像张量',
+    severity:'Medium（条件）', status:'报告就绪', confidence:'E2/V2', cwe:'CWE-770', type:'图像资源放大',
+    summary:'OpenAI 请求接受任意 processor kwargs。受影响 smart_resize 在原图小于 min_pixels 时按攻击者值放大，但分支返回前没有再次验证结果不超过 max_pixels。',
+    conditions:['模型使用受影响的 Hunyuan-VL/同类 processor','在线接口允许传入 mm_processor_kwargs','请求设置远大于默认 max_pixels 的 min_pixels'],
+    chain:[['Source','32×32 小图搭配 min_pixels=1,000,000,000。'],['Mechanism','min 分支计算约 31,648×31,648，缺少 max 后置条件。'],['Amplification','RGB uint8 建模约 2.80 GiB；float32 和中间副本更大。'],['Impact','resize/tensorize 阶段即可造成内存压力或 OOM。']],
+    evidence:['精确 resize helper 回放','Ernie/Ovis 等安全实现作为负控','追踪 request schema→renderer→processor 的完整参数流','未执行破坏性巨型张量分配'],
+    remediation:['不向不可信客户端暴露任意 processor kwargs','按模型建立参数 allowlist 和上下限','强制 min_pixels <= max_pixels','resize 前后都执行全局像素与字节 postcondition'],
+    boundary:'完整 GPU/模型 runtime 和服务级 OOM 尚属证据债务；不同模型 processor 的安全语义不能一概而论。',
+    pitch:'这是配置注入转资源放大：入口允许 dict[str, Any]，下游却把它当可信模型配置。修复要同时收紧接口 Schema 和处理器后置条件。',
+    source:{label:'本地审计 C-0014',url:''}
+  }
+];
 
-QUESTIONS.push(
-  X('security','NLTK真实案例','CVE-2026-12615 的完整漏洞链路是什么？','NLTK 多个 Stanford/Java Wrapper 将用户文本写入 delete=False 临时文件，Java 调用异常时顺序清理被跳过；同时 Wrapper 通过进程级全局变量切换 Java 参数，异常和并发可造成跨调用状态污染。',[
-    '<strong>Source：</strong>服务把不可信或敏感文本交给 StanfordTokenizer、GenericStanfordParser、StanfordTagger 或 StanfordSegmenter 等公开 Wrapper。',
-    '<strong>Mechanism：</strong>文本先落入具名临时文件，随后调用外部 Java；旧代码只有在 Java 正常返回后才执行 <code>os.unlink()</code> 和全局 Java 参数恢复。',
-    '<strong>Trigger：</strong>错误 JAR、classpath、非法选项、子进程中断、运行环境异常等都可让 <code>java()</code> 抛异常，使控制流越过清理语句。',
-    '<strong>Impact：</strong>明文输入残留在临时目录；进程级 <code>_java_options</code> 还可能泄漏给后续请求或与并发请求互相覆盖，形成机密性和状态完整性问题。',
-    '<strong>边界：</strong>不是“调用 NLTK 就直接 RCE”；严重性取决于服务是否处理敏感文本、攻击者能否稳定制造失败、临时目录读取权限、进程复用和并发模型。'
-  ],['为什么 delete=False 是必要条件但不是根因？','哪些公开 API 能到达这些 Wrapper？','临时目录默认权限会怎样影响严重度？'],NLTK_CASE_SOURCE,'中等',['CVE-2026-12615','Exception Safety'],'必背'),
-
-  X('security','NLTK真实案例','CVE-2026-12615 中临时文件为什么会在异常后残留？','资源释放位于可能抛异常的操作之后，却没有由 finally 或资源所有权抽象兜底；正常路径测试通过，并不能证明异常路径安全。',[
-    '旧路径大致是“创建并写入临时文件 → 调用 Java → 解码输出 → unlink”；其中 Java 启动、communicate、输出解码任一步失败，都可能跳过最后的 unlink。',
-    '<code>NamedTemporaryFile(delete=False)</code> 是为 Windows 兼容和把文件名传给 Java 所需；真正缺陷是外部资源生命周期没有覆盖所有退出路径。',
-    '文件句柄在 <code>with</code> 退出时会关闭，但关闭句柄不等于删除目录项，所以明文仍可留在磁盘。',
-    '审计类似代码时应搜索 create/open/mkstemp 与 unlink/remove 的支配关系：清理是否由 finally、context manager 或统一资源对象保证。',
-    '验证应在临时文件已经成功写入后注入 Java 异常，再断言路径不存在；只在创建前抛错不能覆盖真实机制。'
-  ],['with 已经关闭文件，为什么还会泄露？','Java 成功但 decode 失败会怎样？','怎样用控制流图发现这一类缺陷？'],NLTK_CASE_SOURCE,'中等',['临时文件','异常路径'],'深挖'),
-
-  X('security','NLTK真实案例','CVE-2026-12615 为什么还包含全局 Java Options 污染？','Wrapper 为一次调用修改模块级 _java_options，调用结束后再恢复；异常会跳过恢复，并发调用还会在无锁的读改写序列中互相覆盖。',[
-    '旧实现先保存 <code>default_options</code>，再调用 <code>config_java(options=self.java_options)</code> 修改进程全局状态，最后依赖正常路径恢复。',
-    '异常场景下局部配置可能永久留在长生命周期进程；请求 B 随后调用 Java 时会继承请求 A 的内存、系统属性或其他 JVM 参数。',
-    '即使补一个 finally 恢复，也没有解决并发：A 保存 G、B 保存 A、A 恢复 G、B 恢复 A，最终状态仍可能错误，这属于共享可变状态设计问题。',
-    '安全属性不仅是机密性，还包括请求隔离和配置完整性；服务端多线程、异步任务或复用 Worker 会放大风险。',
-    '定位这类问题应画出全局变量的读写者、调用生命周期和并发交错，而不是只看单线程 happy path。'
-  ],['只在 finally 中恢复为什么仍不够？','加全局锁能否修复？','哪些 Java 选项可能改变安全边界？'],NLTK_CASE_SOURCE,'困难',['Global State','Concurrency'],'高压'),
-
-  X('security','NLTK真实案例','CVE-2026-12615 的补丁为什么选择 per-call options？','补丁把 Java 参数变成 java() 的关键字级调用参数，使配置随调用传递而不是修改进程全局状态，并用 finally 覆盖临时文件的所有退出路径。',[
-    '<code>java(..., *, options=None)</code> 保持旧调用兼容：未传 options 时仍使用 <code>config_java()</code> 配置的全局默认值。',
-    'Wrapper 改为 <code>java(..., options=self.java_options)</code>，参数只进入本次 subprocess 命令构造，不再写 <code>_java_options</code>。',
-    '关键字专用参数避免旧位置参数调用产生歧义；字符串继续按原语义 split，列表则复制，保持行为兼容。',
-    '临时路径在创建成功后立即保存，unlink 放入 finally；FileNotFoundError 可视作已完成清理。',
-    '这是“消除共享状态 + 保证资源释放”的根因修复，比在多个 Wrapper 周围分别加锁和补恢复更局部、更可组合。'
-  ],['为什么 options 要设计成 keyword-only？','为什么 options=None 仍保留全局默认？','字符串 split 会不会引入参数解析边界？'],NLTK_CASE_SOURCE,'困难',['Root Cause Fix','API兼容'],'必背'),
-
-  X('security','NLTK真实案例','清理临时文件时，原始异常和清理异常应该如何取舍？','当主操作已经失败时应尽量保留原始 Java 异常，同时尝试清理并记录失败；主操作成功而清理失败时，清理失败应显式暴露，避免把敏感文件残留伪装成成功。',[
-    '补丁用 <code>java_succeeded</code> 区分两条路径：Java 成功后 unlink 报 OSError，则重新抛出；Java 已失败时 unlink 再失败，不覆盖主要异常。',
-    '<code>FileNotFoundError</code> 表示目标已经不存在，可安全忽略；其他权限、只读文件系统或占用错误不能一概吞掉。',
-    '生产实现还应对“主异常 + 清理异常”做结构化日志或 exception chaining，否则保留主异常的同时会失去残留文件告警。',
-    '更强设计可将临时文件放在每任务私有目录，设置 0600/最小 ACL，并增加启动时或定时的过期文件清扫作为纵深防御。',
-    '异常优先级本质是可靠性与安全可观测性的权衡，不能简单写一个空 <code>except OSError: pass</code>。'
-  ],['finally 中抛异常为什么危险？','怎样同时保留两个异常？','定时清理能否替代正确的 finally？'],NLTK_CASE_SOURCE,'困难',['Cleanup Semantics','Error Handling'],'深挖'),
-
-  X('security','NLTK真实案例','CVE-2026-12615 应怎样设计回归测试？','测试要在资源已经创建且包含敏感内容后注入外部调用失败，同时断言文件删除、全局配置未变、per-call 参数正确，并覆盖清理本身失败时的异常优先级。',[
-    '用 monkeypatch 替换 <code>java()</code>：从命令参数读取临时路径，确认其中确实是 secret text，然后主动抛出 OSError。',
-    '异常返回后断言路径不存在，证明覆盖的是“已落盘后失败”而不是无关的初始化失败。',
-    '将全局 <code>_java_options</code> 固定为 GLOBAL，本次传 LOCAL；FakePopen 捕获最终 argv，并断言全局值保持不变。',
-    '分别覆盖 Tokenizer、Parser、Tagger、Segmenter，因为它们的临时文件构造和 Java 调用路径并不完全相同。',
-    '额外注入 unlink 的 PermissionError：Java 成功时应让测试失败，Java 失败时则应保持原始 Java 异常，从而锁定错误语义。'
-  ],['为什么不能只测试一个 Wrapper？','Mock 过多会不会偏离真实行为？','还需要什么集成测试？'],NLTK_CASE_SOURCE,'困难',['Pytest','Fault Injection'],'高压'),
-
-  X('security','NLTK真实案例','NLTK PR #3684 的 ReDoS 完整攻击链是什么？','不可信 Alpino 格式文件进入 AlpinoCorpusReader，公开读取 API 调用 _normalize；旧正则在含早期锚点但缺少尾部字面量的超长 node 行上发生二次回溯，可长期占用 CPU。',[
-    '<strong>Source：</strong>用户上传、数据处理流水线或服务端读取的不可信 Alpino XML-like corpus。',
-    '<strong>Reachability：</strong><code>words()</code>、<code>tagged_words()</code>、<code>tagged_sents()</code> 和 <code>parsed_sents()</code> 都可到达 <code>AlpinoCorpusReader._normalize()</code>。',
-    '<strong>Mechanism：</strong>多个 lazy <code>.*?</code> 依次寻找 <code>begin</code>、<code>pos</code>、<code>word</code> 和 <code>/&gt;</code>；接近匹配但最终失败时，前面的组会不断重新分配边界。',
-    '<strong>Impact：</strong>单个恶意长行即可把同步解析线程或 Worker 的一个 CPU 核心占住数秒到数分钟，造成吞吐下降、队列堆积和拒绝服务。',
-    '<strong>边界：</strong>这是 CWE-1333 算法复杂度问题；需要应用处理攻击者可控语料，不能仅凭库中存在正则就声称所有 NLTK 用户受影响。'
-  ],['为什么合法 XML 限制不一定能挡住？','哪些 API 走 ordered=True？','单核占用如何放大为服务级 DoS？'],NLTK_CASE_SOURCE,'中等',['ReDoS','CWE-1333'],'必背'),
-
-  X('security','NLTK真实案例','PR #3684 的旧正则为什么是 O(n²)，而不是笼统说“灾难性回溯”？','第一个 lazy wildcard 有 O(n) 个候选停止位置，每个候选又会驱动后续 wildcard 对剩余 O(n) 文本寻找不存在的字面量，因此总扫描量呈平方增长。',[
-    '以 ordered 路径为例，模式依次要求 <code>begin="数字"</code>、<code>pos="单词"</code>、<code>word="..."</code> 和自闭合结尾。',
-    '攻击行保留 <code>&lt;node begin="1"</code> 和大量 <code>pos="a"</code>，但故意不提供 <code>word="</code> 或 <code>/&gt;</code>，让失败尽可能晚发生。',
-    '回溯引擎会尝试不同的 wildcard 切分位置；外层候选数量与每次向后扫描长度都随 n 增长，所以 T(2n) 约为 4T(n)。',
-    '这里证据显示的是二次复杂度，不应误写成指数复杂度；准确描述增长阶比使用“正则炸弹”标签更有说服力。',
-    '分析方法是先找可变长度、可重叠的回溯区域，再寻找缺失尾锚点的 near-miss 输入，并通过倍增实验验证复杂度。'
-  ],['怎样从耗时数据判断 O(n²)？','lazy 是否天然比 greedy 安全？','Python re 有正则超时吗？'],NLTK_CASE_SOURCE,'困难',['Regex Complexity','Big-O'],'高压'),
-
-  X('security','NLTK真实案例','怎样为 PR #3684 构造有说服力且可控的 ReDoS 证据？','构造只包含一个超长 node 行的最小语料，保留早期锚点并删除最终必需字段；按 500、1000、2000、4000 等规模倍增，观察输入翻倍时耗时约四倍。',[
-    'PoC 要经过公开 <code>words()</code> 等入口，而不是只对孤立正则调用 <code>re.sub</code>，从而证明真实可达性。',
-    '最小恶意体可由 <code>pos="a" </code> 重复 K 次构成，并缺少 <code>word</code> 与自闭合尾部；避免加入无关嵌套或巨大文件。',
-    '使用 <code>time.perf_counter()</code>、独立进程、固定 Python/CPU 环境和多次采样；小规模用于拟合，避免在本机直接跑危险的大规模旧实现。',
-    'PR 数据中 K 从 1000 到 2000、4000 时约从 0.033s 到 0.132s、0.527s，符合平方增长；修复后 200000 级输入约为线性毫秒/百毫秒量级。',
-    '报告同时给正常样本结果，排除“通过拒绝所有输入获得性能”的伪修复。'
-  ],['为什么使用 near-miss 输入？','Benchmark 怎样避免噪声？','PoC 多大才足以证明影响？'],NLTK_CASE_SOURCE,'困难',['PoC设计','性能测量'],'深挖'),
-
-  X('security','NLTK真实案例','PR #3684 如何把解析复杂度降为线性？','补丁不再用多个通配组跨行反复试探，而是先用行锚定、排除字符类一次截取单个 node 标签，再用简单属性正则提取键值并显式构造 s-expression。',[
-    '<code>ALPINO_NODE</code> 使用 <code>^</code>、MULTILINE 和 <code>[^&gt;\\n]*?</code>，把匹配严格限制在单个标签、单行和第一个结束符之前。',
-    '<code>ALPINO_ATTR.findall()</code> 对标签主体做单次属性扫描，再转成字典读取 begin、pos、word、cat。',
-    '叶子节点根据 ordered 模式生成 <code>(begin pos word)</code> 或 <code>(pos word)</code>；类别节点生成 <code>(cat</code>，后续旧流程继续闭合树。',
-    '扫描标签 O(n)，扫描属性 O(n)，字典读取近似 O(1)，串联后仍是 O(n)；没有多个可重叠 wildcard 的组合回溯。',
-    '安全修复的关键不是简单把 lazy 改成 greedy，而是收紧语法边界并把“找结构”转换为确定性解析步骤。'
-  ],['为什么 greedy 替换不可靠？','这里为何没有直接使用 XML Parser？','属性顺序变化还能解析吗？'],NLTK_CASE_SOURCE,'困难',['Linear Parsing','Secure Fix'],'必背'),
-
-  X('security','NLTK真实案例','PR #3684 怎样保证性能修复没有改变原有语义？','补丁显式保留旧正则对字段形状的约束，并对四个公开读取接口做结果一致性测试；格式不合法的节点仍保持未转换或被后续逻辑忽略。',[
-    '旧模式要求 <code>begin</code> 为数字、<code>pos/cat</code> 满足 <code>\\w+</code>、word 非空；新实现用 fullmatch 重新施加相同条件。',
-    '普通样本同时验证 words、tagged_words、tagged_sents、parsed_sents，防止只保住一个入口。',
-    'ordered=True 依赖 begin 排序；若错误接受非数字 begin，会让后续排序标签匹配失败并改变结果，因此兼容约束属于正确性边界。',
-    '缺少 pos/word 的叶节点继续不产生词项；非数字 begin 或含连字符的 pos 也维持旧行为。',
-    '面试中应把“安全属性改善”和“行为保持”并列：修复既要阻断复杂度攻击，也要证明正常语料输出没有回归。'
-  ],['安全修复为什么容易引入兼容性问题？','属性重复时 dict 会怎样？','byte-for-byte 一致需要如何验证？'],NLTK_CASE_SOURCE,'困难',['Regression','Behavior Preservation'],'深挖'),
-
-  X('security','NLTK真实案例','ReDoS 的 CI 回归测试为什么要放到独立进程并设置硬截止时间？','性能退化可能无限拖慢整个测试进程；独立 spawned process 可被父进程在 deadline 后终止，把复杂度回归转化为确定失败并避免卡死 CI。',[
-    '测试生成 200000 次属性重复的输入；线性实现应快速完成，而二次旧实现会远超 30 秒阈值。',
-    '父进程 <code>join(30)</code>，仍存活则 terminate 并失败；子进程异常用独立退出码和 traceback 区分“算法超时”与普通功能错误。',
-    '使用 spawn 而不是依赖 fork 的继承状态，使测试在不同平台和 CI 环境更接近干净启动。',
-    '硬时间阈值不是精确性能 Benchmark，而是留出数量级差距的复杂度哨兵；阈值应远高于线性实现正常波动。',
-    '更严格的持续验证还可加入倍增比率测试、静态正则检查和 Parser 输入长度/任务 CPU 限制。'
-  ],['时间型测试为什么容易 flaky？','为什么 30 秒阈值仍有价值？','进程被 kill 后临时文件如何清理？'],NLTK_CASE_SOURCE,'困难',['CI Guard','Process Isolation'],'高压'),
-
-  X('security','NLTK真实案例','两个 NLTK 案例分别体现了哪些通用源码审计思路？','CVE-2026-12615 是异常路径资源生命周期与共享可变状态问题；PR #3684 是不可信 Parser 的算法复杂度问题，两者都需要从真实入口、失败条件、可观测证据和边界保持修复形成闭环。',[
-    '<strong>入口：</strong>先从公开 API 和实际服务用法证明不可信输入可达，不因看到危险代码就跳到影响。',
-    '<strong>机制：</strong>前者画控制流和异常边；后者画正则状态空间与输入规模—耗时增长，选择与机制匹配的分析工具。',
-    '<strong>证据：</strong>前者做故障注入并检查磁盘/全局状态；后者做最小 near-miss、倍增实验和独立进程 deadline。',
-    '<strong>修复：</strong>前者把配置变成 per-call 值并统一 finally；后者把歧义回溯改成边界明确的线性扫描。',
-    '<strong>验证：</strong>同时覆盖正向行为、异常/恶意输入、兼容性和错误语义，避免只证明 PoC 不再触发。',
-    '<strong>面试表达：</strong>按 Source → Reachability → Mechanism → Evidence → Impact Boundary → Root-cause Fix → Regression Test 讲，不把公开案例计作未经证实的个人独立发现。'
-  ],['如果交给 Agent，应分别提供哪些工具？','Fresh Reviewer 应检查哪些过度主张？','这两个案例怎样设计消融实验？'],NLTK_CASE_SOURCE,'困难',['Case Study','审计方法'],'必背')
-);
-
-SECURITY_TARGET_FAMILIES.push({
-  id:'cases',order:'13',title:'Real-world Vulnerability Cases',
-  desc:'沿真实上游补丁复盘入口、根因、证据、修复边界与回归测试。',
-  subs:['NLTK真实案例']
-});
+const VULNERABILITY_PRODUCTS = ['NLTK','Nextcloud','MLflow','vLLM'];
 ;
 /* 面经与学习资料导航。只保存来源元数据，不复制无明确许可证的正文或图片。 */
 const INTERVIEW_SOURCE_GROUPS = [
@@ -1184,6 +1279,7 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
   let sourceFilter = 'all';
   let pitchFilter = 'all';
   let sprintMode = 'baidu';
+  let vulnFilters = {query:'', product:'all', status:'all'};
   let jobFeed = null;
   let jobFilters = {query:'', industry:'重点岗位', status:'active', saved:false};
 
@@ -1236,6 +1332,7 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     else if(currentView==='project') { main.innerHTML=projectHTML(); loadProjectDoc('summary'); }
     else if(currentView==='agentstack') main.innerHTML=agentStackHTML();
     else if(currentView==='securitytargets') main.innerHTML=securityTargetsHTML();
+    else if(currentView==='vulnerabilities') main.innerHTML=vulnerabilitiesHTML();
     else if(currentView==='visuals') main.innerHTML=visualsHTML();
     else if(currentView==='sources') main.innerHTML=sourcesHTML();
     else if(currentView==='pitch') main.innerHTML=pitchHTML();
@@ -1312,6 +1409,40 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
   function securityFamilyCard(family){
     const list=QUESTIONS.filter(q=>q.category==='security'&&family.subs.includes(q.subcategory)),done=masteredCount(list),pct=list.length?Math.round(done/list.length*100):0;
     return `<article class="security-family-card"><div class="family-head"><span>${family.order}</span><div><small>TARGET FAMILY</small><h3>${esc(family.title)}</h3></div><button class="icon-btn" data-security-family="${family.id}" aria-label="学习${esc(family.title)}">${icon('arrow')}</button></div><p>${esc(family.desc)}</p><div class="family-meta"><span>${list.length} 道题</span><span>${list.filter(q=>q.difficulty==='困难').length} 道深题</span></div><div class="stage-progress"><div class="bar"><i style="width:${pct}%"></i></div><small>${done}/${list.length}</small></div></article>`;
+  }
+
+  function filteredVulnerabilities(){
+    const s=vulnFilters.query.trim().toLowerCase();
+    return VULNERABILITY_CASES.filter(v=>(vulnFilters.product==='all'||v.product===vulnFilters.product)&&(vulnFilters.status==='all'||v.status===vulnFilters.status)&&(!s||[v.title,v.product,v.version,v.severity,v.status,v.cwe,v.type,v.summary,v.boundary,v.pitch,...v.conditions,...v.evidence,...v.remediation,...v.chain.flat()].join(' ').toLowerCase().includes(s)));
+  }
+  function vulnerabilitiesHTML(){
+    const total=VULNERABILITY_CASES.length,merged=VULNERABILITY_CASES.filter(v=>v.status==='已合并').length,ready=VULNERABILITY_CASES.filter(v=>v.status==='报告就绪').length,candidates=VULNERABILITY_CASES.filter(v=>v.status==='条件候选').length;
+    return `${pageHead('漏洞复盘','独立于题库的真实案例册。按入口、机制、边界、证据、修复与面试口述完整复习每条漏洞。','VULNERABILITY CASEBOOK',`<button class="secondary-btn" data-expand-vulns="close">${icon('layers')}全部收起</button><button class="primary-btn" data-expand-vulns="open">${icon('play')}全部展开</button>`)}
+    <section class="vuln-hero"><div><span class="eyebrow">REAL CASES · EVIDENCE FIRST</span><h2>从“看到危险代码”到<strong>形成可报告证据</strong></h2><p>公开上游修复与本地审计案例统一按 Source → Mechanism → Boundary → Impact 复盘。每条记录保留前提、负控、证据等级和不能过度声称的边界。</p><div class="vuln-hero-tags"><span>NLTK</span><span>Nextcloud</span><span>MLflow</span><span>vLLM</span></div></div><div class="vuln-metrics"><div><strong>${total}</strong><small>案例</small></div><div><strong>${merged}</strong><small>已合并</small></div><div><strong>${ready}</strong><small>报告就绪</small></div><div><strong>${candidates}</strong><small>条件候选</small></div></div></section>
+    <div class="vuln-note"><span>${icon('shield')}</span><p><strong>阅读原则：</strong>严重度标签不是厂商最终定级；E2/V2 表示同会话源码与局部运行证据，不冒充独立 V3。条件和边界要和漏洞机制一起记。</p></div>
+    <div class="vuln-toolbar"><label class="vuln-search"><span>${icon('search')}</span><input id="vulnSearch" type="search" value="${esc(vulnFilters.query)}" placeholder="搜索漏洞、CWE、机制或产品…" aria-label="搜索漏洞案例"></label><select id="vulnProduct" class="select" aria-label="按产品筛选"><option value="all">全部产品</option>${VULNERABILITY_PRODUCTS.map(x=>`<option value="${esc(x)}" ${vulnFilters.product===x?'selected':''}>${esc(x)}</option>`).join('')}</select><select id="vulnStatus" class="select" aria-label="按状态筛选"><option value="all">全部状态</option>${['已合并','报告就绪','条件候选'].map(x=>`<option value="${x}" ${vulnFilters.status===x?'selected':''}>${x}</option>`).join('')}</select><span class="result-count"><b id="vulnResultCount">${filteredVulnerabilities().length}</b> / ${total} 条</span></div>
+    <section id="vulnerabilityResults">${vulnerabilityResultsHTML(filteredVulnerabilities())}</section>`;
+  }
+  function vulnerabilityResultsHTML(list){
+    if(!list.length)return `<div class="empty">${icon('search')}<strong>没有匹配的漏洞案例</strong><p>尝试清空产品、状态或搜索条件。</p></div>`;
+    return VULNERABILITY_PRODUCTS.filter(product=>list.some(v=>v.product===product)).map(product=>`<section class="vuln-product-section"><header><div><span class="eyebrow">TARGET SYSTEM</span><h2>${esc(product)}</h2></div><p>${list.filter(v=>v.product===product).length} 条案例</p></header><div class="vuln-list">${list.filter(v=>v.product===product).map(vulnerabilityCaseHTML).join('')}</div></section>`).join('');
+  }
+  function vulnerabilityCaseHTML(v,index){
+    const sev=v.severity.includes('High')?'high':v.severity.includes('Medium')?'medium':'low';
+    return `<details class="vuln-card" id="${esc(v.id)}"><summary><span class="vuln-index">${String(index+1).padStart(2,'0')}</span><div class="vuln-summary-copy"><div class="vuln-kicker"><span>${esc(v.type)}</span><span>${esc(v.version)}</span></div><h3>${esc(v.title)}</h3><p>${esc(v.summary)}</p><div class="vuln-badges"><span class="vuln-severity ${sev}">${esc(v.severity)}</span><span>${esc(v.status)}</span><span>${esc(v.confidence)}</span><span>${esc(v.cwe)}</span></div></div><span class="vuln-toggle">${icon('chevron')}</span></summary><div class="vuln-detail">
+      <section class="vuln-block"><div class="vuln-block-title"><span>01</span><div><small>ATTACK PREREQUISITES</small><h4>成立条件</h4></div></div><ul>${v.conditions.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section>
+      <section class="vuln-block"><div class="vuln-block-title"><span>02</span><div><small>CAUSAL CHAIN</small><h4>攻击链与根因</h4></div></div><div class="vuln-chain">${v.chain.map((x,i)=>`<div><b>${String(i+1).padStart(2,'0')}</b><span><code>${esc(x[0])}</code><p>${esc(x[1])}</p></span></div>`).join('')}</div></section>
+      <div class="vuln-columns"><section class="vuln-block"><div class="vuln-block-title"><span>03</span><div><small>EVIDENCE</small><h4>验证与负控</h4></div></div><ul>${v.evidence.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section class="vuln-block"><div class="vuln-block-title"><span>04</span><div><small>REMEDIATION</small><h4>根因修复</h4></div></div><ul>${v.remediation.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section></div>
+      <section class="vuln-boundary"><span>${icon('target')}</span><div><small>CLAIM BOUNDARY</small><strong>不能过度声称什么？</strong><p>${esc(v.boundary)}</p></div></section>
+      <section class="vuln-pitch"><div><span class="eyebrow">INTERVIEW NARRATIVE</span><h4>面试口述</h4><p>${esc(v.pitch)}</p></div><button class="secondary-btn" data-copy-vuln="${esc(v.id)}">${icon('copy')}复制说辞</button></section>
+      <footer class="vuln-source"><span>${icon('book')}来源：${esc(v.source.label)}</span>${v.source.url?`<a href="${esc(v.source.url)}" target="_blank" rel="noopener">查看上游 ${icon('external')}</a>`:'<small>本地审计记录与证据包</small>'}</footer>
+    </div></details>`;
+  }
+  function refreshVulnerabilityResults(){
+    const list=filteredVulnerabilities(),box=$('#vulnerabilityResults'),count=$('#vulnResultCount');if(!box)return;box.innerHTML=vulnerabilityResultsHTML(list);if(count)count.textContent=list.length;hydrateIcons(box);bindVulnerabilityCards(box);
+  }
+  function bindVulnerabilityCards(root=document){
+    $$('[data-copy-vuln]',root).forEach(b=>b.onclick=async e=>{e.preventDefault();e.stopPropagation();const v=VULNERABILITY_CASES.find(x=>x.id===b.dataset.copyVuln);if(!v)return;try{await copyText(`${v.title}\n\n${v.pitch}\n\n边界：${v.boundary}`);showToast('漏洞口述已复制')}catch{showToast('复制失败，请手动选择文本')}});
   }
 
   function projectHTML() { return `${pageHead('项目深挖','先区分通用 Harness 与安全方法 AV，再进入完整设计文档。','CORE PROJECT',`<button class="secondary-btn" data-go="questions" data-project-filter>${icon('layers')}项目题库</button><a class="primary-btn" href="av.md" target="_blank">${icon('external')}原始文档</a>`)}<div class="project-tabs"><button class="active" data-doc="summary">面试速讲</button><button data-doc="full">AV 完整理解</button></div><div class="project-layout"><aside class="project-toc" id="projectToc"><span class="eyebrow">CONTENT</span></aside><article class="project-article" id="projectArticle"><div class="empty">正在载入项目知识…</div></article></div>`; }
@@ -1491,6 +1622,11 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     const clearStage=$('#clearStage');if(clearStage)clearStage.onclick=()=>{filters.stage=null;render()};
     const clearSecurityFamily=$('#clearSecurityFamily');if(clearSecurityFamily)clearSecurityFamily.onclick=()=>{filters.securityFamily=null;render()};
     const clearSprint=$('#clearSprint');if(clearSprint)clearSprint.onclick=()=>{filters.sprint=null;render()};
+    const vulnSearch=$('#vulnSearch');if(vulnSearch)vulnSearch.oninput=()=>{vulnFilters.query=vulnSearch.value;refreshVulnerabilityResults()};
+    const vulnProduct=$('#vulnProduct');if(vulnProduct)vulnProduct.onchange=()=>{vulnFilters.product=vulnProduct.value;refreshVulnerabilityResults()};
+    const vulnStatus=$('#vulnStatus');if(vulnStatus)vulnStatus.onchange=()=>{vulnFilters.status=vulnStatus.value;refreshVulnerabilityResults()};
+    $$('[data-expand-vulns]').forEach(b=>b.onclick=()=>{$$('.vuln-card').forEach(card=>card.open=b.dataset.expandVulns==='open')});
+    bindVulnerabilityCards();
     $$('.project-tabs [data-doc]').forEach(b=>b.onclick=()=>{$$('.project-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');loadProjectDoc(b.dataset.doc)});
     const toc=$('#projectToc');if(toc)toc.onclick=e=>{const b=e.target.closest('[data-anchor]');if(b)document.getElementById(b.dataset.anchor)?.scrollIntoView({behavior:'smooth',block:'start'})};
     const begin=$('#beginMock');if(begin)begin.onclick=()=>{const preferred=QUESTIONS.filter(x=>['必背','高压','深挖'].includes(x.priority));mock={pool:shuffle(preferred).slice(0,10),index:0,started:true,showing:false,seconds:120,timer:null};render();startMockTimer()};
@@ -1526,7 +1662,7 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     if(currentView==='review')render();else{const card=document.getElementById(id);card?.querySelector('.meta-row')?.insertAdjacentHTML('beforeend',rating===3?'<span class="pill must">已掌握</span>':'');}
   }
 
-  function updateNavBadges(){ $('#navQuestionCount').textContent=QUESTIONS.length;$('#navDueCount').textContent=dueQuestions().length;const ab=$('#navAgentCount');if(ab)ab.textContent=QUESTIONS.filter(q=>q.category==='agent').length;const sb=$('#navSecurityCount');if(sb)sb.textContent=QUESTIONS.filter(q=>q.category==='security').length;const vb=$('#navVisualCount');if(vb)vb.textContent=typeof INTERVIEW_FIGURES!=='undefined'?INTERVIEW_FIGURES.reduce((n,f)=>n+f.images.length,0):0;const src=$('#navSourceCount');if(src)src.textContent=typeof INTERVIEW_SOURCES!=='undefined'?INTERVIEW_SOURCES.length:0;const pc=$('#navPitchCount');if(pc)pc.textContent=typeof INTERVIEW_PITCHES!=='undefined'?INTERVIEW_PITCHES.length:0;const jb=$('#navJobCount');if(jb&&jobFeed)jb.textContent=jobFeed.meta.total;$('#streakDays').textContent=`${streak()} 天`;const dots=$('#weekDots');if(dots){dots.innerHTML='';for(let i=6;i>=0;i--){const d=new Date(Date.now()-i*dayMs).toISOString().slice(0,10);dots.innerHTML+=`<i class="${state.studyDates.includes(d)?'on':''}"></i>`;}} }
+  function updateNavBadges(){ $('#navQuestionCount').textContent=QUESTIONS.length;$('#navDueCount').textContent=dueQuestions().length;const ab=$('#navAgentCount');if(ab)ab.textContent=QUESTIONS.filter(q=>q.category==='agent').length;const sb=$('#navSecurityCount');if(sb)sb.textContent=QUESTIONS.filter(q=>q.category==='security').length;const vc=$('#navVulnCount');if(vc)vc.textContent=typeof VULNERABILITY_CASES!=='undefined'?VULNERABILITY_CASES.length:0;const vb=$('#navVisualCount');if(vb)vb.textContent=typeof INTERVIEW_FIGURES!=='undefined'?INTERVIEW_FIGURES.reduce((n,f)=>n+f.images.length,0):0;const src=$('#navSourceCount');if(src)src.textContent=typeof INTERVIEW_SOURCES!=='undefined'?INTERVIEW_SOURCES.length:0;const pc=$('#navPitchCount');if(pc)pc.textContent=typeof INTERVIEW_PITCHES!=='undefined'?INTERVIEW_PITCHES.length:0;const jb=$('#navJobCount');if(jb&&jobFeed)jb.textContent=jobFeed.meta.total;$('#streakDays').textContent=`${streak()} 天`;const dots=$('#weekDots');if(dots){dots.innerHTML='';for(let i=6;i>=0;i--){const d=new Date(Date.now()-i*dayMs).toISOString().slice(0,10);dots.innerHTML+=`<i class="${state.studyDates.includes(d)?'on':''}"></i>`;}} }
   function closeSidebar(){$('#sidebar').classList.remove('open');$('#mobileScrim').classList.remove('show');}
   function shuffle(a){const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x;}
   async function copyText(value){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(value);const ta=document.createElement('textarea');ta.value=value;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();if(!ok)throw new Error('copy failed');}
