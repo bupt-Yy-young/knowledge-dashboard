@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07130f" />
+  <meta name="description" content="面向安全智能体与平台研发秋招的个人复习知识库" />
+  <title>秋招复习舱 · 游洋</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307130f'/%3E%3Cpath d='M16 21h32M20 32h24M25 43h14' stroke='%23a3e635' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="主导航">
+      <a class="brand" href="#dashboard" aria-label="返回复习总览">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span><strong>秋招复习舱</strong><small>SEC × AGENT</small></span>
+      </a>
+      <nav class="side-nav" id="sideNav">
+        <button data-view="dashboard" class="active"><span data-icon="grid"></span>复习总览</button>
+        <button data-view="questions"><span data-icon="layers"></span>知识题库 <b id="navQuestionCount">0</b></button>
+        <button data-view="project"><span data-icon="workflow"></span>项目深挖</button>
+        <button data-view="agentstack"><span data-icon="bot"></span>Agent 技术栈 <b id="navAgentCount">0</b></button>
+        <button data-view="securitytargets"><span data-icon="shield"></span>目标安全图谱 <b id="navSecurityCount">0</b></button>
+        <button data-view="visuals"><span data-icon="image"></span>图解知识 <b id="navVisualCount">0</b></button>
+        <button data-view="sources"><span data-icon="book"></span>面经来源 <b id="navSourceCount">0</b></button>
+        <button data-view="mock"><span data-icon="mic"></span>模拟面试</button>
+        <button data-view="review"><span data-icon="refresh"></span>今日复习 <b id="navDueCount">0</b></button>
+        <button data-view="bookmarks"><span data-icon="bookmark"></span>收藏错题</button>
+        <button data-view="resume"><span data-icon="user"></span>我的简历</button>
+        <button data-view="pitch"><span data-icon="message"></span>面试说辞 <b id="navPitchCount">0</b></button>
+        <button data-view="sprints"><span data-icon="rocket"></span>岗位冲刺 <b id="navSprintCount">2</b></button>
+        <button data-view="jobs"><span data-icon="briefcase"></span>招聘雷达 <b id="navJobCount">···</b></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="streak-card">
+          <div class="streak-head"><span>连续学习</span><strong id="streakDays">1 天</strong></div>
+          <div class="week-dots" id="weekDots"></div>
+          <small>保持节奏，比突击更可靠</small>
+        </div>
+        <button class="icon-text-btn" id="themeBtn"><span data-icon="sun"></span><span>切换主题</span></button>
+        <button class="icon-text-btn" id="dataBtn"><span data-icon="database"></span><span>数据管理</span></button>
+      </div>
+    </aside>
+
+    <div class="main-wrap">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="打开导航"><span data-icon="menu"></span></button>
+        <div class="global-search">
+          <span data-icon="search"></span>
+          <input id="globalSearch" type="search" placeholder="搜索题目、答案、标签…" aria-label="全文搜索" />
+          <kbd>⌘ K</kbd>
+        </div>
+        <div class="top-actions">
+          <button class="icon-btn" id="randomBtn" aria-label="随机抽题" title="随机抽题"><span data-icon="shuffle"></span></button>
+          <button class="primary-btn compact" id="startReviewBtn"><span data-icon="play"></span>开始复习</button>
+          <div class="avatar" aria-label="用户：游洋">YY</div>
+        </div>
+      </header>
+
+      <main id="main" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <div class="mobile-scrim" id="mobileScrim"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="dataDialog" class="modal">
+    <form method="dialog" class="modal-card">
+      <div class="modal-head">
+        <div><span class="eyebrow">LOCAL FIRST</span><h2>复习数据管理</h2></div>
+        <button class="icon-btn" value="cancel" aria-label="关闭"><span data-icon="x"></span></button>
+      </div>
+      <p>所有掌握度、收藏和复习记录都保存在当前浏览器。可导出备份后在其他设备导入。</p>
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" id="exportBtn"><span data-icon="download"></span>导出 JSON</button>
+        <label class="secondary-btn file-btn"><span data-icon="upload"></span>导入 JSON<input id="importInput" type="file" accept="application/json" /></label>
+        <button type="button" class="danger-btn" id="resetBtn"><span data-icon="trash"></span>清空进度</button>
+      </div>
+    </form>
+  </dialog>
+  <dialog id="figureDialog" class="figure-dialog">
+    <button class="icon-btn figure-close" aria-label="关闭大图"><span data-icon="x"></span></button>
+    <img id="figureDialogImg" alt="" />
+    <p id="figureDialogCaption"></p>
+  </dialog>
+  <script src="bundle.js"></script>
+</body>
+</html>

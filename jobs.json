@@ -1,0 +1,6817 @@
+{
+  "meta": {
+    "generatedAt": "2026-07-29T22:27:12+08:00",
+    "date": "2026-07-29",
+    "total": 318,
+    "sourceName": "xixicc2027 秋招信息汇总",
+    "sourceUrl": "https://github.com/xixicc186/xixicc2027",
+    "sourceData": "https://raw.githubusercontent.com/xixicc186/xixicc2027/main/jobs.json",
+    "notice": "聚合信息仅作求职线索；岗位、届别和截止时间可能变化，投递前必须在招聘单位官网复核。",
+    "industries": {
+      "其他": 8,
+      "医药/生物": 1,
+      "央国企": 165,
+      "高校/事业单位": 21,
+      "半导体/硬件": 26,
+      "互联网": 20,
+      "银行/金融": 23,
+      "传统车企": 2,
+      "军工/研究所": 39,
+      "制造业": 8,
+      "外企": 2,
+      "快消/零售": 1,
+      "新能源车企": 2
+    }
+  },
+  "portals": [
+    {
+      "name": "国聘",
+      "type": "央国企综合",
+      "url": "https://www.iguopin.com/",
+      "hint": "央企、地方国企与校园招聘综合平台"
+    },
+    {
+      "name": "国务院国资委",
+      "type": "官方公告",
+      "url": "https://www.sasac.gov.cn/",
+      "hint": "中央企业招聘与公开信息入口"
+    },
+    {
+      "name": "国家大学生就业服务平台",
+      "type": "国家平台",
+      "url": "https://www.ncss.cn/",
+      "hint": "教育部主管高校毕业生就业服务"
+    },
+    {
+      "name": "国家电网招聘",
+      "type": "央企官网",
+      "url": "https://zhaopin.sgcc.com.cn/",
+      "hint": "国家电网校园招聘官方入口"
+    },
+    {
+      "name": "中国移动招聘",
+      "type": "央企官网",
+      "url": "https://job.10086.cn/",
+      "hint": "中国移动校园与社会招聘"
+    },
+    {
+      "name": "中国电信招聘",
+      "type": "央企官网",
+      "url": "https://job.chinatelecom.com.cn/",
+      "hint": "中国电信集团招聘官方入口"
+    },
+    {
+      "name": "中国联通招聘",
+      "type": "央企官网",
+      "url": "https://zglt2025.zhaopin.com/",
+      "hint": "中国联通招聘入口，投递前核对当年公告"
+    },
+    {
+      "name": "中国兵器人才招聘",
+      "type": "军工央企",
+      "url": "https://zhaopin.nhrdc.cn/",
+      "hint": "兵器工业集团招聘平台"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "4c6784a4595e",
+      "company": "机场地勤",
+      "industry": "其他",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "旅客问询专员",
+        "民航票务专员",
+        "民航安全检查员",
+        "机场综合运营岗",
+        "机场值机员",
+        "航空器维修技术员"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "2026-07-30",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "3b05232f90ea",
+      "company": "中准集团",
+      "industry": "医药/生物",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "海王星计划",
+      "positions": [
+        "AI首席科学家"
+      ],
+      "locations": [],
+      "deadline": "2026-07-31",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "ab2bba614761",
+      "company": "重庆三峡油漆",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "技术研发岗",
+        "AI研发岗",
+        "数字化建设"
+      ],
+      "locations": [
+        "重庆江津"
+      ],
+      "deadline": "2026-07-31",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": "https://www.cqrc.net/gzw/index/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "7433af6af9d5",
+      "company": "北京市知识产权局",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "2026-07-31",
+      "firstSeen": "2026-07-14",
+      "lastSeen": "2026-07-14",
+      "confirmedBy": 1,
+      "applyUrl": "https://rsj.beijing.gov.cn/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "d68a5df18ac0",
+      "company": "浙江大学",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "实验技术",
+        "工程技术",
+        "图书资料"
+      ],
+      "locations": [],
+      "deadline": "2026-07-31",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": "https://qr61.cn/o0u4JP/qb34n7b",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "76c8fd2eda01",
+      "company": "大足区事业单位",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "绿色通道",
+      "positions": [],
+      "locations": [
+        "重庆市大足区"
+      ],
+      "deadline": "2026-08-09",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": "http://rlsbj.cq.gov.cn",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "ff4d65fa80ba",
+      "company": "京东方",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "技术研发类",
+        "工程制造类",
+        "职能管理类"
+      ],
+      "locations": [
+        "北京",
+        "成都",
+        "武汉",
+        "重庆",
+        "南京",
+        "苏州",
+        "郑州",
+        "青岛"
+      ],
+      "deadline": "2026-08-14",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "1c8aaf23115e",
+      "company": "京东方",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "先锋京英计划",
+      "positions": [
+        "产品开发研究员",
+        "工艺开发研究员",
+        "电路设计研究员",
+        "电路开发研究员",
+        "产品整合研究员",
+        "光学设计研究员",
+        "结构设计研究员",
+        "器件开发研究员",
+        "器件集成设计研究员（模组电路方向）",
+        "新材料研究员",
+        "项目管理工程师",
+        "新产品/新工艺整合研究员"
+      ],
+      "locations": [
+        "成都",
+        "重庆",
+        "北京",
+        "合肥",
+        "绵阳",
+        "南京",
+        "鄂尔多斯",
+        "福州"
+      ],
+      "deadline": "2026-08-14",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-12",
+      "confirmedBy": 4,
+      "applyUrl": "https://boe.m.zhiye.com/2022/campus2022.html",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "99249242b8c6",
+      "company": "拼多多",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "服务端研发工程师",
+        "算法工程师",
+        "客户端研发工程师",
+        "数据分析师",
+        "Web前端研发工程师",
+        "安全工程师",
+        "Al Agent研发工程师",
+        "产品管培生",
+        "市场管培生",
+        "商品运营管培生",
+        "合规运营管培生",
+        "视觉类+"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "2026-08-23",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 4,
+      "applyUrl": "https://careers.pddglobalhr.com/campus",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "aa749606be2b",
+      "company": "中外运集装箱",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "航线企划",
+        "航线销售"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "bcaf869059bf",
+      "company": "中新建电力",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "运行值班员"
+      ],
+      "locations": [
+        "胡杨河"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "709ec4768328",
+      "company": "中科科仪",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "销售经理（质谱）"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "d7d548726cdd",
+      "company": "中金岭南铜业",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "机械设备管理",
+        "能源管理",
+        "电气设备管理",
+        "纪律监察",
+        "工艺技术管理"
+      ],
+      "locations": [
+        "东营"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "1bcf60d2e4b9",
+      "company": "五羊城酒店",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "酒店前台岗"
+      ],
+      "locations": [
+        "广州"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "a79259a15589",
+      "company": "交工地下工程",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "安全管理",
+        "工程管理"
+      ],
+      "locations": [
+        "杭州"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "571286e65ee7",
+      "company": "京东方松彩创新",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "产业招商岗"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "16d41f7c655b",
+      "company": "兵团勘测设计院",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "水利设计师（乌鲁木齐）"
+      ],
+      "locations": [
+        "乌鲁木齐"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "469390a97528",
+      "company": "创元期货太仓分公司",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "总经理助理",
+        "客户服务综合岗"
+      ],
+      "locations": [
+        "苏州"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "1efc80f3d15f",
+      "company": "利源水务设计",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "数据工程师（gis）",
+        "核算管理岗"
+      ],
+      "locations": [
+        "深圳"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "2714cbb93134",
+      "company": "北京北内发动机零部件",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "党工团专员"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "1c0904321965",
+      "company": "北京玻钢院复合材料",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "装备技术员"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "931d6d4365e5",
+      "company": "南京高科",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "投资经理"
+      ],
+      "locations": [
+        "南京"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "ef28fa1925e5",
+      "company": "南宁产投铝基新材料",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "储备机械工程师",
+        "储备工艺工程师",
+        "储备研发工程师"
+      ],
+      "locations": [
+        "南宁"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c29440ae940a",
+      "company": "宁波港消防",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "消防员"
+      ],
+      "locations": [
+        "宁波",
+        "舟山"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "49ecfb873186",
+      "company": "山西电机",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "产品研发工程师"
+      ],
+      "locations": [
+        "太原"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "6d832bd8e81c",
+      "company": "巴彦淖尔城市人力资源服务",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "安全专员 （应届高校毕业生）"
+      ],
+      "locations": [
+        "巴彦淖尔"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b187dc4bb489",
+      "company": "广州公交客轮",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "安全管理岗",
+        "技术管理岗",
+        "信息管理岗"
+      ],
+      "locations": [
+        "广州"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "2e0de7fca00c",
+      "company": "广晟建设投资",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "法务管培生（所属企业：广东省华建工程建设有限公司）"
+      ],
+      "locations": [
+        "中山"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "32956fd5da25",
+      "company": "广深珠高速",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "桥梁工程师-应届毕业生",
+        "交通工程专业技术人员"
+      ],
+      "locations": [
+        "东莞"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "40c24a9204a1",
+      "company": "文昌航天城投资",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "工程管理岗（市政）",
+        "工程管理岗（房建）"
+      ],
+      "locations": [
+        "文昌"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "d17ef4f45dd4",
+      "company": "武锅能源",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "工程经理",
+        "锅炉设计",
+        "燃烧设计"
+      ],
+      "locations": [
+        "武汉"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "78825ccb782d",
+      "company": "浙江交工",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "综合行政岗",
+        "工程管培生",
+        "项目合同计量",
+        "项目物资设备",
+        "项目工程技术员",
+        "项目安全管理"
+      ],
+      "locations": [
+        "浙江",
+        "杭州"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "7d6990a6e138",
+      "company": "浙江环保集团",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "（青田抽蓄）合同造价岗"
+      ],
+      "locations": [
+        "丽水"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "08dfbb35b904",
+      "company": "澄迈发展控股",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "组织人事部综合岗（实习生）"
+      ],
+      "locations": [
+        "澄迈"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "8e9bf27b8577",
+      "company": "玉渊潭农工商",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "总公司所属企业办公室专员",
+        "行政办公室专员",
+        "商务区办公室专员"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "11179f341d72",
+      "company": "盛源大有酒店分公司",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "公寓服务运营类",
+        "酒店服务运营类"
+      ],
+      "locations": [
+        "厦门"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c4e7947d57dc",
+      "company": "辽宁出版集团",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "辽宁民族出版社朝文图书编辑",
+        "辽宁音像出版社助理编辑",
+        "辽宁人民出版社历史编辑"
+      ],
+      "locations": [
+        "沈阳"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "7b32632f09c4",
+      "company": "金石智联",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "客户运营"
+      ],
+      "locations": [
+        "天津"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b41f00d11a49",
+      "company": "金隅住宅产业化",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "设计专员"
+      ],
+      "locations": [
+        "唐山"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "cee600e91bce",
+      "company": "雷宁电磁屏蔽",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "电磁屏蔽产品开发工程师"
+      ],
+      "locations": [
+        "常州"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "e7e167807dc0",
+      "company": "首都科技发展集团",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "博士后研究人员（人工智能在核酸药物开发及应用方向）"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "dc9f996e2581",
+      "company": "鹏源水环境",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "项目管理部综合管理员岗（下属环发公司）",
+        "项目管理部材料员岗（下属环发公司）",
+        "项目管理部资料员岗（下属环发公司）",
+        "项目管理部质检员岗（下属环发公司）",
+        "项目管理部安全员岗（下属环发公司）",
+        "项目管理部工程管理岗（下属环发公司）",
+        "项目管理部施工管理岗（下属环发公司）"
+      ],
+      "locations": [
+        "海口"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "bb82ebb3a5b1",
+      "company": "东莞证券中山分公司",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "证券客户经理"
+      ],
+      "locations": [
+        "中山"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "ea7c1f888290",
+      "company": "东莞证券佛山季华五路营业部",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "客户经理",
+        "证券考试储备干部"
+      ],
+      "locations": [
+        "佛山"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "a97479a93c91",
+      "company": "东莞证券珠海人民东路营业部",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "理财经理"
+      ],
+      "locations": [
+        "珠海"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "0af3db47054f",
+      "company": "东莞证券茶山营业部",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "理财顾问"
+      ],
+      "locations": [
+        "东莞"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "a9b3b10ac577",
+      "company": "瑞众保险海南分公司",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "2026英才计划",
+      "positions": [
+        "海南分公司-2026英才计划管培生"
+      ],
+      "locations": [
+        "海口"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c852fc69ee83",
+      "company": "海南寰岛高级中学",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "高中生物教师（应届生）",
+        "高中语文教师（应届生）",
+        "高中数学教师（应届生）"
+      ],
+      "locations": [
+        "海口"
+      ],
+      "deadline": "2026-10-06",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "27b269826d14",
+      "company": "湖南工业职业技术学院",
+      "industry": "高校/事业单位",
+      "cohort": "2026届",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "长沙"
+      ],
+      "deadline": "2026-11-30",
+      "firstSeen": "2026-06-21",
+      "lastSeen": "2026-06-21",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "1b67c2c9cec9",
+      "company": "中国航天科工",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "北京",
+        "深圳",
+        "南京",
+        "成都",
+        "武汉",
+        "长沙",
+        "郑州",
+        "天津"
+      ],
+      "deadline": "2026-12-30",
+      "firstSeen": "2026-06-25",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 3,
+      "applyUrl": "https://casicjob.iguopin.com/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "4cef1863f437",
+      "company": "张家界市市直事业单位",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "张家界市"
+      ],
+      "deadline": "2026-12-31",
+      "firstSeen": "2026-07-10",
+      "lastSeen": "2026-07-10",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "6e5410e000e7",
+      "company": "湖南生物机电职业技术学院",
+      "industry": "高校/事业单位",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "长沙市"
+      ],
+      "deadline": "2026-12-31",
+      "firstSeen": "2026-06-22",
+      "lastSeen": "2026-06-22",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b537c17d6f86",
+      "company": "DeepSeek",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "算法类",
+        "工程类",
+        "产品类",
+        "研究类"
+      ],
+      "locations": [
+        "北京",
+        "杭州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "fc083c7f3e58",
+      "company": "DeepSeek",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "算法类",
+        "工程类",
+        "产品类",
+        "研究类"
+      ],
+      "locations": [
+        "北京",
+        "杭州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "23a2122419f7",
+      "company": "DeepSeek",
+      "industry": "互联网",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "",
+      "positions": [
+        "服务端开发工程师",
+        "预训练数据工程师",
+        "AI搜索算法/架构工程师",
+        "全栈开发/AI核心系统研发",
+        "产品经理/工程师",
+        "前端/客户端开发工程师",
+        "测试开发工程师",
+        "超算集群研发工程师",
+        "高性能算子/通信/编译器工程师",
+        "大模型训练/推理框架工程师",
+        "高性能分布式存储工程师",
+        "AI算力集群性能与可靠性工程师"
+      ],
+      "locations": [
+        "北京",
+        "杭州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": "https://app.mokahr.com/social-recruitment/high-flyer/140576#/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "a3990bb5c0e8",
+      "company": "京东",
+      "industry": "互联网",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "京东技术行",
+      "positions": [
+        "AI/大模型类",
+        "云计算/大数据类",
+        "搜索推荐广告类",
+        "安全类",
+        "高性能计算类"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-02",
+      "lastSeen": "2026-07-02",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "519c47bc6439",
+      "company": "元戎启行",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "算法类",
+        "算法类（大模型/AI Agent/端到端/感知/SLAM/规划/导航地图/数据生成/强化学习）",
+        "工程类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 2,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "3961e44808e7",
+      "company": "字节跳动",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "其他",
+      "program": "早鸟通道",
+      "positions": [
+        "AI产品经理"
+      ],
+      "locations": [
+        "上海",
+        "北京",
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-14",
+      "lastSeen": "2026-07-14",
+      "confirmedBy": 1,
+      "applyUrl": "https://wj.toutiao.com/q/v2/7657509120173735979/975xOc70/4d7d/#/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "d765fe81f012",
+      "company": "字节跳动",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "早鸟通道",
+      "positions": [
+        "AI产品经理"
+      ],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-14",
+      "lastSeen": "2026-07-14",
+      "confirmedBy": 1,
+      "applyUrl": "https://wj.toutiao.com/q/v2/7657509120173735979/975xOc70/4d7d/#/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "8c87c2f4c35a",
+      "company": "字节跳动",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "AI产品类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-16",
+      "lastSeen": "2026-07-16",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "2e133b696d21",
+      "company": "小红书",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "Product Engineer产品工程师",
+      "positions": [
+        "社区工程",
+        "电商工程研发",
+        "商业平台技术"
+      ],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b8f518728174",
+      "company": "微步在线",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "Java工程师",
+        "前端工程师",
+        "测试工程师",
+        "Golang工程师",
+        "Windows开发工程师",
+        "Python工程师",
+        "机器学习工程师",
+        "安服工程师",
+        "安全分析师",
+        "安全研究员",
+        "产品经理",
+        "产品运营"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "苏州",
+        "杭州",
+        "深圳",
+        "广州",
+        "成都",
+        "昆明"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "9657e5831082",
+      "company": "拼多多",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "云弧计划",
+      "positions": [
+        "大模型算法工程师",
+        "Al Infra研发工程师"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-10",
+      "lastSeen": "2026-07-10",
+      "confirmedBy": 1,
+      "applyUrl": "https://careers.pddglobalhr.com/campus",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "8fc33b6c47af",
+      "company": "拼多多",
+      "industry": "互联网",
+      "cohort": "2026届",
+      "batch": "其他",
+      "program": "",
+      "positions": [
+        "研发岗",
+        "管培生",
+        "客服专家"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳",
+        "杭州",
+        "成都",
+        "无锡"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-30",
+      "lastSeen": "2026-06-30",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "a8a46fe920cc",
+      "company": "科大讯飞",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "飞星计划",
+      "positions": [
+        "研究算法人才"
+      ],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-16",
+      "lastSeen": "2026-06-16",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/mp/pUP17ffEX6ogrbOO9xa3",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "130fee66e6b9",
+      "company": "科大讯飞",
+      "industry": "互联网",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "AI算法类",
+        "研发类",
+        "产品类",
+        "营销类"
+      ],
+      "locations": [
+        "合肥"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "7f1b97977cbb",
+      "company": "腾讯混元",
+      "industry": "互联网",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "AI Infra类",
+        "大语言模型类",
+        "多模态模型类",
+        "AI Data类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-10",
+      "lastSeen": "2026-07-10",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "694bdb3ef3bd",
+      "company": "软通动力",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "技术类",
+        "职能类",
+        "销售咨询类",
+        "数字化运营类"
+      ],
+      "locations": [
+        "北京",
+        "成都",
+        "杭州",
+        "上海",
+        "重庆",
+        "东莞",
+        "深圳",
+        "西安"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-14",
+      "lastSeen": "2026-07-14",
+      "confirmedBy": 1,
+      "applyUrl": "https://www.itongxue.net/folder/promotion/isoftstone/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "044015a0a376",
+      "company": "阶跃星辰",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "StepStar招聘计划",
+      "positions": [
+        "大语言模型",
+        "多模态",
+        "Agent",
+        "语音",
+        "端侧",
+        "Infra"
+      ],
+      "locations": [
+        "北京",
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-12",
+      "lastSeen": "2026-07-12",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "ecae6c24c426",
+      "company": "阶跃星辰",
+      "industry": "互联网",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "StepStar招聘计划",
+      "positions": [
+        "大语言模型",
+        "多模态",
+        "Agent",
+        "语音",
+        "端侧",
+        "Infra"
+      ],
+      "locations": [
+        "北京",
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-12",
+      "lastSeen": "2026-07-12",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c1f156c43cd8",
+      "company": "阿里巴巴",
+      "industry": "互联网",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "基础模型",
+        "大模型应用",
+        "AI infra",
+        "芯片与计算"
+      ],
+      "locations": [
+        "北京",
+        "杭州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-29",
+      "lastSeen": "2026-06-29",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "22394fe3cad2",
+      "company": "东风柳汽",
+      "industry": "传统车企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "技术研发",
+        "市场营销与运营",
+        "工艺质量",
+        "职能类"
+      ],
+      "locations": [
+        "柳州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-16",
+      "lastSeen": "2026-07-16",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b97e19f6c58d",
+      "company": "奇瑞捷豹路虎",
+      "industry": "传统车企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "FREE UP实习生项目",
+      "positions": [
+        "车身开发实习生",
+        "底盘开发实习生",
+        "内饰开发实习生",
+        "外饰开发实习生",
+        "试制试验实习生",
+        "电池开发实习生",
+        "电驱开发实习生",
+        "热管理开发实习生",
+        "数字化测试实习生",
+        "数字化开发实习生",
+        "整车总布置实习生",
+        "精品附件开发实习生"
+      ],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-05",
+      "lastSeen": "2026-07-05",
+      "confirmedBy": 1,
+      "applyUrl": "https://m.liepin.com/lptjob/83404633?mscid=lb_cx_zw",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "f66e67062bb5",
+      "company": "中新赛克",
+      "industry": "其他",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "嵌入式开发工程师",
+        "全栈开发工程师",
+        "FPGA开发工程师",
+        "硬件开发工程师",
+        "大模型算法工程师",
+        "信号算法工程师",
+        "软件测试工程师",
+        "国际销售管培生",
+        "国际/国内售后技术支持",
+        "国际/国内售前技术支持"
+      ],
+      "locations": [
+        "南京",
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-12",
+      "lastSeen": "2026-07-12",
+      "confirmedBy": 1,
+      "applyUrl": "https://recruit.sinovatio.com/home/student",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "02988a0a8d79",
+      "company": "中新赛克",
+      "industry": "其他",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "嵌入式开发工程师",
+        "全栈开发工程师",
+        "FPGA开发工程师",
+        "硬件开发工程师",
+        "大模型算法工程师",
+        "信号算法工程师",
+        "软件测试工程师",
+        "国际销售管培生",
+        "国际/国内售后技术支持",
+        "国际/国内售前技术支持"
+      ],
+      "locations": [
+        "南京",
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-12",
+      "lastSeen": "2026-07-12",
+      "confirmedBy": 1,
+      "applyUrl": "https://recruit.sinovatio.com/home/student",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "1450700d2019",
+      "company": "圆通速递",
+      "industry": "其他",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "管培生类（科技/国际/网络/营运/人力/财务/航空）"
+      ],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-16",
+      "lastSeen": "2026-07-16",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "23056da6d98c",
+      "company": "强脑科技",
+      "industry": "其他",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "产品与设计岗",
+        "硬件开发岗",
+        "软件开发岗",
+        "具身智能算法岗"
+      ],
+      "locations": [
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": "https://wj.qq.com/s2/26996638/8308/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "d052adc343d6",
+      "company": "普渡机器人",
+      "industry": "其他",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "管培生",
+        "算法",
+        "软件",
+        "硬件",
+        "机械",
+        "产品",
+        "解决方案",
+        "供应链"
+      ],
+      "locations": [
+        "成都",
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-30",
+      "lastSeen": "2026-06-30",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "88a0c97faa5a",
+      "company": "润才计划",
+      "industry": "其他",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "润才计划2026暑期特别活动",
+      "positions": [
+        "AI算法工程师",
+        "嵌入式开发",
+        "财务/人力资源管培生",
+        "市场营销",
+        "创意设计"
+      ],
+      "locations": [
+        "广州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-24",
+      "lastSeen": "2026-06-24",
+      "confirmedBy": 1,
+      "applyUrl": "https://qr61.cn/oNpQhg/qY6TfkI",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "d5976d1ac356",
+      "company": "穹彻智能",
+      "industry": "其他",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "具身智能类",
+        "算法类",
+        "硬件类"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "2e64e0fe7775",
+      "company": "上海空间电源研究所",
+      "industry": "军工/研究所",
+      "cohort": "2026届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-02",
+      "lastSeen": "2026-07-02",
+      "confirmedBy": 1,
+      "applyUrl": "https://sast.m.zhiye.com/by811.html?c1=1_3",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "04b25478364f",
+      "company": "上海空间电源研究所",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "528d174fd538",
+      "company": "上海空间电源研究所",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "提前批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-24",
+      "lastSeen": "2026-06-24",
+      "confirmedBy": 1,
+      "applyUrl": "https://sast.m.zhiye.com/by811.html?c1=1_3",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "de170049365b",
+      "company": "中兵通信装备研究院",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "29912c1398cd",
+      "company": "中兵通信装备研究院",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-02",
+      "lastSeen": "2026-07-02",
+      "confirmedBy": 1,
+      "applyUrl": "https://v.wjx.cn/vm/rxeFdAj.aspx",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "42056bc2d29b",
+      "company": "中国电科29所",
+      "industry": "军工/研究所",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "电子与通信类",
+        "计算机与软件类",
+        "控制与仪器类",
+        "机械与工程类"
+      ],
+      "locations": [
+        "成都"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-10",
+      "lastSeen": "2026-07-10",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "cb2c34059e05",
+      "company": "中国航发涡轮院",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "17fa3819baff",
+      "company": "中国航发涡轮院",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-01",
+      "lastSeen": "2026-07-01",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "a3e596e1fb36",
+      "company": "中国航发航材院",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-23",
+      "lastSeen": "2026-06-23",
+      "confirmedBy": 1,
+      "applyUrl": "https://xiaoyuan.zhaopin.com/job/CC518158380J40870287814",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "3249b8204d98",
+      "company": "中国航天科技集团总体设计部",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": "https://app.mokahr.com/m/campus-recruitment/hangtianwuyuan/166339?locale=zh-CN",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "0e0fc02db4e3",
+      "company": "中国长征火箭",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "2ddf5c8d7537",
+      "company": "中国长征火箭",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "总体设计",
+        "结构设计",
+        "数字化设计",
+        "电气设计",
+        "动力设计",
+        "质量与可靠性设计"
+      ],
+      "locations": [
+        "北京",
+        "南昌"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "efb95186463b",
+      "company": "中国长征火箭",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "总体设计",
+        "结构设计",
+        "数字化设计",
+        "电气设计",
+        "动力设计",
+        "质量与可靠性设计",
+        "总体设计岗",
+        "结构设计岗",
+        "数字化设计岗",
+        "电气设计岗",
+        "动力设计岗",
+        "质量与可靠性设计岗"
+      ],
+      "locations": [
+        "北京",
+        "南昌",
+        "北京市",
+        "海南省文昌市"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-04",
+      "lastSeen": "2026-07-08",
+      "confirmedBy": 2,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "817d9db1a1b0",
+      "company": "中国长征火箭",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "火箭之星",
+      "positions": [],
+      "locations": [
+        "北京",
+        "海南文昌"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-08",
+      "lastSeen": "2026-07-08",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "27e64bc3cbad",
+      "company": "中船七〇二所",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-21",
+      "lastSeen": "2026-06-22",
+      "confirmedBy": 1,
+      "applyUrl": "https://qr61.cn/oZTuXF/qpcVwva",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "a510450d8427",
+      "company": "兵器203所",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "7cd071561b57",
+      "company": "兵器206所",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "开放日",
+      "program": "",
+      "positions": [
+        "研发类（雷达设计/电子对抗/信号处理/AI架构/结构/通信/微波/芯片/电路/阵列/伺服/智能制造）"
+      ],
+      "locations": [
+        "西安"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "3a67f4463307",
+      "company": "兵器工业203所",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "2026年暑期夏令营",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": "https://norincogroupzhaopin.zhiye.com/campus/detail?jobAdId=172cc6a2-4e55-4c77-a864-f6a3ac2a4173",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "c6e32afa0d7b",
+      "company": "商飞上飞院",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "江苏太仓",
+        "湖南长沙"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-26",
+      "lastSeen": "2026-06-26",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/tS8GHqXEI-hcreF993qn",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "87ad36a0276f",
+      "company": "沈阳所",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "暑期开放日",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-25",
+      "lastSeen": "2026-06-25",
+      "confirmedBy": 1,
+      "applyUrl": "https://601S.m.zhiye.com/Home/Index",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "10d453a214b8",
+      "company": "航天502所",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "航天控制与智能技术",
+        "人工智能与计算机",
+        "电子信息与通信",
+        "机械力学与材料"
+      ],
+      "locations": [
+        "北京",
+        "杭州",
+        "天津",
+        "张家口"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-16",
+      "lastSeen": "2026-07-16",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "7a28517d8e46",
+      "company": "航天513所",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "暑期实践开放周",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-14",
+      "lastSeen": "2026-07-14",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "40250d513e79",
+      "company": "航天四院四十一所",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "追梦人",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c44015000757",
+      "company": "航天四院四十一所",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "追梦人",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "2bbe9c557f79",
+      "company": "航天智能院",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "智能系统总体设计岗",
+        "智能飞行器设计与控制岗",
+        "智能认知决策与大模型算法设计岗",
+        "智能探测感知设计岗",
+        "端侧人工智能设计岗",
+        "体系设计与评估岗",
+        "作战管理技术岗",
+        "数字孪生技术岗",
+        "大模型算法研发岗",
+        "系统总体设计",
+        "AI与大模型算法",
+        "智能飞行器与探测"
+      ],
+      "locations": [
+        "北京市石景山区首钢园",
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-16",
+      "confirmedBy": 3,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b66f791c5abd",
+      "company": "航天科工二院",
+      "industry": "军工/研究所",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-28",
+      "lastSeen": "2026-06-28",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "cabbf892bdf5",
+      "company": "航天科工六院",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "88cf9c0604f7",
+      "company": "航天科技五院总体设计部",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "14b9b898c43e",
+      "company": "航空工业南京机电",
+      "industry": "军工/研究所",
+      "cohort": "2026届",
+      "batch": "开放日",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": "https://f.wps.cn/g/QbJyeNgd",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "20e64cc926b2",
+      "company": "航空工业机载",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c85e66807234",
+      "company": "航空工业机载",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "暑期开放日",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-04",
+      "lastSeen": "2026-07-04",
+      "confirmedBy": 1,
+      "applyUrl": "https://v.wjx.cn/vm/tGRM34a.aspx",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "103a6bfd0072",
+      "company": "航空工业计量所",
+      "industry": "军工/研究所",
+      "cohort": "2026届",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-18",
+      "lastSeen": "2026-06-18",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/YkOLk83EmJDnrYnw9xZw",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "9e9c3ef36fd0",
+      "company": "航空工业设备工程",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "0c6ee09299cd",
+      "company": "航空工业通飞",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-16",
+      "lastSeen": "2026-06-16",
+      "confirmedBy": 1,
+      "applyUrl": "https://www.kdocs.cn/l/cqOCE7kUZgUZ",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "1add22e3dc5a",
+      "company": "航空工业雷达所",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-10",
+      "lastSeen": "2026-07-10",
+      "confirmedBy": 1,
+      "applyUrl": "https://m.zhaopin.com/xiaoyuan/company/detail?redirect=mxiaoyuan&comid=KA0516740723P90000003000&productId=-1&channelId=-1",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "ecc432d8f09b",
+      "company": "航空工业雷达所",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "fb9f313bb555",
+      "company": "西南技术物理研究所",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "开放日",
+      "program": "",
+      "positions": [
+        "光学工程",
+        "集成电路",
+        "电子科学与技术",
+        "微电子与固体电子学",
+        "兵器科学与技术",
+        "电子对抗技术",
+        "通信工程",
+        "人工智能",
+        "计算机技术",
+        "仪器科学与技术",
+        "图像处理",
+        "控制理论与控制工程"
+      ],
+      "locations": [
+        "四川省成都市"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-14",
+      "lastSeen": "2026-07-14",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "a90b97460b3e",
+      "company": "西安近代化学研究所",
+      "industry": "军工/研究所",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-26",
+      "lastSeen": "2026-06-26",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "2e61c820b403",
+      "company": "高德红外",
+      "industry": "军工/研究所",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "MEMS研发/工艺工程师",
+        "衬底长晶工程师",
+        "封装研发工程师",
+        "芯片研发工程师",
+        "芯片测试分析工程师",
+        "芯片前道工艺工程师",
+        "制冷封装工艺工程师",
+        "制冷机工艺工程师",
+        "版图设计工程师",
+        "模拟IC设计工程师",
+        "数字前端设计工程师",
+        "ARM工程师"
+      ],
+      "locations": [
+        "武汉"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-29",
+      "lastSeen": "2026-06-30",
+      "confirmedBy": 1,
+      "applyUrl": "https://gdhw.zhiye.com/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "39bf1b8dcfca",
+      "company": "拓竹科技",
+      "industry": "制造业",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "研发类",
+        "机械结构",
+        "硬件设计",
+        "视觉算法",
+        "控制算法",
+        "自动化"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "杭州",
+        "武汉"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-26",
+      "lastSeen": "2026-06-29",
+      "confirmedBy": 2,
+      "applyUrl": "https://bambulab.jobs.feishu.cn/s/QauJAwFrhU8",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "ec5bbd349783",
+      "company": "智元",
+      "industry": "制造业",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "具身智能/世界模型算法类",
+        "AI Infra/数据类",
+        "机器人本体系统类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-02",
+      "lastSeen": "2026-07-02",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "1a3d6347726b",
+      "company": "歌尔",
+      "industry": "制造业",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "精英计划",
+      "positions": [
+        "算法研发岗",
+        "项目管理岗",
+        "软件研发岗",
+        "品质管理岗",
+        "结构研发岗",
+        "光学研发岗",
+        "硬件研发岗",
+        "机械开发岗",
+        "工艺研发岗",
+        "芯片研发岗",
+        "声学研发岗",
+        "制造技术岗"
+      ],
+      "locations": [
+        "潍坊",
+        "北京",
+        "上海",
+        "深圳",
+        "成都",
+        "青岛",
+        "新加坡",
+        "南京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": "https://goertek.hotjob.cn/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "77906c134c4c",
+      "company": "镭目科技",
+      "industry": "制造业",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "技术研发类",
+        "工程类",
+        "销售类",
+        "研发储备干部",
+        "管理储备干部",
+        "核工业销售经理",
+        "大客户销售经理",
+        "海外大客户销售经理",
+        "售前工程师",
+        "算法工程师",
+        "AI工程师",
+        "软件工程师"
+      ],
+      "locations": [
+        "北京",
+        "长沙",
+        "衡阳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 2,
+      "applyUrl": "https://dqr.cn/omBhtF/qjOpn3K",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "a945e28771a2",
+      "company": "长飞",
+      "industry": "制造业",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "YO Plan",
+      "positions": [
+        "技术研发类",
+        "生产制造类",
+        "运营管理类",
+        "市场销售类",
+        "职能类"
+      ],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": "https://yofc2.zhiye.com/campus/jobs",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "5b3d708d7eee",
+      "company": "长飞",
+      "industry": "制造业",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "AI大模型工程师",
+        "产品研发工程师",
+        "光学研发工程师",
+        "硬件研发工程师",
+        "软件研发工程师",
+        "技术情报工程师",
+        "工艺工程师",
+        "机械工程师",
+        "暖通工程师",
+        "技术支持工程师",
+        "流程优化工程师",
+        "采购助理"
+      ],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-05",
+      "lastSeen": "2026-07-05",
+      "confirmedBy": 1,
+      "applyUrl": "https://yofc2.zhiye.com/campus/jobs",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "94dc1b37b571",
+      "company": "长飞光纤",
+      "industry": "制造业",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "技术研发类",
+        "工艺制造类",
+        "市场营销类",
+        "职能类",
+        "智能制造/装备类"
+      ],
+      "locations": [
+        "武汉",
+        "潜江"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-02",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c08afe4a03e5",
+      "company": "阳光电源",
+      "industry": "制造业",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "产品研发类",
+        "信息技术类",
+        "技术营销类"
+      ],
+      "locations": [
+        "合肥",
+        "上海",
+        "南京",
+        "西安"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-10",
+      "confirmedBy": 5,
+      "applyUrl": "http://weixin.qq.com/r/YkOLk83EmJDnrYnw9xZw",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "4541fe12bdfa",
+      "company": "BrainCo-强脑科技",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "产品与设计",
+        "硬件工程",
+        "嵌入式软件",
+        "AI算法类（具身智能/大模型/机器人/强化学习）"
+      ],
+      "locations": [
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-16",
+      "lastSeen": "2026-07-16",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "bc3b260d0d75",
+      "company": "BrainCo-强脑科技",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "产品与设计",
+        "硬件工程",
+        "嵌入式软件",
+        "AI算法类（具身智能/大模型/机器人/强化学习）"
+      ],
+      "locations": [
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-16",
+      "lastSeen": "2026-07-16",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "8336fd18d791",
+      "company": "中兴微电子",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "IC设计类",
+        "IC验证类",
+        "IC后端类",
+        "算法类",
+        "软件类",
+        "硬件类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳",
+        "成都",
+        "武汉",
+        "西安",
+        "南京",
+        "长沙"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-10",
+      "lastSeen": "2026-07-10",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "ebd0df6a62a9",
+      "company": "中兴微电子",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "未来领军",
+      "positions": [
+        "IC设计",
+        "IC验证",
+        "IC后端",
+        "IC封测与可靠性",
+        "算法",
+        "软件",
+        "硬件",
+        "IC版图",
+        "IC技术支撑"
+      ],
+      "locations": [
+        "深圳",
+        "西安",
+        "南京",
+        "成都",
+        "上海",
+        "北京",
+        "长沙",
+        "武汉"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 2,
+      "applyUrl": "https://www.sanechips.com.cn",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "002f4ea3608c",
+      "company": "中兴通讯",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "算法类",
+        "软件开发类",
+        "IC/硬件开发类",
+        "结构设计类",
+        "测试类",
+        "市场/交付类",
+        "供应链类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳",
+        "广州",
+        "成都",
+        "杭州",
+        "武汉",
+        "重庆"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-02",
+      "lastSeen": "2026-07-02",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "6a08d4f070ce",
+      "company": "中茵微电子",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "SoC设计工程师",
+        "SOC验证工程师",
+        "原型验证工程师",
+        "Serdes模拟设计工程师",
+        "Serdes数字设计工程师",
+        "DDR模拟设计工程师",
+        "DDR数字设计工程师",
+        "PD/数字后端设计工程师",
+        "STA设计工程师",
+        "DFT可测性设计工程师",
+        "封装设计Layout工程师",
+        "SIPI仿真工程师"
+      ],
+      "locations": [
+        "北京",
+        "成都",
+        "南京",
+        "上海",
+        "苏州",
+        "合肥",
+        "无锡"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": "https://joinsilicon.zhiye.com/campus/jobs",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "e9ce331c7107",
+      "company": "乐鑫科技",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "芯片设计",
+        "嵌入式软件"
+      ],
+      "locations": [
+        "上海",
+        "苏州",
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-05",
+      "lastSeen": "2026-07-05",
+      "confirmedBy": 1,
+      "applyUrl": "https://www.espressif.com/zh-hans/join-us/job-search?title=&field_job_function_tid%5B0%5D=2581&field_job_classification_tid%5B0%5D=2575&field_job_classification_tid%5B1%5D=2577&field_job_classification_tid%5B2%5D=2573",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "6ef7489f13d4",
+      "company": "伏达半导体",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "芯片设计类",
+        "硬件类",
+        "软件类"
+      ],
+      "locations": [
+        "上海",
+        "深圳",
+        "杭州",
+        "合肥"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "42b29df2bb90",
+      "company": "兆易创新",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "模拟设计工程师",
+        "电路设计工程师",
+        "数字电路设计工程师",
+        "数字设计/验证工程师",
+        "数字后端工程师",
+        "嵌入式硬件工程师",
+        "产品器件工程师",
+        "固件前端/后端开发工程师",
+        "CAD工程师",
+        "模拟电路设计工程师",
+        "射频模拟设计工程师",
+        "高速接口设计工程师"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳",
+        "西安",
+        "成都",
+        "合肥",
+        "苏州",
+        "武汉"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-15",
+      "confirmedBy": 2,
+      "applyUrl": "https://app.mokahr.com/m/campus-recruitment/gigadevice/92215?locale=zh-CN",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "7ad181f12c25",
+      "company": "光易创新",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "IC设计类（模拟/数字/射频/后端）",
+        "嵌入式软硬件类",
+        "芯片架构与CAD类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳",
+        "成都",
+        "武汉",
+        "西安",
+        "苏州",
+        "合肥"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-16",
+      "lastSeen": "2026-07-16",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "184273678176",
+      "company": "北方华创",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "电气工程师",
+        "射频工程师",
+        "软件工程师",
+        "机械工程师",
+        "半导体工艺工程师",
+        "光学工程师",
+        "系统工程师",
+        "销售工程师",
+        "软件测试工程师",
+        "材料工程师",
+        "技术类（电气/软件/机械/半导体工艺/射频/光学/系统/软件测试）",
+        "销售类（销售工程师）"
+      ],
+      "locations": [
+        "北京",
+        "深圳",
+        "厦门",
+        "上海",
+        "合肥",
+        "西安",
+        "广州",
+        "武汉"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 4,
+      "applyUrl": "http://weixin.qq.com/r/2RPG3vPEc64Mrbe990bL",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "9332ba3b6ca1",
+      "company": "华为",
+      "industry": "半导体/硬件",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "AI实习生",
+      "positions": [
+        "AI"
+      ],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-05",
+      "lastSeen": "2026-07-05",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/mp/YyPn-3vE_SaGrT_c93Zx",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "199ee12bb00b",
+      "company": "大疆",
+      "industry": "半导体/硬件",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "算法类",
+        "芯片类",
+        "硬件类",
+        "软件类",
+        "机械/结构类",
+        "测试/工类",
+        "产品项目管理类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-02",
+      "lastSeen": "2026-07-02",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "bdced2bb9bb7",
+      "company": "天锐星通",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "星锐计划",
+      "positions": [
+        "模拟IC设计工程师",
+        "射频IC设计工程师",
+        "天线工程师",
+        "射频工程师",
+        "硬件工程师",
+        "结构工程师",
+        "逻辑工程师",
+        "嵌入式工程师",
+        "测试方法研究工程师",
+        "AI agent工程师"
+      ],
+      "locations": [
+        "南京",
+        "上海",
+        "成都"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-15",
+      "lastSeen": "2026-07-15",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "e69d8d0d62ba",
+      "company": "必易微",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "应用工程师",
+        "后端设计工程师",
+        "芯片设计工程师",
+        "硬件开发工程师",
+        "数字设计工程师",
+        "软件算法工程师",
+        "系统工程师",
+        "模拟IC设计工程师",
+        "测试工程师",
+        "可靠性工程师",
+        "失效分析工程师",
+        "项目管理工程师"
+      ],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "6990ecb0d977",
+      "company": "思瑞浦",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "模拟设计工程师",
+        "芯片应用工程师",
+        "研发测试工程师",
+        "版图设计工程师",
+        "数字设计工程师",
+        "现场应用工程师",
+        "技术销售管培生",
+        "可靠性与失效分析工程师",
+        "封装工程师",
+        "PMC工程师",
+        "实验工程师",
+        "器件研发工程师"
+      ],
+      "locations": [
+        "上海",
+        "深圳",
+        "成都",
+        "北京",
+        "天津",
+        "杭州",
+        "苏州",
+        "西安"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": "https://app.mokahr.com/m/campus-recruitment/3peakic/67894?locale=zh-CN",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "e2deb9db961c",
+      "company": "摩尔线程",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "AI研发",
+        "软件研发",
+        "人力资源",
+        "知识产权"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳",
+        "杭州",
+        "成都",
+        "无锡"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-29",
+      "lastSeen": "2026-06-29",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "d8b1b5fa3782",
+      "company": "斯达半导体",
+      "industry": "半导体/硬件",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "设计工程师",
+        "系统应用工程师",
+        "产品测试工程师",
+        "IGBT研发工程师",
+        "FRD研发工程师"
+      ],
+      "locations": [
+        "上海",
+        "苏州",
+        "天津",
+        "浙江嘉兴"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": "https://v.wjx.cn/vm/QN6R03l.aspx",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "e7c9f68fa369",
+      "company": "杰华特",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "模拟IC设计工程师",
+        "系统工程师",
+        "AI工程师",
+        "数字IC设计工程师（前端）",
+        "数字IC验证工程师",
+        "数字后端工程师",
+        "应用工程师",
+        "功能安全工程师",
+        "数模混合验证工程师",
+        "器件工程师",
+        "模型工程师",
+        "PDK工程师"
+      ],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-15",
+      "lastSeen": "2026-07-15",
+      "confirmedBy": 1,
+      "applyUrl": "https://joulwatt.zhiye.com/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "898e9d7706f4",
+      "company": "泰凌微电子",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "芯片设计类",
+        "嵌入式软件类"
+      ],
+      "locations": [
+        "上海",
+        "深圳",
+        "南京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b14af78556d3",
+      "company": "联发科技",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [
+        "软件类",
+        "通信类",
+        "IC类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳",
+        "成都",
+        "合肥",
+        "武汉"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-10",
+      "lastSeen": "2026-07-16",
+      "confirmedBy": 3,
+      "applyUrl": "https://mediatek.zhiye.com/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "70026133fa73",
+      "company": "荣耀",
+      "industry": "半导体/硬件",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "算法&软件类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "31114c76ccb7",
+      "company": "视源股份",
+      "industry": "半导体/硬件",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "气动噪声研究员",
+        "液晶光学研究员",
+        "高分子材料研究员",
+        "天线助理研究员",
+        "金属材料研究员（锡膏）",
+        "强化传热高级研究员",
+        "大模型高性能算法工程师",
+        "大模型算法高级研究员",
+        "传感器信号处理算法",
+        "多模态大模型算法",
+        "机器人灵巧操作算法",
+        "3D视觉感知算法"
+      ],
+      "locations": [
+        "广州",
+        "西安",
+        "合肥",
+        "苏州",
+        "青岛",
+        "武汉",
+        "上海",
+        "重庆"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-08",
+      "lastSeen": "2026-07-08",
+      "confirmedBy": 1,
+      "applyUrl": "https://form.wjx.com/vm/mRVSfh5.aspx",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "bfb60a0b72ff",
+      "company": "超聚变",
+      "industry": "半导体/硬件",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "技术类（硬件开发/运维/FDE前端）",
+        "销售类（销售经理/产品与解决方案）",
+        "职能类（智能稽查）"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳",
+        "广州",
+        "西安",
+        "郑州",
+        "东莞",
+        "合肥"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "0a2a0e3de091",
+      "company": "大众中国",
+      "industry": "外企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "软件项目管理",
+        "HR支持",
+        "CEA研发"
+      ],
+      "locations": [
+        "合肥",
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-05",
+      "lastSeen": "2026-07-05",
+      "confirmedBy": 1,
+      "applyUrl": "https://app.mokahr.com/campus-recruitment/vwa/142785#/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "c00ebd893946",
+      "company": "爱立信",
+      "industry": "外企",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "销售培训生",
+        "无线网络工程师",
+        "网络优化工程师"
+      ],
+      "locations": [
+        "北京",
+        "南京",
+        "重庆",
+        "广州",
+        "南昌"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": "https://wx24ad0370e0ee87d2.wx.moseeker.com/m/position/?wechat_signature=NzI0MTgyZTY4ZmE4MWEwMGQyOGE3YTRhNzJiOGE5ZjI1YzQwZmU0NQ%3D%3D&candidate_source=1&employment_type=0&team_name=%E9%94%80%E5%94%AE%20Sales%20%26Sale%20Support&moseeker_track_code=njO%3D%3D",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "e62f5dc232cc",
+      "company": "一方制药",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "医药代表"
+      ],
+      "locations": [
+        "广州",
+        "佛山",
+        "石家庄"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "35ad45d401d3",
+      "company": "三益药业",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "制药工"
+      ],
+      "locations": [
+        "芜湖"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "117cc28fa0a4",
+      "company": "上海世博展览馆",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "运营实习生",
+        "文创商店实习生",
+        "活动执行实习生"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-15",
+      "lastSeen": "2026-07-15",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "68eef18bb9f0",
+      "company": "上海核工院",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "理工科大类均有岗"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-30",
+      "lastSeen": "2026-06-30",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b83120b961b0",
+      "company": "东方电气",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "玻璃钢工",
+        "检查工",
+        "应用技术",
+        "设计岗",
+        "技能一线工人",
+        "营销服务中心-服务工程师（2026届应届毕业生）的需求申请"
+      ],
+      "locations": [
+        "包头",
+        "成都",
+        "德阳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "4f06006f104f",
+      "company": "中交三航局厦门分公司",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "党建宣传岗"
+      ],
+      "locations": [
+        "厦门"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "bddedd8cad2c",
+      "company": "中储粮",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-01",
+      "lastSeen": "2026-07-01",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "7e4b8f513cfc",
+      "company": "中冶南方",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-23",
+      "lastSeen": "2026-06-29",
+      "confirmedBy": 2,
+      "applyUrl": "http://weixin.qq.com/r/bTnh_SrE7XeSrW6a92x-",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "ea5e9d9a8888",
+      "company": "中冶南方",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "0815ac6f2a9f",
+      "company": "中化七建重庆",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "管工（26、27校招）",
+        "铆工（26、27校招）",
+        "焊工（26、27校招）",
+        "电工（26、27校招）",
+        "起重工（26、27校招）",
+        "钳工（26、27校招）",
+        "仪表工（26、27校招）"
+      ],
+      "locations": [
+        "重庆"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "f9bd7244700c",
+      "company": "中化二建",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "造价岗",
+        "设备材料岗",
+        "安全岗",
+        "施工技术员"
+      ],
+      "locations": [
+        "全国"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "bf3f37d05f42",
+      "company": "中化商务",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "招标采购类",
+        "商务咨询类",
+        "职能类",
+        "招标采购项目助理",
+        "电商运营助理",
+        "人力资源助理",
+        "商务助理",
+        "财务运营助理"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "河北",
+        "湖北",
+        "新疆"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-30",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 2,
+      "applyUrl": "http://weixin.qq.com/r/tnXt9W3EejAFrSmW9yCk",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "bbb0285c4715",
+      "company": "中化学建设投资",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "工程经济岗【校招】",
+        "工程技术岗【校招】"
+      ],
+      "locations": [
+        "全国"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "17a33abd159f",
+      "company": "中南工业",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "机械设计研发"
+      ],
+      "locations": [
+        "南阳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "132a1a262e56",
+      "company": "中国中材海外",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "国际市场法务助理",
+        "国际市场助理"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "0c08f5ec0b8e",
+      "company": "中国五矿",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-27",
+      "lastSeen": "2026-06-30",
+      "confirmedBy": 3,
+      "applyUrl": "https://wecruit.hotjob.cn/SU62f3786ebef57c29ead8adba/mc/position/intern",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "202ba15457a9",
+      "company": "中国人寿",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-17",
+      "lastSeen": "2026-06-17",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/tnXt9W3EejAFrSmW9yCk",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "bb9854a773ee",
+      "company": "中国医药联合工程广州",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "暖通设计工程师"
+      ],
+      "locations": [
+        "广州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "32d6fb162def",
+      "company": "中国商飞",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "实习",
+      "program": "启航",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-16",
+      "lastSeen": "2026-06-16",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/mp/tS8GHqXEI-hcreF993qn",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "09f6109bca60",
+      "company": "中国外运长航",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "经营分析与运营管理岗(J10122)"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "6213e72356c4",
+      "company": "中国建研院",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "科研技术类",
+        "建筑设计类",
+        "结构设计类",
+        "暖通/给排水/电气设计类",
+        "智能建造类",
+        "市场推广类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "青岛",
+        "石家庄",
+        "海口"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-10",
+      "lastSeen": "2026-07-10",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "f769b40e8ef6",
+      "company": "中国建研院",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "榫计划",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": "http://hr.cabr.com.cn:28895/zp.html#/channel/05",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "24c89bf91eff",
+      "company": "中国建研院",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "春“榫”计划",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "df950e442104",
+      "company": "中国建研院",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "ae188affa97b",
+      "company": "中国有色刚果矿业",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "会计"
+      ],
+      "locations": [
+        "刚果(金)"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "ffcc5f2adb33",
+      "company": "中国核电",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "2026大学生夏令营",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-28",
+      "lastSeen": "2026-06-28",
+      "confirmedBy": 1,
+      "applyUrl": "https://cnnc.m.zhiye.com/detail.html?adId=561267857",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "a301b9e4d3fa",
+      "company": "中国检验认证集团",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "矿业勘探项目助理"
+      ],
+      "locations": [
+        "津巴布韦",
+        "南部非洲区域"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-16",
+      "lastSeen": "2026-07-16",
+      "confirmedBy": 1,
+      "applyUrl": "https://www.wpinjobs.com/jobs/jobs-show-124608-.htm",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "549988fa4c47",
+      "company": "中国环球租赁",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "纪检岗"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "04e8a283aa24",
+      "company": "中国电信",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/tnXt9W3EejAFrSmW9yCk",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "d212c3da7ef3",
+      "company": "中国电子",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "审计专员2027届",
+        "助理/技术开发工程师2027届",
+        "技术开发工程师2027届",
+        "营销专员（亚洲英语区）2027届",
+        "营销专员（非洲法语区）2027届",
+        "营销专员（俄语区）2027届"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "04f2f93ab7a1",
+      "company": "中国纺科院",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "研发工程师（智能制造方向）"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "d3739acbaf34",
+      "company": "中国联合工程",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "【2026校招】策划咨询及运营师(J10976)"
+      ],
+      "locations": [
+        "杭州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "3645cff5876d",
+      "company": "中国联合装备",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "运营管理部(数字化工作办公室)高级专员"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "e4e75367b40d",
+      "company": "中国联通贵州分公司",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "实习",
+      "program": "U芽计划",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-17",
+      "lastSeen": "2026-06-17",
+      "confirmedBy": 1,
+      "applyUrl": "https://zglt.zhaopin.com/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "50fc694e213a",
+      "company": "中国航发商发",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-25",
+      "lastSeen": "2026-06-25",
+      "confirmedBy": 1,
+      "applyUrl": "https://xym.51job.com/wechat/vuectmjobs/#/index?id=F8EF6598-84A0-4B69-ABC1-3E45808F076D&color=31BE88&prd=yddzy",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "9bc353325cfe",
+      "company": "中国航发成发",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-01",
+      "lastSeen": "2026-07-01",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "7d8f3e580c11",
+      "company": "中国航天科工六院",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "开放日",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-01",
+      "lastSeen": "2026-07-01",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "eba19d6f166d",
+      "company": "中国质检院",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "检验检测类",
+        "科研类",
+        "标准研制类"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "6f1c0fe91235",
+      "company": "中国质检院",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "青苗优才实习计划",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-02",
+      "lastSeen": "2026-07-02",
+      "confirmedBy": 1,
+      "applyUrl": "https://www.kdocs.cn/l/coxWa95GJCuR",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "ff0fda91ebf2",
+      "company": "中国邮政",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-30",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "e479c836e591",
+      "company": "中国铁建地产",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "工程管理岗",
+        "财务管理岗",
+        "营销策划岗"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "广州",
+        "武汉",
+        "成都",
+        "西安",
+        "长沙"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-29",
+      "lastSeen": "2026-06-29",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "01b79ba9019d",
+      "company": "中国铁建地产",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "13bd7b85c67e",
+      "company": "中工国际",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "土木工程",
+        "电气工程",
+        "行政党建",
+        "财务",
+        "科技管理",
+        "档案管理"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-30",
+      "lastSeen": "2026-06-30",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "5f000fbf1590",
+      "company": "中工国际",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-27",
+      "lastSeen": "2026-06-27",
+      "confirmedBy": 1,
+      "applyUrl": "https://wecruit.hotjob.cn/SU64b4cfe82f9d24760ae8b80c/pb/school.html?orgCode=0%2F1298",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "ab2d41da9955",
+      "company": "中建五局山东",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "财务管理"
+      ],
+      "locations": [
+        "济南"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b3e264d4dc2f",
+      "company": "中建八局一公司",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-22",
+      "lastSeen": "2026-06-22",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "8ea8d9e41254",
+      "company": "中建八局二公司",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "4a6437bc99de",
+      "company": "中建八局二公司",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-21",
+      "lastSeen": "2026-06-28",
+      "confirmedBy": 2,
+      "applyUrl": "https://job.cscec8b.com.cn/m/job/id/2751/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "042111918961",
+      "company": "中服免税三亚",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "资金专员"
+      ],
+      "locations": [
+        "三亚"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "7fd9562c2cbc",
+      "company": "中材科技风电叶片",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "气动工程师"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "2efe1a433e65",
+      "company": "中汽中心",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-17",
+      "lastSeen": "2026-06-18",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/cR395XfE1SqqrTOG90hj",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "8e40ead694fe",
+      "company": "中煤建设集团",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-01",
+      "lastSeen": "2026-07-01",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "0e1ece38bdaf",
+      "company": "中电福富",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "AI应用开发工程师",
+        "JAVA开发工程师",
+        "云集成工程师",
+        "智能化交付工程师"
+      ],
+      "locations": [
+        "福州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/iEglPT7EeWMGrXpe9x2a",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "da847e945a4d",
+      "company": "中电福富",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-09",
+      "lastSeen": "2026-07-09",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/iEglPT7EeWMGrXpe9x2a",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "d163bc441e41",
+      "company": "中电锦江",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-16",
+      "lastSeen": "2026-06-16",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/tnXt9W3EejAFrSmW9yCk",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "d9c1cba9629f",
+      "company": "中粮集团",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-25",
+      "lastSeen": "2026-07-01",
+      "confirmedBy": 2,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "91b6fcc5ba98",
+      "company": "中粮集团",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-25",
+      "lastSeen": "2026-07-01",
+      "confirmedBy": 2,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "039e0d29ebd0",
+      "company": "中航勘察设计院",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "中航勘察设计研究院2026年校园招聘补录--测绘工程师"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "4a374c4e1733",
+      "company": "中航天建设",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "2027应届生-给排水暖通技术员"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c803ee91f560",
+      "company": "中船智海创新研究院",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "开放日",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-15",
+      "lastSeen": "2026-07-15",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "9b9244f7fd62",
+      "company": "中色奥博特",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "信息化管理员"
+      ],
+      "locations": [
+        "聊城"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "aea2b64d5080",
+      "company": "中车戚墅堰",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "法务合规专员"
+      ],
+      "locations": [
+        "常州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "a2a22ed7232d",
+      "company": "中远海运博鳌",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "管理培训生（数智化方向）",
+      "positions": [
+        "2026届管理培训生（数智化方向）"
+      ],
+      "locations": [
+        "琼海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "f3d3891f6bbb",
+      "company": "中远海运航空货运",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "营销部营销策划专员"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "de5553d9e9ed",
+      "company": "中远海运船员管理",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "宣传与企业文化岗"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "859571b88d04",
+      "company": "中铁上海院",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "工程设计类",
+        "博士后研究类"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-08",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 2,
+      "applyUrl": "http://www.sty.sh.cn/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "7ca5dd0e3417",
+      "company": "中铁上海院",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c3c51abbc6f4",
+      "company": "中铁六院",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-21",
+      "lastSeen": "2026-06-21",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/tnXt9W3EejAFrSmW9yCk",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "a930555291e7",
+      "company": "中铁设计",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "交通运输类",
+        "测绘类",
+        "土木建筑类",
+        "电气通信类",
+        "机械类",
+        "工程管理类"
+      ],
+      "locations": [
+        "北京",
+        "济南",
+        "郑州",
+        "太原"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-15",
+      "lastSeen": "2026-06-15",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/tnXt9W3EejAFrSmW9yCk",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "e180af61c7c7",
+      "company": "中青博联",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "内控合规（审计）助理",
+        "人力资源助理",
+        "财务助理"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "1a55a5480d42",
+      "company": "云天化",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "工艺技术",
+        "地质技术"
+      ],
+      "locations": [
+        "红河",
+        "昆明"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "7c0d9ff6ebc4",
+      "company": "五矿石墨",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "人力资源岗",
+        "法务岗"
+      ],
+      "locations": [
+        "鹤岗"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "bae5350d1bb3",
+      "company": "人保寿险南京",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "管培生",
+      "positions": [
+        "管培生"
+      ],
+      "locations": [
+        "南京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "3a5900461b3a",
+      "company": "华东材料无锡",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "行政管理岗"
+      ],
+      "locations": [
+        "无锡"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "cf2c917c7c4e",
+      "company": "华建咨询",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "工程咨询类",
+        "项目管理类",
+        "设计类"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "747cb937f5b4",
+      "company": "华润双鹤",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "管培生",
+      "positions": [
+        "人力资源管培生"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "a4236d3ed98e",
+      "company": "合肥水泥院",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "材料研发工程师",
+        "机械研发工程师",
+        "焊接工艺研发工程师",
+        "智能制造研发工程师（精密检测方向）",
+        "智能制造研发工程师（精密控制方向）",
+        "机械结构研发工程师",
+        "精密加工工艺工程师",
+        "精密加工研发工程师",
+        "热化学研发工程师 （材料化工方向）",
+        "研发工程师（无机非金属矿/机械）",
+        "热化学研发工程师（热化学方向）",
+        "金属选矿研发工程师"
+      ],
+      "locations": [
+        "合肥"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "7df849c327b2",
+      "company": "商务印书馆",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "",
+      "positions": [
+        "营销编辑"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "5f9b8394e0e9",
+      "company": "国家电投",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-21",
+      "lastSeen": "2026-06-22",
+      "confirmedBy": 2,
+      "applyUrl": "https://spic2026sx.iguopin.com/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "0f01f29f07c3",
+      "company": "国家电投",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-25",
+      "lastSeen": "2026-06-25",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c8fb1ddc0885",
+      "company": "国家电网",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "暑期体验营",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "172b748006f8",
+      "company": "国家电网",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-30",
+      "lastSeen": "2026-06-30",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "39ac795c785f",
+      "company": "国家电网",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "暑期体验营",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-29",
+      "lastSeen": "2026-06-29",
+      "confirmedBy": 1,
+      "applyUrl": "https://jsj.top/f/yQEfzV",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "589e3ac11ba3",
+      "company": "国投人力",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "国聘生态专项招聘",
+      "positions": [
+        "国聘生态专项招聘"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "49f3505ba46d",
+      "company": "国投健康福州",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "综合管理岗"
+      ],
+      "locations": [
+        "福州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "904a63daec1e",
+      "company": "国投健康邵武",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "综合管理岗"
+      ],
+      "locations": [
+        "福州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "2ceea44fb932",
+      "company": "国投种业",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "育种管理岗",
+        "分子检测岗",
+        "DH系创制岗"
+      ],
+      "locations": [
+        "三亚"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "8aa706e4835a",
+      "company": "国控宁夏",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "营销项目专员",
+        "法务岗"
+      ],
+      "locations": [
+        "银川"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "52f89aba4b19",
+      "company": "国控江苏",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "物流运营专员",
+        "法务专员"
+      ],
+      "locations": [
+        "南京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c6790187e2ae",
+      "company": "国控湖南",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "法律合规部校招生"
+      ],
+      "locations": [
+        "长沙"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "cf700d5de9ef",
+      "company": "国新国际",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "投资研究类",
+        "风险管理类",
+        "综合职能类",
+        "投资方向",
+        "研究方向",
+        "数据治理方向",
+        "资管方向",
+        "内部审计方向",
+        "风控方向",
+        "法务方向",
+        "人力方向",
+        "办公室方向"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-29",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 1,
+      "applyUrl": "https://qr61.cn/oaqtal/q48OmM0",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "feba565b05c3",
+      "company": "国机精工",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-22",
+      "lastSeen": "2026-06-22",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "a9985665407e",
+      "company": "国测数科",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "网络信息安全工程师实习生"
+      ],
+      "locations": [
+        "北京市顺义区"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "febbe36d3eb3",
+      "company": "国联研究院",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "市场推广专员"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "21ab7a2475c3",
+      "company": "国药控股",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "员工关系管理专员",
+        "咨询项目管理专员"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "02c70fb9beaa",
+      "company": "国药新疆新特",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "财务部 王家梁共享中心 会计",
+        "市场部市场推广员",
+        "风险运营管理专员",
+        "吐鲁番 供应链组织者",
+        "智慧供应链中心 采购计划员",
+        "终端中心 市场拓展员",
+        "党群工作部 党务专员",
+        "物流中心 物流管理储备岗",
+        "采购中心 医药采购员",
+        "终端中心 销售员",
+        "审计合规部 法务专员",
+        "医院中心销售员（管理储备岗）"
+      ],
+      "locations": [
+        "乌鲁木齐",
+        "吐鲁番",
+        "伊犁"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "34af805e0734",
+      "company": "大连中远海运物流",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "船务部航线运营岗"
+      ],
+      "locations": [
+        "大连"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "4ce9d2f24f73",
+      "company": "天伟生物制药",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "设备工程师",
+        "采购专员"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "660f83e97eba",
+      "company": "天翼云",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "超级优才",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-08",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 3,
+      "applyUrl": "http://weixin.qq.com/r/tR2EnJbEEcturdL-90in",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "5d404be877da",
+      "company": "天翼云",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "研发工程师"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "广州",
+        "成都"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-08",
+      "lastSeen": "2026-07-08",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "0e1b22dc1549",
+      "company": "天翼云",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "超级优才计划",
+      "positions": [
+        "研发工程师"
+      ],
+      "locations": [
+        "广州",
+        "北京",
+        "上海",
+        "深圳",
+        "厦门",
+        "成都",
+        "杭州",
+        "西安"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-08",
+      "lastSeen": "2026-07-08",
+      "confirmedBy": 1,
+      "applyUrl": "https://ctyun.hotjob.cn",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "9793650a55c0",
+      "company": "威奇达药业",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "生产储备"
+      ],
+      "locations": [
+        "南通"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b020df2cf630",
+      "company": "安能二局上海",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "项目工程会计岗"
+      ],
+      "locations": [
+        "全国"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "4b54ea8d4b23",
+      "company": "宝武资源",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "铁路信号工程师",
+        "运输调度员",
+        "机车维修工程师"
+      ],
+      "locations": [
+        "几内亚马西铁路"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "729bf3fd7f5a",
+      "company": "山东电工运检",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "财务管理"
+      ],
+      "locations": [
+        "济南"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b2c5a13b6324",
+      "company": "山东能源",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-30",
+      "lastSeen": "2026-06-30",
+      "confirmedBy": 1,
+      "applyUrl": "https://zhaopin.shandong-energy.com/recruit",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "56e0067e2a22",
+      "company": "广州中远海运物流",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "外勤"
+      ],
+      "locations": [
+        "全国"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "2292dcca374f",
+      "company": "惠阳航空螺旋桨",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "技能操作岗（劳务派遣）",
+        "系统总体设计员",
+        "气动设计员",
+        "销售工程师",
+        "设计员"
+      ],
+      "locations": [
+        "保定"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "43cda0b7552d",
+      "company": "河北移动",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "雄安"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-17",
+      "lastSeen": "2026-06-17",
+      "confirmedBy": 1,
+      "applyUrl": "https://zgyd.iguopin.com/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "a5d48625469f",
+      "company": "济南邮政",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "",
+      "positions": [
+        "金融营销类"
+      ],
+      "locations": [
+        "济南"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-02",
+      "lastSeen": "2026-07-02",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "97f5634f21fc",
+      "company": "浙江联通",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "新闻宣传"
+      ],
+      "locations": [
+        "绍兴"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "c94be7ff961c",
+      "company": "湖南广播电视台",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "综艺制作/运营类"
+      ],
+      "locations": [
+        "长沙"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-02",
+      "lastSeen": "2026-07-02",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "14ec75d843b6",
+      "company": "现代制药",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "综合事务管理岗（审计）"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "37219f617d53",
+      "company": "现代制药营销",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "销售经理"
+      ],
+      "locations": [
+        "广东"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "76465174396c",
+      "company": "电科思仪",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "硬件与电路类",
+        "软件与算法类",
+        "通信与系统类",
+        "光学类",
+        "工艺类与机电类",
+        "销售与技术支持类",
+        "职能类"
+      ],
+      "locations": [
+        "青岛",
+        "蚌埠",
+        "北京",
+        "成都"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-14",
+      "lastSeen": "2026-07-14",
+      "confirmedBy": 1,
+      "applyUrl": "https://cetc41.zhaopin.com",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "79a5ab111267",
+      "company": "精方药业",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "自动化工程师"
+      ],
+      "locations": [
+        "宣城"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "79063bc2cbee",
+      "company": "系统工程研究院",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "开放日",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-15",
+      "lastSeen": "2026-07-15",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "89588797a9a9",
+      "company": "红星美凯龙",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "龙潮生计划",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-20",
+      "lastSeen": "2026-06-20",
+      "confirmedBy": 1,
+      "applyUrl": "https://job.mmall.com/InternshipRecruitment",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "451d92ae0a1b",
+      "company": "航天万源",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "计划调度"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "568a99f79794",
+      "company": "航天新长征",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "综合商务岗"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "74aef55bf063",
+      "company": "航天科技",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "提前批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-26",
+      "lastSeen": "2026-06-26",
+      "confirmedBy": 1,
+      "applyUrl": "https://m.spacetalent.com.cn/ht-mobile/discovery",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "ece73ce49bf5",
+      "company": "航天科技集团",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "提前批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-26",
+      "lastSeen": "2026-06-26",
+      "confirmedBy": 1,
+      "applyUrl": "https://m.spacetalent.com.cn/ht-mobile/discovery",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "fff417cdca42",
+      "company": "贵州航天计量所",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "人事管理岗"
+      ],
+      "locations": [
+        "贵阳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "0b82deebbcdc",
+      "company": "赛鼎宁波",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "法务专员"
+      ],
+      "locations": [
+        "宁波"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "dd297d11b2c0",
+      "company": "辽宁庆阳特种化工",
+      "industry": "央国企",
+      "cohort": "2026届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-23",
+      "lastSeen": "2026-06-23",
+      "confirmedBy": 1,
+      "applyUrl": "https://m.zhaopin.com/xiaoyuan/company/detail?redirect=mxiaoyuan&comid=KA0658334228P90000001000&productId=-1&channelId=-1",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "0723379d63ac",
+      "company": "钢研昊普",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "材料工程师"
+      ],
+      "locations": [
+        "苏州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "11a48f136573",
+      "company": "锦州新时代集装箱",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "行政人事部企业管理岗",
+        "操作部码头运营岗"
+      ],
+      "locations": [
+        "锦州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "4c718d843c81",
+      "company": "长城证券",
+      "industry": "央国企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "【2027规划发展部】战略管理岗"
+      ],
+      "locations": [
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "5a4b4f180bea",
+      "company": "青岛航空",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "乘务员"
+      ],
+      "locations": [
+        "青岛",
+        "长春",
+        "长沙",
+        "西双版纳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-14",
+      "lastSeen": "2026-07-14",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "9b421276e777",
+      "company": "风神轮胎太原",
+      "industry": "央国企",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "设备技术员"
+      ],
+      "locations": [
+        "太原"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "bfdc4dc40127",
+      "company": "欧莱雅中国",
+      "industry": "快消/零售",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "科技/研发/运营类（皮肤科学/北亚运营/研发创新）"
+      ],
+      "locations": [
+        "上海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-10",
+      "lastSeen": "2026-07-10",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "667f73433a47",
+      "company": "小鹏",
+      "industry": "新能源车企",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [
+        "智能研发类",
+        "汽车研发类",
+        "测试类",
+        "芯片类",
+        "动力电池类",
+        "制造类",
+        "营销类",
+        "职能类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳",
+        "广州",
+        "武汉",
+        "肇庆",
+        "海外"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-08",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 2,
+      "applyUrl": "https://xiaopeng.jobs.feishu.cn/campus/m/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "f848f4a71879",
+      "company": "理想汽车",
+      "industry": "新能源车企",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "算法类",
+        "软件类",
+        "硬件类",
+        "产品类",
+        "职能类"
+      ],
+      "locations": [
+        "北京",
+        "上海",
+        "深圳",
+        "杭州",
+        "常州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b03b30484455",
+      "company": "万联证券",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "0522444d1564",
+      "company": "中国农业银行",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-15",
+      "lastSeen": "2026-06-15",
+      "confirmedBy": 1,
+      "applyUrl": "https://career.abchina.com.cn/build/index.html#/RecruitmentNoticeList/103/-1",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "1bac501b48de",
+      "company": "中粮信托",
+      "industry": "银行/金融",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "信托投资",
+        "财富管理",
+        "信息技术",
+        "风控审计",
+        "运营财务",
+        "行政人力",
+        "战略研究"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-30",
+      "lastSeen": "2026-06-30",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "de6f2dbe7d38",
+      "company": "华润银行",
+      "industry": "银行/金融",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "金融类（中后台/前台/营销/运营服务实习生）"
+      ],
+      "locations": [
+        "深圳",
+        "广州",
+        "东莞",
+        "佛山",
+        "中山",
+        "惠州",
+        "江门",
+        "珠海"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-10",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 2,
+      "applyUrl": "https://wecruit.hotjob.cn/SU676274b91eb8053dd1030461/mc/position/intern",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "46dada882db4",
+      "company": "华润银行",
+      "industry": "银行/金融",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "星梦营",
+      "positions": [
+        "分行中后台业务实习生",
+        "分行营销业务实习生",
+        "分行运营服务实习生"
+      ],
+      "locations": [
+        "大湾区各分行"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-15",
+      "lastSeen": "2026-07-15",
+      "confirmedBy": 1,
+      "applyUrl": "https://www.crbank.com.cn/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "0cff221fb0a7",
+      "company": "国投证券",
+      "industry": "银行/金融",
+      "cohort": "2027届",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-13",
+      "lastSeen": "2026-07-13",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "b27a71d95ee1",
+      "company": "宁波银行",
+      "industry": "银行/金融",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-12",
+      "lastSeen": "2026-06-12",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/mp/oHVEXEfEbBoTrQM-9yCy",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "bb04f749f521",
+      "company": "广州银行",
+      "industry": "银行/金融",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "同行计划",
+      "positions": [
+        "总行实习生",
+        "分支行实习生",
+        "IT实习生"
+      ],
+      "locations": [
+        "广州",
+        "佛山"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-12",
+      "lastSeen": "2026-07-12",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/ihPn-z7EIGNfrXqc90aY",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "43fec189657a",
+      "company": "杭州联合银行",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "燃梦计划",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-16",
+      "lastSeen": "2026-06-16",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/tnXt9W3EejAFrSmW9yCk",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "26e365667734",
+      "company": "泰康资产",
+      "industry": "银行/金融",
+      "cohort": "2027届",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "投研类",
+        "风控类",
+        "运营类",
+        "职能类"
+      ],
+      "locations": [
+        "北京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "caa78ecbfc9e",
+      "company": "浦发银行",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "Call浦新星",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-25",
+      "lastSeen": "2026-06-30",
+      "confirmedBy": 2,
+      "applyUrl": "https://job.spdb.com.cn/internJob",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "e659e296fb7e",
+      "company": "第一创业证券",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "553b7b79c995",
+      "company": "跨境清算公司",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-15",
+      "lastSeen": "2026-06-15",
+      "confirmedBy": 1,
+      "applyUrl": "https://vip.liepin.com/cips",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "8bb3a43ac0ba",
+      "company": "邮储银行南京分行",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "南京"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 1,
+      "applyUrl": "https://qr61.cn/o25dmn/q3aUYkD",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "326c60e853c8",
+      "company": "邮储银行安徽省分行",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-26",
+      "lastSeen": "2026-06-26",
+      "confirmedBy": 1,
+      "applyUrl": "https://campus.51job.com/ahyc2026/",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "fbe89876be4b",
+      "company": "郑州商品交易所",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "其他",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "4f59db9d2210",
+      "company": "郑州商品交易所",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "开放日",
+      "program": "暑期Openday",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-15",
+      "lastSeen": "2026-07-15",
+      "confirmedBy": 1,
+      "applyUrl": "https://xym.51job.com/wechat/vuectmjobs/#/index?id=BECE9629-96ED-4D68-9580-97731B05C47D&color=31BE88&prd=yddzy",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "6f73fc78be1e",
+      "company": "长安银行",
+      "industry": "银行/金融",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": "http://weixin.qq.com/r/tnXt9W3EejAFrSmW9yCk",
+      "hasOfficialLink": false
+    },
+    {
+      "id": "691e70a50bb8",
+      "company": "中南民族大学",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-22",
+      "lastSeen": "2026-06-22",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "136a064a021a",
+      "company": "中国日报",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "",
+      "positions": [
+        "视频策划编辑",
+        "《围炉漫话》栏目实习编辑",
+        "中国日报海外社交媒体账号编辑"
+      ],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-10",
+      "lastSeen": "2026-07-10",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "2e6493ee37e1",
+      "company": "呼和浩特市卫生健康系统",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "呼和浩特"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": "http://www.hhpta.org.cn",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "65eb84382940",
+      "company": "呼和浩特市教育系统",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "呼和浩特"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": "http://www.hhpta.org.cn",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "20edda42663f",
+      "company": "呼和浩特市直部门及旗县区事业单位",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "呼和浩特"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-06",
+      "lastSeen": "2026-07-06",
+      "confirmedBy": 1,
+      "applyUrl": "http://www.hhpta.org.cn",
+      "hasOfficialLink": true
+    },
+    {
+      "id": "b10259851266",
+      "company": "广州国家实验室",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "实习",
+      "program": "润才计划",
+      "positions": [],
+      "locations": [
+        "广州"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-06-22",
+      "lastSeen": "2026-06-22",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "e42794161432",
+      "company": "广州市城市规划勘测设计研究院",
+      "industry": "高校/事业单位",
+      "cohort": "2027届",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-07-07",
+      "lastSeen": "2026-07-07",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "47b6b230d09f",
+      "company": "故宫",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-25",
+      "lastSeen": "2026-06-25",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "0e881da4eaa1",
+      "company": "武汉理工大学双选会",
+      "industry": "高校/事业单位",
+      "cohort": "2027届",
+      "batch": "宣讲会",
+      "program": "",
+      "positions": [],
+      "locations": [
+        "武汉"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-11",
+      "lastSeen": "2026-07-11",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "e46a91bc5233",
+      "company": "江西省农业农村厅",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-22",
+      "lastSeen": "2026-06-22",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "cc8a79fc9187",
+      "company": "深圳大学",
+      "industry": "高校/事业单位",
+      "cohort": "2026届",
+      "batch": "其他",
+      "program": "",
+      "positions": [
+        "博士后"
+      ],
+      "locations": [
+        "深圳"
+      ],
+      "deadline": "",
+      "firstSeen": "2026-07-03",
+      "lastSeen": "2026-07-03",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "e72ddf762f0e",
+      "company": "湖南工业职业技术学院",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-22",
+      "lastSeen": "2026-06-22",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "5f1bb066030d",
+      "company": "通州区教委",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-22",
+      "lastSeen": "2026-06-22",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    },
+    {
+      "id": "17864d4d6a82",
+      "company": "重庆三峡职业学院",
+      "industry": "高校/事业单位",
+      "cohort": "不限",
+      "batch": "正式批",
+      "program": "",
+      "positions": [],
+      "locations": [],
+      "deadline": "",
+      "firstSeen": "2026-06-22",
+      "lastSeen": "2026-06-22",
+      "confirmedBy": 1,
+      "applyUrl": null,
+      "hasOfficialLink": false
+    }
+  ]
+}
