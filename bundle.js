@@ -993,6 +993,82 @@ const VULNERABILITY_CASES = [
 ];
 
 const VULNERABILITY_PRODUCTS = ['NLTK','Nextcloud','MLflow','vLLM'];
+
+const VULNERABILITY_PROJECT_INFO = {
+  NLTK:'一个常用的 Python 自然语言处理库，提供分词、语料读取、模型加载以及 Stanford Java 工具封装。',
+  Nextcloud:'一套开源私有云和文件协作平台，企业可以用它管理用户、文件共享和各种后台设置。',
+  MLflow:'一个机器学习和大模型全生命周期平台，用来记录实验、管理模型、执行评测任务和保存结果。',
+  vLLM:'一个高性能大模型推理服务框架，对外提供 OpenAI 兼容接口，并处理文本、图片、音频和视频请求。'
+};
+
+const VULNERABILITY_PLAIN = {
+  'nltk-cve-2026-12615':{
+    point:'程序先把用户文本写进临时文件，再调用 Java。Java 一旦报错，后面的删文件和恢复配置代码就不会执行，而且多个请求还共用同一份 Java 配置。',
+    impact:'用户原文可能残留在磁盘中，后续请求也可能继承前一个请求的 Java 参数，造成敏感数据残留和请求串扰。'
+  },
+  'nltk-pr-3684-redos':{
+    point:'读取 Alpino 语料时使用了一组容易反复回溯的正则。攻击者只要构造一行很长、看起来快匹配成功但最后缺字段的内容，就能让正则不断重试。',
+    impact:'一个很小的恶意文件就可能长时间占用 CPU，拖慢文本解析服务；输入长度翻倍时，处理时间大约增长到四倍。'
+  },
+  'nltk-proxy-ssrf':{
+    point:'NLTK 在本机检查域名是不是公网地址，但使用代理后，真正解析域名和建立连接的是代理。本机看到的地址和代理最终访问的地址可能不是同一个。',
+    impact:'攻击者可能借助代理访问原本只对内网开放的服务，例如内部管理接口、服务发现地址或云环境元数据。'
+  },
+  'nltk-pickle-allowlist-rce':{
+    point:'代码认为“只允许 NLTK 或 sklearn 模块里的对象”就能安全加载 Pickle，但这些模块自身就包含启动子进程的函数，攻击者仍能把它们拼成执行链。',
+    impact:'如果系统加载了攻击者提供的模型文件，攻击者就可能以服务进程的权限执行任意命令。'
+  },
+  'nltk-jar-cache-rce':{
+    point:'系统校验过 JAR 的 SHA-256 后，只用文件大小和修改时间判断它有没有变化。攻击者把 JAR 换成同样大小的恶意文件，再恢复修改时间，就能骗过缓存。',
+    impact:'系统会把恶意 JAR 当成已经批准的文件交给 Java 执行，从而运行攻击者代码。'
+  },
+  'nltk-zip-bomb-budget':{
+    point:'解压保护只检查每一个文件是否太大，却没有检查整个压缩包加起来有多大。攻击者可以放入很多个都低于阈值的小文件。',
+    impact:'压缩包本身体积很小，解压后却可能占满磁盘、耗尽 inode，并长期占用解压 CPU。'
+  },
+  'nltk-pathsec-toctou':{
+    point:'程序先检查文件路径位于安全目录，再用同一个路径名打开文件。两步之间如果符号链接被替换，真正打开的就可能是安全目录外的文件。',
+    impact:'在共享目录场景下，攻击者可能让高权限进程读取或覆盖授权目录之外的文件。'
+  },
+  'nextcloud-ai-delegation-regex':{
+    point:'管理员本来只把“AI 设置”权限委派给某个用户组，但用于判断配置键的正则写得过宽，其他名字中碰巧带有 ai 的系统配置也会被允许修改。',
+    impact:'只负责 AI 设置的普通用户可以改变无关的全局策略，例如是否强制新用户填写邮箱，以及匿名分享页面显示的内容。'
+  },
+  'mlflow-job-idor':{
+    point:'MLflow 检查了用户是否登录，却没有检查某个 Job 是否真的属于这个用户。知道别人的 job_id 后，就能直接查询或取消任务。',
+    impact:'低权限用户可能读取其他人的评测结果，或者取消正在执行的任务，影响数据保密性和任务完整性。'
+  },
+  'mlflow-prompt-route-authz':{
+    point:'源码虽然为 Prompt Job 注册了权限校验，但注册的是带占位符的路由，真实请求使用具体 ID；两者没有正确匹配，所以校验实际上没有运行。',
+    impact:'没有目标实验权限的用户仍可能读取、取消或删除其他人的 Prompt Optimization 任务。'
+  },
+  'vllm-response-store-idor':{
+    point:'vLLM 把响应状态只按 response_id 保存，没有同时记录它属于哪个 API Key 或租户。只要知道 ID，另一个用户也能访问这个对象。',
+    impact:'不同用户之间可能互相读取响应内容、引用对方的历史响应、取消任务，甚至覆盖已知 ID 的状态。'
+  },
+  'vllm-realtime-queue-dos':{
+    point:'实时音频接口限制了单个音频块的大小，却没有限制一条连接累计能排队多少块。每块音频转成更大的 float32 数据后，会一直放进无界队列。',
+    impact:'攻击者保持一个连接不断发送合法小块，就能让服务内存持续增长，最终拖慢或压垮服务。'
+  },
+  'vllm-video-all-frames':{
+    point:'视频接口默认只取 32 帧，但请求参数 num_frames=-1 可以把限制改成“读取全部帧”，相当于由客户端删除了服务端的安全上限。',
+    impact:'一个几分钟的高清视频可能在推理前就解码出数十 GiB 数据，造成内存耗尽或服务不可用。'
+  },
+  'vllm-forged-video-metadata':{
+    point:'输入实际只有几帧，但客户端可以声明视频有上百万帧。后续代码相信这个元数据，并按声明数量创建列表和循环处理。',
+    impact:'很小的输入也能触发大量 CPU 和内存消耗，形成明显的前处理资源放大。'
+  },
+  'vllm-mm-resize-bypass':{
+    point:'客户端可以传入 min_pixels。部分图像处理器会按照这个值把小图放大，却没有再次确认放大结果仍低于 max_pixels。',
+    impact:'几十像素的小图可能被放大成数万像素的大图，在模型推理前就创建数 GiB 的图片或张量数据。'
+  }
+};
+
+VULNERABILITY_CASES.forEach(item=>{
+  const plain=VULNERABILITY_PLAIN[item.id];
+  item.plainPoint=plain.point;
+  item.plainImpact=plain.impact;
+});
 ;
 /* 面经与学习资料导航。只保存来源元数据，不复制无明确许可证的正文或图片。 */
 const INTERVIEW_SOURCE_GROUPS = [
@@ -1413,28 +1489,31 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
 
   function filteredVulnerabilities(){
     const s=vulnFilters.query.trim().toLowerCase();
-    return VULNERABILITY_CASES.filter(v=>(vulnFilters.product==='all'||v.product===vulnFilters.product)&&(vulnFilters.status==='all'||v.status===vulnFilters.status)&&(!s||[v.title,v.product,v.version,v.severity,v.status,v.cwe,v.type,v.summary,v.boundary,v.pitch,...v.conditions,...v.evidence,...v.remediation,...v.chain.flat()].join(' ').toLowerCase().includes(s)));
+    return VULNERABILITY_CASES.filter(v=>(vulnFilters.product==='all'||v.product===vulnFilters.product)&&(vulnFilters.status==='all'||v.status===vulnFilters.status)&&(!s||[v.title,v.product,v.version,v.severity,v.status,v.cwe,v.type,v.summary,v.plainPoint,v.plainImpact,v.boundary,v.pitch,...v.conditions,...v.evidence,...v.remediation,...v.chain.flat()].join(' ').toLowerCase().includes(s)));
   }
   function vulnerabilitiesHTML(){
     const total=VULNERABILITY_CASES.length,merged=VULNERABILITY_CASES.filter(v=>v.status==='已合并').length,ready=VULNERABILITY_CASES.filter(v=>v.status==='报告就绪').length,candidates=VULNERABILITY_CASES.filter(v=>v.status==='条件候选').length;
-    return `${pageHead('漏洞复盘','独立于题库的真实案例册。按入口、机制、边界、证据、修复与面试口述完整复习每条漏洞。','VULNERABILITY CASEBOOK',`<button class="secondary-btn" data-expand-vulns="close">${icon('layers')}全部收起</button><button class="primary-btn" data-expand-vulns="open">${icon('play')}全部展开</button>`)}
-    <section class="vuln-hero"><div><span class="eyebrow">REAL CASES · EVIDENCE FIRST</span><h2>从“看到危险代码”到<strong>形成可报告证据</strong></h2><p>公开上游修复与本地审计案例统一按 Source → Mechanism → Boundary → Impact 复盘。每条记录保留前提、负控、证据等级和不能过度声称的边界。</p><div class="vuln-hero-tags"><span>NLTK</span><span>Nextcloud</span><span>MLflow</span><span>vLLM</span></div></div><div class="vuln-metrics"><div><strong>${total}</strong><small>案例</small></div><div><strong>${merged}</strong><small>已合并</small></div><div><strong>${ready}</strong><small>报告就绪</small></div><div><strong>${candidates}</strong><small>条件候选</small></div></div></section>
-    <div class="vuln-note"><span>${icon('shield')}</span><p><strong>阅读原则：</strong>严重度标签不是厂商最终定级；E2/V2 表示同会话源码与局部运行证据，不冒充独立 V3。条件和边界要和漏洞机制一起记。</p></div>
+    return `${pageHead('漏洞复盘','先讲清楚“项目做什么、漏洞在哪里、会造成什么后果”，再根据面试官追问补充验证和修复细节。','VULNERABILITY CASEBOOK',`<button class="secondary-btn" data-expand-vulns="close">${icon('layers')}全部收起</button><button class="primary-btn" data-expand-vulns="open">${icon('play')}全部展开</button>`)}
+    <section class="vuln-hero"><div><span class="eyebrow">THREE-SENTENCE METHOD</span><h2>每个漏洞先记住<strong>三句话</strong></h2><p>第一句介绍项目，第二句说明漏洞点，第三句讲清楚后果。成立条件、验证过程和修复方式放在后面，只有被追问时再展开。</p><div class="vuln-hero-tags"><span>项目是什么</span><span>漏洞点是什么</span><span>有什么后果</span></div></div><div class="vuln-metrics"><div><strong>${total}</strong><small>案例</small></div><div><strong>${merged}</strong><small>已合并</small></div><div><strong>${ready}</strong><small>报告就绪</small></div><div><strong>${candidates}</strong><small>条件候选</small></div></div></section>
+    <div class="vuln-note"><span>${icon('message')}</span><p><strong>回答顺序：</strong>不要一上来讲 CWE、E2/V2 或复杂调用链。先让面试官听懂业务和后果；如果继续追问，再讲成立条件、怎么验证以及怎么修。</p></div>
     <div class="vuln-toolbar"><label class="vuln-search"><span>${icon('search')}</span><input id="vulnSearch" type="search" value="${esc(vulnFilters.query)}" placeholder="搜索漏洞、CWE、机制或产品…" aria-label="搜索漏洞案例"></label><select id="vulnProduct" class="select" aria-label="按产品筛选"><option value="all">全部产品</option>${VULNERABILITY_PRODUCTS.map(x=>`<option value="${esc(x)}" ${vulnFilters.product===x?'selected':''}>${esc(x)}</option>`).join('')}</select><select id="vulnStatus" class="select" aria-label="按状态筛选"><option value="all">全部状态</option>${['已合并','报告就绪','条件候选'].map(x=>`<option value="${x}" ${vulnFilters.status===x?'selected':''}>${x}</option>`).join('')}</select><span class="result-count"><b id="vulnResultCount">${filteredVulnerabilities().length}</b> / ${total} 条</span></div>
     <section id="vulnerabilityResults">${vulnerabilityResultsHTML(filteredVulnerabilities())}</section>`;
   }
   function vulnerabilityResultsHTML(list){
     if(!list.length)return `<div class="empty">${icon('search')}<strong>没有匹配的漏洞案例</strong><p>尝试清空产品、状态或搜索条件。</p></div>`;
-    return VULNERABILITY_PRODUCTS.filter(product=>list.some(v=>v.product===product)).map(product=>`<section class="vuln-product-section"><header><div><span class="eyebrow">TARGET SYSTEM</span><h2>${esc(product)}</h2></div><p>${list.filter(v=>v.product===product).length} 条案例</p></header><div class="vuln-list">${list.filter(v=>v.product===product).map(vulnerabilityCaseHTML).join('')}</div></section>`).join('');
+    return VULNERABILITY_PRODUCTS.filter(product=>list.some(v=>v.product===product)).map(product=>`<section class="vuln-product-section"><header><div><span class="eyebrow">这个项目是什么？</span><h2>${esc(product)}</h2><p>${esc(VULNERABILITY_PROJECT_INFO[product])}</p></div><b>${list.filter(v=>v.product===product).length} 条案例</b></header><div class="vuln-list">${list.filter(v=>v.product===product).map(vulnerabilityCaseHTML).join('')}</div></section>`).join('');
   }
+  function simpleVulnerabilityPitch(v){return `${v.product} 是${VULNERABILITY_PROJECT_INFO[v.product]}这个漏洞的核心是：${v.plainPoint}它可能造成的后果是：${v.plainImpact}`;}
   function vulnerabilityCaseHTML(v,index){
     const sev=v.severity.includes('High')?'high':v.severity.includes('Medium')?'medium':'low';
-    return `<details class="vuln-card" id="${esc(v.id)}"><summary><span class="vuln-index">${String(index+1).padStart(2,'0')}</span><div class="vuln-summary-copy"><div class="vuln-kicker"><span>${esc(v.type)}</span><span>${esc(v.version)}</span></div><h3>${esc(v.title)}</h3><p>${esc(v.summary)}</p><div class="vuln-badges"><span class="vuln-severity ${sev}">${esc(v.severity)}</span><span>${esc(v.status)}</span><span>${esc(v.confidence)}</span><span>${esc(v.cwe)}</span></div></div><span class="vuln-toggle">${icon('chevron')}</span></summary><div class="vuln-detail">
+    return `<details class="vuln-card" id="${esc(v.id)}"><summary><span class="vuln-index">${String(index+1).padStart(2,'0')}</span><div class="vuln-summary-copy"><div class="vuln-kicker"><span>${esc(v.type)}</span><span>${esc(v.version)}</span></div><h3>${esc(v.title)}</h3><div class="vuln-plain-preview"><p><b>漏洞点</b>${esc(v.plainPoint)}</p><p><b>后果</b>${esc(v.plainImpact)}</p></div><div class="vuln-badges"><span class="vuln-severity ${sev}">${esc(v.severity)}</span><span>${esc(v.status)}</span><span>${esc(v.confidence)}</span><span>${esc(v.cwe)}</span></div></div><span class="vuln-toggle">${icon('chevron')}</span></summary><div class="vuln-detail">
+      <section class="vuln-story"><div class="vuln-story-head"><div><span class="eyebrow">先按这三句讲</span><h4>通俗版面试回答</h4></div><button class="secondary-btn" data-copy-vuln="${esc(v.id)}">${icon('copy')}复制三句话</button></div><div class="vuln-story-grid"><div><span>01</span><small>项目是什么</small><p>${esc(VULNERABILITY_PROJECT_INFO[v.product])}</p></div><div><span>02</span><small>漏洞点是什么</small><p>${esc(v.plainPoint)}</p></div><div><span>03</span><small>有什么后果</small><p>${esc(v.plainImpact)}</p></div></div></section>
+      <div class="vuln-advanced-title"><span></span><small>下面内容只在面试官继续追问时展开</small><span></span></div>
       <section class="vuln-block"><div class="vuln-block-title"><span>01</span><div><small>ATTACK PREREQUISITES</small><h4>成立条件</h4></div></div><ul>${v.conditions.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section>
       <section class="vuln-block"><div class="vuln-block-title"><span>02</span><div><small>CAUSAL CHAIN</small><h4>攻击链与根因</h4></div></div><div class="vuln-chain">${v.chain.map((x,i)=>`<div><b>${String(i+1).padStart(2,'0')}</b><span><code>${esc(x[0])}</code><p>${esc(x[1])}</p></span></div>`).join('')}</div></section>
       <div class="vuln-columns"><section class="vuln-block"><div class="vuln-block-title"><span>03</span><div><small>EVIDENCE</small><h4>验证与负控</h4></div></div><ul>${v.evidence.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section><section class="vuln-block"><div class="vuln-block-title"><span>04</span><div><small>REMEDIATION</small><h4>根因修复</h4></div></div><ul>${v.remediation.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></section></div>
       <section class="vuln-boundary"><span>${icon('target')}</span><div><small>CLAIM BOUNDARY</small><strong>不能过度声称什么？</strong><p>${esc(v.boundary)}</p></div></section>
-      <section class="vuln-pitch"><div><span class="eyebrow">INTERVIEW NARRATIVE</span><h4>面试口述</h4><p>${esc(v.pitch)}</p></div><button class="secondary-btn" data-copy-vuln="${esc(v.id)}">${icon('copy')}复制说辞</button></section>
+      <section class="vuln-pitch"><div><span class="eyebrow">DEEP-DIVE ADD-ON</span><h4>追问时再补这一句</h4><p>${esc(v.pitch)}</p></div></section>
       <footer class="vuln-source"><span>${icon('book')}来源：${esc(v.source.label)}</span>${v.source.url?`<a href="${esc(v.source.url)}" target="_blank" rel="noopener">查看上游 ${icon('external')}</a>`:'<small>本地审计记录与证据包</small>'}</footer>
     </div></details>`;
   }
@@ -1442,7 +1521,7 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     const list=filteredVulnerabilities(),box=$('#vulnerabilityResults'),count=$('#vulnResultCount');if(!box)return;box.innerHTML=vulnerabilityResultsHTML(list);if(count)count.textContent=list.length;hydrateIcons(box);bindVulnerabilityCards(box);
   }
   function bindVulnerabilityCards(root=document){
-    $$('[data-copy-vuln]',root).forEach(b=>b.onclick=async e=>{e.preventDefault();e.stopPropagation();const v=VULNERABILITY_CASES.find(x=>x.id===b.dataset.copyVuln);if(!v)return;try{await copyText(`${v.title}\n\n${v.pitch}\n\n边界：${v.boundary}`);showToast('漏洞口述已复制')}catch{showToast('复制失败，请手动选择文本')}});
+    $$('[data-copy-vuln]',root).forEach(b=>b.onclick=async e=>{e.preventDefault();e.stopPropagation();const v=VULNERABILITY_CASES.find(x=>x.id===b.dataset.copyVuln);if(!v)return;try{await copyText(simpleVulnerabilityPitch(v));showToast('三句话口述已复制')}catch{showToast('复制失败，请手动选择文本')}});
   }
 
   function projectHTML() { return `${pageHead('项目深挖','先区分通用 Harness 与安全方法 AV，再进入完整设计文档。','CORE PROJECT',`<button class="secondary-btn" data-go="questions" data-project-filter>${icon('layers')}项目题库</button><a class="primary-btn" href="av.md" target="_blank">${icon('external')}原始文档</a>`)}<div class="project-tabs"><button class="active" data-doc="summary">面试速讲</button><button data-doc="full">AV 完整理解</button></div><div class="project-layout"><aside class="project-toc" id="projectToc"><span class="eyebrow">CONTENT</span></aside><article class="project-article" id="projectArticle"><div class="empty">正在载入项目知识…</div></article></div>`; }
