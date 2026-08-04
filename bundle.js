@@ -783,6 +783,122 @@ const JOB_SPRINTS = [
   }
 ];
 ;
+/* NLTK 上游真实漏洞修复复盘：依据已合并 PR 的描述、补丁与回归测试整理。 */
+const NLTK_CASE_SOURCE = '源码依据：<a href="https://github.com/nltk/nltk/pull/3683" target="_blank" rel="noopener">NLTK PR #3683</a>、<a href="https://github.com/nltk/nltk/pull/3684" target="_blank" rel="noopener">NLTK PR #3684</a>。#3683 明确对应 CVE-2026-12615；#3684 按当前 PR 公开信息记录为 CWE-1333 ReDoS 修复，不额外虚构 CVE 编号。';
+
+QUESTIONS.push(
+  X('security','NLTK真实案例','CVE-2026-12615 的完整漏洞链路是什么？','NLTK 多个 Stanford/Java Wrapper 将用户文本写入 delete=False 临时文件，Java 调用异常时顺序清理被跳过；同时 Wrapper 通过进程级全局变量切换 Java 参数，异常和并发可造成跨调用状态污染。',[
+    '<strong>Source：</strong>服务把不可信或敏感文本交给 StanfordTokenizer、GenericStanfordParser、StanfordTagger 或 StanfordSegmenter 等公开 Wrapper。',
+    '<strong>Mechanism：</strong>文本先落入具名临时文件，随后调用外部 Java；旧代码只有在 Java 正常返回后才执行 <code>os.unlink()</code> 和全局 Java 参数恢复。',
+    '<strong>Trigger：</strong>错误 JAR、classpath、非法选项、子进程中断、运行环境异常等都可让 <code>java()</code> 抛异常，使控制流越过清理语句。',
+    '<strong>Impact：</strong>明文输入残留在临时目录；进程级 <code>_java_options</code> 还可能泄漏给后续请求或与并发请求互相覆盖，形成机密性和状态完整性问题。',
+    '<strong>边界：</strong>不是“调用 NLTK 就直接 RCE”；严重性取决于服务是否处理敏感文本、攻击者能否稳定制造失败、临时目录读取权限、进程复用和并发模型。'
+  ],['为什么 delete=False 是必要条件但不是根因？','哪些公开 API 能到达这些 Wrapper？','临时目录默认权限会怎样影响严重度？'],NLTK_CASE_SOURCE,'中等',['CVE-2026-12615','Exception Safety'],'必背'),
+
+  X('security','NLTK真实案例','CVE-2026-12615 中临时文件为什么会在异常后残留？','资源释放位于可能抛异常的操作之后，却没有由 finally 或资源所有权抽象兜底；正常路径测试通过，并不能证明异常路径安全。',[
+    '旧路径大致是“创建并写入临时文件 → 调用 Java → 解码输出 → unlink”；其中 Java 启动、communicate、输出解码任一步失败，都可能跳过最后的 unlink。',
+    '<code>NamedTemporaryFile(delete=False)</code> 是为 Windows 兼容和把文件名传给 Java 所需；真正缺陷是外部资源生命周期没有覆盖所有退出路径。',
+    '文件句柄在 <code>with</code> 退出时会关闭，但关闭句柄不等于删除目录项，所以明文仍可留在磁盘。',
+    '审计类似代码时应搜索 create/open/mkstemp 与 unlink/remove 的支配关系：清理是否由 finally、context manager 或统一资源对象保证。',
+    '验证应在临时文件已经成功写入后注入 Java 异常，再断言路径不存在；只在创建前抛错不能覆盖真实机制。'
+  ],['with 已经关闭文件，为什么还会泄露？','Java 成功但 decode 失败会怎样？','怎样用控制流图发现这一类缺陷？'],NLTK_CASE_SOURCE,'中等',['临时文件','异常路径'],'深挖'),
+
+  X('security','NLTK真实案例','CVE-2026-12615 为什么还包含全局 Java Options 污染？','Wrapper 为一次调用修改模块级 _java_options，调用结束后再恢复；异常会跳过恢复，并发调用还会在无锁的读改写序列中互相覆盖。',[
+    '旧实现先保存 <code>default_options</code>，再调用 <code>config_java(options=self.java_options)</code> 修改进程全局状态，最后依赖正常路径恢复。',
+    '异常场景下局部配置可能永久留在长生命周期进程；请求 B 随后调用 Java 时会继承请求 A 的内存、系统属性或其他 JVM 参数。',
+    '即使补一个 finally 恢复，也没有解决并发：A 保存 G、B 保存 A、A 恢复 G、B 恢复 A，最终状态仍可能错误，这属于共享可变状态设计问题。',
+    '安全属性不仅是机密性，还包括请求隔离和配置完整性；服务端多线程、异步任务或复用 Worker 会放大风险。',
+    '定位这类问题应画出全局变量的读写者、调用生命周期和并发交错，而不是只看单线程 happy path。'
+  ],['只在 finally 中恢复为什么仍不够？','加全局锁能否修复？','哪些 Java 选项可能改变安全边界？'],NLTK_CASE_SOURCE,'困难',['Global State','Concurrency'],'高压'),
+
+  X('security','NLTK真实案例','CVE-2026-12615 的补丁为什么选择 per-call options？','补丁把 Java 参数变成 java() 的关键字级调用参数，使配置随调用传递而不是修改进程全局状态，并用 finally 覆盖临时文件的所有退出路径。',[
+    '<code>java(..., *, options=None)</code> 保持旧调用兼容：未传 options 时仍使用 <code>config_java()</code> 配置的全局默认值。',
+    'Wrapper 改为 <code>java(..., options=self.java_options)</code>，参数只进入本次 subprocess 命令构造，不再写 <code>_java_options</code>。',
+    '关键字专用参数避免旧位置参数调用产生歧义；字符串继续按原语义 split，列表则复制，保持行为兼容。',
+    '临时路径在创建成功后立即保存，unlink 放入 finally；FileNotFoundError 可视作已完成清理。',
+    '这是“消除共享状态 + 保证资源释放”的根因修复，比在多个 Wrapper 周围分别加锁和补恢复更局部、更可组合。'
+  ],['为什么 options 要设计成 keyword-only？','为什么 options=None 仍保留全局默认？','字符串 split 会不会引入参数解析边界？'],NLTK_CASE_SOURCE,'困难',['Root Cause Fix','API兼容'],'必背'),
+
+  X('security','NLTK真实案例','清理临时文件时，原始异常和清理异常应该如何取舍？','当主操作已经失败时应尽量保留原始 Java 异常，同时尝试清理并记录失败；主操作成功而清理失败时，清理失败应显式暴露，避免把敏感文件残留伪装成成功。',[
+    '补丁用 <code>java_succeeded</code> 区分两条路径：Java 成功后 unlink 报 OSError，则重新抛出；Java 已失败时 unlink 再失败，不覆盖主要异常。',
+    '<code>FileNotFoundError</code> 表示目标已经不存在，可安全忽略；其他权限、只读文件系统或占用错误不能一概吞掉。',
+    '生产实现还应对“主异常 + 清理异常”做结构化日志或 exception chaining，否则保留主异常的同时会失去残留文件告警。',
+    '更强设计可将临时文件放在每任务私有目录，设置 0600/最小 ACL，并增加启动时或定时的过期文件清扫作为纵深防御。',
+    '异常优先级本质是可靠性与安全可观测性的权衡，不能简单写一个空 <code>except OSError: pass</code>。'
+  ],['finally 中抛异常为什么危险？','怎样同时保留两个异常？','定时清理能否替代正确的 finally？'],NLTK_CASE_SOURCE,'困难',['Cleanup Semantics','Error Handling'],'深挖'),
+
+  X('security','NLTK真实案例','CVE-2026-12615 应怎样设计回归测试？','测试要在资源已经创建且包含敏感内容后注入外部调用失败，同时断言文件删除、全局配置未变、per-call 参数正确，并覆盖清理本身失败时的异常优先级。',[
+    '用 monkeypatch 替换 <code>java()</code>：从命令参数读取临时路径，确认其中确实是 secret text，然后主动抛出 OSError。',
+    '异常返回后断言路径不存在，证明覆盖的是“已落盘后失败”而不是无关的初始化失败。',
+    '将全局 <code>_java_options</code> 固定为 GLOBAL，本次传 LOCAL；FakePopen 捕获最终 argv，并断言全局值保持不变。',
+    '分别覆盖 Tokenizer、Parser、Tagger、Segmenter，因为它们的临时文件构造和 Java 调用路径并不完全相同。',
+    '额外注入 unlink 的 PermissionError：Java 成功时应让测试失败，Java 失败时则应保持原始 Java 异常，从而锁定错误语义。'
+  ],['为什么不能只测试一个 Wrapper？','Mock 过多会不会偏离真实行为？','还需要什么集成测试？'],NLTK_CASE_SOURCE,'困难',['Pytest','Fault Injection'],'高压'),
+
+  X('security','NLTK真实案例','NLTK PR #3684 的 ReDoS 完整攻击链是什么？','不可信 Alpino 格式文件进入 AlpinoCorpusReader，公开读取 API 调用 _normalize；旧正则在含早期锚点但缺少尾部字面量的超长 node 行上发生二次回溯，可长期占用 CPU。',[
+    '<strong>Source：</strong>用户上传、数据处理流水线或服务端读取的不可信 Alpino XML-like corpus。',
+    '<strong>Reachability：</strong><code>words()</code>、<code>tagged_words()</code>、<code>tagged_sents()</code> 和 <code>parsed_sents()</code> 都可到达 <code>AlpinoCorpusReader._normalize()</code>。',
+    '<strong>Mechanism：</strong>多个 lazy <code>.*?</code> 依次寻找 <code>begin</code>、<code>pos</code>、<code>word</code> 和 <code>/&gt;</code>；接近匹配但最终失败时，前面的组会不断重新分配边界。',
+    '<strong>Impact：</strong>单个恶意长行即可把同步解析线程或 Worker 的一个 CPU 核心占住数秒到数分钟，造成吞吐下降、队列堆积和拒绝服务。',
+    '<strong>边界：</strong>这是 CWE-1333 算法复杂度问题；需要应用处理攻击者可控语料，不能仅凭库中存在正则就声称所有 NLTK 用户受影响。'
+  ],['为什么合法 XML 限制不一定能挡住？','哪些 API 走 ordered=True？','单核占用如何放大为服务级 DoS？'],NLTK_CASE_SOURCE,'中等',['ReDoS','CWE-1333'],'必背'),
+
+  X('security','NLTK真实案例','PR #3684 的旧正则为什么是 O(n²)，而不是笼统说“灾难性回溯”？','第一个 lazy wildcard 有 O(n) 个候选停止位置，每个候选又会驱动后续 wildcard 对剩余 O(n) 文本寻找不存在的字面量，因此总扫描量呈平方增长。',[
+    '以 ordered 路径为例，模式依次要求 <code>begin="数字"</code>、<code>pos="单词"</code>、<code>word="..."</code> 和自闭合结尾。',
+    '攻击行保留 <code>&lt;node begin="1"</code> 和大量 <code>pos="a"</code>，但故意不提供 <code>word="</code> 或 <code>/&gt;</code>，让失败尽可能晚发生。',
+    '回溯引擎会尝试不同的 wildcard 切分位置；外层候选数量与每次向后扫描长度都随 n 增长，所以 T(2n) 约为 4T(n)。',
+    '这里证据显示的是二次复杂度，不应误写成指数复杂度；准确描述增长阶比使用“正则炸弹”标签更有说服力。',
+    '分析方法是先找可变长度、可重叠的回溯区域，再寻找缺失尾锚点的 near-miss 输入，并通过倍增实验验证复杂度。'
+  ],['怎样从耗时数据判断 O(n²)？','lazy 是否天然比 greedy 安全？','Python re 有正则超时吗？'],NLTK_CASE_SOURCE,'困难',['Regex Complexity','Big-O'],'高压'),
+
+  X('security','NLTK真实案例','怎样为 PR #3684 构造有说服力且可控的 ReDoS 证据？','构造只包含一个超长 node 行的最小语料，保留早期锚点并删除最终必需字段；按 500、1000、2000、4000 等规模倍增，观察输入翻倍时耗时约四倍。',[
+    'PoC 要经过公开 <code>words()</code> 等入口，而不是只对孤立正则调用 <code>re.sub</code>，从而证明真实可达性。',
+    '最小恶意体可由 <code>pos="a" </code> 重复 K 次构成，并缺少 <code>word</code> 与自闭合尾部；避免加入无关嵌套或巨大文件。',
+    '使用 <code>time.perf_counter()</code>、独立进程、固定 Python/CPU 环境和多次采样；小规模用于拟合，避免在本机直接跑危险的大规模旧实现。',
+    'PR 数据中 K 从 1000 到 2000、4000 时约从 0.033s 到 0.132s、0.527s，符合平方增长；修复后 200000 级输入约为线性毫秒/百毫秒量级。',
+    '报告同时给正常样本结果，排除“通过拒绝所有输入获得性能”的伪修复。'
+  ],['为什么使用 near-miss 输入？','Benchmark 怎样避免噪声？','PoC 多大才足以证明影响？'],NLTK_CASE_SOURCE,'困难',['PoC设计','性能测量'],'深挖'),
+
+  X('security','NLTK真实案例','PR #3684 如何把解析复杂度降为线性？','补丁不再用多个通配组跨行反复试探，而是先用行锚定、排除字符类一次截取单个 node 标签，再用简单属性正则提取键值并显式构造 s-expression。',[
+    '<code>ALPINO_NODE</code> 使用 <code>^</code>、MULTILINE 和 <code>[^&gt;\\n]*?</code>，把匹配严格限制在单个标签、单行和第一个结束符之前。',
+    '<code>ALPINO_ATTR.findall()</code> 对标签主体做单次属性扫描，再转成字典读取 begin、pos、word、cat。',
+    '叶子节点根据 ordered 模式生成 <code>(begin pos word)</code> 或 <code>(pos word)</code>；类别节点生成 <code>(cat</code>，后续旧流程继续闭合树。',
+    '扫描标签 O(n)，扫描属性 O(n)，字典读取近似 O(1)，串联后仍是 O(n)；没有多个可重叠 wildcard 的组合回溯。',
+    '安全修复的关键不是简单把 lazy 改成 greedy，而是收紧语法边界并把“找结构”转换为确定性解析步骤。'
+  ],['为什么 greedy 替换不可靠？','这里为何没有直接使用 XML Parser？','属性顺序变化还能解析吗？'],NLTK_CASE_SOURCE,'困难',['Linear Parsing','Secure Fix'],'必背'),
+
+  X('security','NLTK真实案例','PR #3684 怎样保证性能修复没有改变原有语义？','补丁显式保留旧正则对字段形状的约束，并对四个公开读取接口做结果一致性测试；格式不合法的节点仍保持未转换或被后续逻辑忽略。',[
+    '旧模式要求 <code>begin</code> 为数字、<code>pos/cat</code> 满足 <code>\\w+</code>、word 非空；新实现用 fullmatch 重新施加相同条件。',
+    '普通样本同时验证 words、tagged_words、tagged_sents、parsed_sents，防止只保住一个入口。',
+    'ordered=True 依赖 begin 排序；若错误接受非数字 begin，会让后续排序标签匹配失败并改变结果，因此兼容约束属于正确性边界。',
+    '缺少 pos/word 的叶节点继续不产生词项；非数字 begin 或含连字符的 pos 也维持旧行为。',
+    '面试中应把“安全属性改善”和“行为保持”并列：修复既要阻断复杂度攻击，也要证明正常语料输出没有回归。'
+  ],['安全修复为什么容易引入兼容性问题？','属性重复时 dict 会怎样？','byte-for-byte 一致需要如何验证？'],NLTK_CASE_SOURCE,'困难',['Regression','Behavior Preservation'],'深挖'),
+
+  X('security','NLTK真实案例','ReDoS 的 CI 回归测试为什么要放到独立进程并设置硬截止时间？','性能退化可能无限拖慢整个测试进程；独立 spawned process 可被父进程在 deadline 后终止，把复杂度回归转化为确定失败并避免卡死 CI。',[
+    '测试生成 200000 次属性重复的输入；线性实现应快速完成，而二次旧实现会远超 30 秒阈值。',
+    '父进程 <code>join(30)</code>，仍存活则 terminate 并失败；子进程异常用独立退出码和 traceback 区分“算法超时”与普通功能错误。',
+    '使用 spawn 而不是依赖 fork 的继承状态，使测试在不同平台和 CI 环境更接近干净启动。',
+    '硬时间阈值不是精确性能 Benchmark，而是留出数量级差距的复杂度哨兵；阈值应远高于线性实现正常波动。',
+    '更严格的持续验证还可加入倍增比率测试、静态正则检查和 Parser 输入长度/任务 CPU 限制。'
+  ],['时间型测试为什么容易 flaky？','为什么 30 秒阈值仍有价值？','进程被 kill 后临时文件如何清理？'],NLTK_CASE_SOURCE,'困难',['CI Guard','Process Isolation'],'高压'),
+
+  X('security','NLTK真实案例','两个 NLTK 案例分别体现了哪些通用源码审计思路？','CVE-2026-12615 是异常路径资源生命周期与共享可变状态问题；PR #3684 是不可信 Parser 的算法复杂度问题，两者都需要从真实入口、失败条件、可观测证据和边界保持修复形成闭环。',[
+    '<strong>入口：</strong>先从公开 API 和实际服务用法证明不可信输入可达，不因看到危险代码就跳到影响。',
+    '<strong>机制：</strong>前者画控制流和异常边；后者画正则状态空间与输入规模—耗时增长，选择与机制匹配的分析工具。',
+    '<strong>证据：</strong>前者做故障注入并检查磁盘/全局状态；后者做最小 near-miss、倍增实验和独立进程 deadline。',
+    '<strong>修复：</strong>前者把配置变成 per-call 值并统一 finally；后者把歧义回溯改成边界明确的线性扫描。',
+    '<strong>验证：</strong>同时覆盖正向行为、异常/恶意输入、兼容性和错误语义，避免只证明 PoC 不再触发。',
+    '<strong>面试表达：</strong>按 Source → Reachability → Mechanism → Evidence → Impact Boundary → Root-cause Fix → Regression Test 讲，不把公开案例计作未经证实的个人独立发现。'
+  ],['如果交给 Agent，应分别提供哪些工具？','Fresh Reviewer 应检查哪些过度主张？','这两个案例怎样设计消融实验？'],NLTK_CASE_SOURCE,'困难',['Case Study','审计方法'],'必背')
+);
+
+SECURITY_TARGET_FAMILIES.push({
+  id:'cases',order:'13',title:'Real-world Vulnerability Cases',
+  desc:'沿真实上游补丁复盘入口、根因、证据、修复边界与回归测试。',
+  subs:['NLTK真实案例']
+});
+;
 /* 面经与学习资料导航。只保存来源元数据，不复制无明确许可证的正文或图片。 */
 const INTERVIEW_SOURCE_GROUPS = [
   {id:'experience',name:'真实面经',desc:'观察最近岗位在问什么，用来校准复习优先级'},
