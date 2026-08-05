@@ -786,7 +786,7 @@ const JOB_SPRINTS = [
     sources:[{name:'百度校园招聘',url:'https://talent.baidu.com/jobs/list?recommendCode=IS3TJS'}],
     phases:[
       {id:'pitch',order:'01',title:'自我介绍与岗位转换',level:'S',desc:'先让面试官相信安全研究能力可以迁移到AI质量平台。',queries:['安全研究背景为什么适合','测试开发与普通开发','讲一个落地过的 Agent 项目']},
-      {id:'project',order:'02',title:'两个项目深挖',level:'S·高压',desc:'先讲清Harness/AV问题主线，再掌握国防项目的LightRAG、Neo4j、Planner–Actor、MCP与异常重规划。',queries:['不要堆术语','项目里遇到的一个真实问题','Workflow-Harness 和 Agent Skill','基于知识图谱与 MCP','漏洞链知识图谱','同时索引文本块','Planner–Actor、MCP','当前严格实验结果']},
+      {id:'project',order:'02',title:'两个项目深挖',level:'S·高压',desc:'逐条覆盖最新简历：目标自适应、证据行动、Harness边界，以及LightRAG、Planner–Actor、MCP和动态重规划。',queries:['不要堆术语','目标自适应','为什么要显式维护目标认知','怎样在源码追踪','Harness 中的预算','两个 Agent 项目','基于知识图谱与 MCP','漏洞链知识图谱','同时索引文本块','Planner–Actor、MCP','当前严格实验结果']},
       {id:'testing',order:'03',title:'传统软件测试',level:'S',desc:'测试流程、黑盒方法、登录/搜索、覆盖、回归与质量判断。',queries:['软件测试的完整流程','等价类、边界值','如何系统测试登录','如何测试搜索框','单元、集成、系统','回归测试范围','测试左移','严重程度','测试是否充分','MC/DC']},
       {id:'automation',order:'04',title:'Pytest 与自动化框架',level:'S/A',desc:'Fixture、参数化、Mock、模型API、接口/UI与脚本自愈。',queries:['Pytest fixture','Pytest 参数化','Mock 的价值','依赖外部模型API','接口自动化框架','UI 自动化为什么','脚本自愈']},
       {id:'llmeval',order:'05',title:'LLM / RAG 评测',level:'S·高压',desc:'非确定输出、Benchmark、幻觉、多轮、升级回归和污染。',queries:['大模型输出非确定','大模型评测指标','建设可持续的大模型 Benchmark','评估模型幻觉','测试多轮对话','模型升级后','降低 Benchmark 污染','怎样用数据证明 RAG']},
@@ -802,10 +802,10 @@ const JOB_SPRINTS = [
     summary:'既回答“怎样用Agent做安全”，也回答“怎样保护Agent”，同时守住真实结果与方法因果证据的边界。',
     sources:[{name:'阿里星',url:'https://campus-talent.alibaba.com/campus/alistar?lang=zh'},{name:'OWASP Agentic',url:'https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/'},{name:'OWASP Agent Security Cheat Sheet',url:'https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html'}],
     phases:[
-      {id:'talent',order:'01',title:'人才计划与原创贡献',level:'S·高压',desc:'一个核心贡献、方法/工程/应用边界、强模型与论文追问。',queries:['为什么认为自己适合阿里星','讲一个落地过的 Agent 项目','当前版本的 AdaptiveVuls','AdaptiveVuls 是否过拟合']},
+      {id:'talent',order:'01',title:'人才计划与原创贡献',level:'S·高压',desc:'一个核心贡献、两个项目技术路线、方法/工程/应用边界、强模型与论文追问。',queries:['为什么认为自己适合阿里星','讲一个落地过的 Agent 项目','两个 Agent 项目','当前版本的 AdaptiveVuls','AdaptiveVuls 是否过拟合']},
       {id:'research',order:'02',title:'AV研究与严格实验',level:'高压',desc:'构念、失败分类、负面结果、Fresh公平预算、严格结论和路线图。',queries:['调查状态—下一行动错配','不能声称四类失败','可能降低Agent哪些能力','Fresh Review收益','当前严格实验结果','给六个月和一个团队']},
-      {id:'traditional',order:'03',title:'传统应用与系统安全',level:'S',desc:'认证授权、注入、SSRF、文件/反序列化、内存安全和容器。',queries:['Authentication、Authorization','BOLA','SQL 注入','SSRF','路径遍历','Java 原生反序列化','Use-After-Free','容器安全应']},
-      {id:'agentcore',order:'04',title:'Agent架构与协议',level:'S',desc:'LLM/Agent/Coding Agent/Harness、ReAct、多Agent、MCP/A2A和Skill。',queries:['LLM、Agent、Coding Agent','ReAct、Planner-Executor','A2A 与 MCP','Agent Skill 与 Tool','多 Agent 上下文爆炸']},
+      {id:'traditional',order:'03',title:'传统应用与系统安全',level:'S',desc:'补齐简历中的程序分析、动态验证与PoC，再进入认证授权、注入、内存安全和容器。',queries:['控制流分析和数据流分析','高质量漏洞 PoC','Authentication、Authorization','BOLA','SQL 注入','SSRF','路径遍历','Java 原生反序列化','Use-After-Free','容器安全应']},
+      {id:'agentcore',order:'04',title:'Agent架构与协议',level:'S',desc:'LLM/Agent/Coding Agent/Harness、Memory/Skill/RAG、ReAct、多Agent和MCP/A2A。',queries:['LLM、Agent、Coding Agent','Agent Memory、Skill','ReAct、Planner-Executor','A2A 与 MCP','Agent Skill 与 Tool','多 Agent 上下文爆炸']},
       {id:'injection',order:'05',title:'Prompt / Tool 劫持',level:'S·高压',desc:'直接/间接注入、恶意仓库、Excessive Agency、Confused Deputy和工具策略。',queries:['间接 Prompt Injection','企业 Agent 怎样分层','Excessive Agency','Confused Deputy','敏感工具白名单','Tool Calling 怎样做参数校验']},
       {id:'memory',order:'06',title:'Memory / RAG / 多Agent安全',level:'S',desc:'记忆投毒、跨租户向量、权限过滤、共享状态和Agent身份。',queries:['Memory Poisoning','Vector/Embedding Store','长期记忆怎样更新','多 Agent 错误回答','Agent 身份与 Delegation']},
       {id:'sandbox',order:'07',title:'Sandbox 与 Harness安全',level:'S·高压',desc:'容器/microVM、PoC隔离、Shell、Workspace、Session、Adapter和状态提交。',queries:['代码执行 Agent 的 Sandbox','容器安全应','系统保护Workflow-Harness','自托管 CI Runner']},
@@ -815,6 +815,19 @@ const JOB_SPRINTS = [
     ]
   }
 ];
+
+/* 最新简历逐条深挖：对应 PDF 中最容易被面试官圈出的关键词。放在文件末尾，避免改变既有题目 ID。 */
+QUESTIONS.push(
+  X('adaptivevuls','项目定位','“目标自适应”具体自适应在哪里？','不是训练一个会自动变化的模型，而是让调查内容和下一步动作随当前目标的架构、攻击面、信任边界以及新证据持续调整。',['开始时恢复目标角色、入口、资产、敏感能力、默认配置和边界，通用漏洞经验只有映射到这些目标关系后才形成调查方向。','调查中如果证据改变了攻击者、根因、可达路径、影响或责任，就收窄、修订或拆分候选，并更新当前最关键的未知。','下一步不是固定“扫描→PoC→报告”，而是在源码追踪、静态关系分析、运行时重放、对照实验和Fuzzing中选择最能区分当前解释的动作。'],['它和普通规则扫描有什么区别？','自适应是否由模型自己决定？','怎样证明自适应真的有效？'],'最新简历中的“目标自适应”首先这样回答，再按需展开Target Cognition、Case和Evidence。','中等',['最新简历','目标自适应','项目深挖'],'必背'),
+  X('adaptivevuls','状态管理','为什么要显式维护目标认知、调查方向、漏洞候选、证据缺口和结论状态？','它们分别回答“目标是什么、查哪里、怀疑什么、还缺什么、当前能下什么结论”，能让长任务恢复、交接和复核，而不是把全部事实藏在聊天历史里。',['自然语言会话容易截断、压缩和混入未经验证的推测；显式对象可绑定目标版本、来源、Artifact、状态版本和未决问题。','不同对象承担不同职责：方向保持高召回，候选要求明确机制与条件，证据缺口驱动下一动作，结论状态限制报告或负面关闭。','结构化不等于正确：Agent只能提交提案，关键证据仍需原始产物、Fresh复核和Runtime一致性校验。'],['这是不是把Prompt换成JSON？','字段越多是否越可靠？','Session丢失后怎样恢复？'],'对应最新简历第一项目的五个显式对象，也是解释Harness价值的核心。','中等',['最新简历','显式状态','Agent State'],'必背'),
+  X('adaptivevuls','证据行动','怎样在源码追踪、静态关系分析、运行时重放、对照实验和 Fuzzing 之间选择？','先看当前最影响结论的证据缺口，再选择能以最低歧义回答它的方法；工具类型不是固定阶段，也不是越多越好。',['缺调用路径或输入传播时先做源码追踪、CFG/数据流或调用关系分析；缺真实行为时做运行时重放和日志观测。','需要区分漏洞机制与正常解释时设计正负对照，只改变一个关键变量；输入空间巨大且有稳定Oracle时再用Fuzzing扩大搜索。','环境未就绪先修复环境，权限/边界未知先核对入口和契约；每次行动都应说明预期Artifact和什么结果会支持或反驳当前假设。'],['静态分析能否替代动态验证？','什么时候不适合Fuzzing？','一次PoC成功后还要做什么？'],'把简历中列出的多种调查方式组织成“证据缺口→方法→Artifact”，避免像工具清单。','困难',['最新简历','Evidence Gap','动态验证'],'高压'),
+  X('harness','预算边界','Workflow-Harness 中的预算管理，与 AdaptiveVuls 不暴露内部科学预算是否矛盾？','不矛盾：Harness需要记录和限制墙钟、Token、进程与资源，保障公平和可运维；AV只是不让Investigator根据“还剩多少预算”改变安全结论。',['运行层必须有超时、Token/调用统计、并发和资源上限，防失控并支持实验成本对比；外部边界到达时保存状态并标记operational interruption。','科学Packet不提供剩余时间、轮数或预设处置，避免Agent为了赶截止时间把blocked写成refuted，或在证据不足时强行报告。','上下文窗口轮换属于容量保护；它可以触发压缩和Session轮换，但不能自动改变漏洞候选的证据状态。'],['没有max steps怎样防死循环？','时间到达后候选是什么状态？','预算匹配怎样做公平实验？'],'这是最新PDF与V1.43最容易被认为矛盾的一点，必须主动区分运行控制和科学判断。','困难',['最新简历','Harness Budget','V1.43'],'高压'),
+  X('agent','求职表达','两个 Agent 项目的技术路线有什么区别和联系？','国防项目是从知识、Planner–Actor、MCP工具和状态机搭建领域Agent；主项目则复用成熟Coding Agent作为Runner，在外部用Harness和证据机制治理长程漏洞调查。',['第二项目的模型级循环由业务Agent架构拥有：LightRAG/Neo4j提供漏洞链知识，Planner规划，Actor通过MCP执行，状态机根据结果重规划。','第一项目不重新实现代码搜索、Shell和编辑循环；Codex等完整Agent负责仓库操作，Workflow-Harness负责Session、Workspace、Artifact、恢复和审计，AdaptiveVuls负责安全调查语义。','共同点是都把知识/状态、工具契约、执行反馈和异常恢复显式化；区别在被编排单元、控制粒度和业务目标。'],['为什么主项目不用Planner–Actor重写？','MCP能否接入Workflow-Harness？','哪个项目更像传统Agent应用？'],'这道题能把两个项目串成一条能力主线，而不是两段互不相关经历。','中等',['最新简历','两个项目','技术路线'],'必背'),
+  X('agent','MCP','国防项目为什么使用 MCP，而不是直接在代码里调用所有工具？','MCP把扫描器、利用脚本和环境操作统一成可发现、可校验的Tool Schema，降低Planner/Actor与异构实现的耦合，并统一结果和错误语义。',['每个Tool声明名称、描述、输入Schema和结果Envelope，Host负责连接、超时、参数校验、权限和审计，模型只提出调用意图。','替换底层脚本、远端服务或运行环境时，高层规划依赖稳定契约而不是命令行细节；Error Log也能以统一结构进入状态机。','工具很少、仅本进程且不会复用时，普通函数调用更简单；MCP不是为了“用了协议”，也不会自动解决权限、安全和业务正确性。'],['MCP和Function Calling是什么关系？','MCP Server失败怎么办？','Tool Schema能防命令注入吗？'],'回答时连接最新简历中的“降低高层规划与底层异构工具耦合”。','中等',['最新简历','MCP','Tool Schema'],'必背'),
+  X('agent','Memory工程','简历中的 Agent Memory、Skill、RAG 和 Harness 分别解决什么？','Memory保存跨步经历或状态，Skill封装可复用做法，RAG提供外部事实，Harness在Agent外部强制执行顺序、会话、资源、交接和恢复。',['Memory可分当前工作记忆、历史经历和结构化状态；写入前要校验来源、作用域、时效和用户隔离，避免错误长期污染。','Skill像操作手册，可包含步骤、脚本和模板，但不会自动获得Tool权限，也不能保证Agent一定正确执行。','RAG回答“当前需要哪些外部知识”；Harness回答“系统下一步调用谁、是否Resume/Fresh、结果怎样验收”，四者可以组合但不能互相替代。'],['长期Memory和Canonical State一样吗？','Skill过时怎么办？','RAG结果能直接写入Memory吗？'],'四个词都出现在最新简历或项目描述中，面试时要能一句话区分。','简单',['最新简历','Agent Memory','Skill','RAG'],'必背'),
+  X('security','程序分析','控制流分析和数据流分析分别解决什么，为什么漏洞分析通常两者都要？','控制流回答程序可能按什么顺序和条件执行，数据流回答某个值从哪里来、怎样传播到哪里；漏洞成立通常同时需要危险值可传播且危险路径可执行。',['CFG由基本块和跳转边组成，用于可达性、分支、循环和支配关系；调用图补充跨函数控制转移，但动态分派和反射会造成不完整。','数据流定义Source、Sink、传播与Sanitizer，污点分析关注不可信影响而不要求值完全相同；别名、字段、容器和异步持久化增加难度。','静态结果只生成候选，还要结合路径约束、默认配置、认证授权和动态实验验证真实可达性与影响。'],['CFG和调用图有什么区别？','污点分析为什么误报高？','隐式流怎么处理？'],'直接对应最新简历的“控制流/数据流分析”，不要只会说使用过某个扫描器。','中等',['最新简历','控制流','数据流'],'必背'),
+  X('security','漏洞分析','怎样构造一个高质量漏洞 PoC 和动态验证包？','先用最小输入稳定证明目标机制，再补正负对照、环境与版本、完整命令日志、攻击者入口和影响边界，使他人能够独立复现。',['PoC记录目标commit/版本、依赖、配置、启动方式、请求或输入、预期/实际结果和原始日志；脚本默认无破坏并限制目标范围。','正例触发机制，负例只改变一个关键条件；修复前后差分验证能证明补丁阻断漏洞且正常路径不回归。','区分代码位置、PoC草稿、局部机制复现、真实入口复现和完整安全影响；Crash或一次成功不自动等于可利用漏洞。'],['PoC和Exploit有什么区别？','无法在真实环境复现怎么办？','怎样证明不是环境偶然现象？'],'对应最新简历的“动态验证、漏洞复现与PoC构造”，也是Fresh Reviewer读取的核心Artifact。','中等',['最新简历','PoC','动态验证'],'必背')
+);
 ;
 /* 独立漏洞复盘页数据。公开案例与本地审计案例分开标注，不进入题库计数。 */
 const VULNERABILITY_CASES = [
