@@ -89,10 +89,10 @@ const QUESTIONS = [
 const RESUME = {
   name:'游洋', title:'安全智能体与平台研发', location:'北京', phone:'188-8145-1641', email:'1787246528@qq.com',
   positioning:'北京邮电大学网络安全方向硕士，聚焦大模型智能体、自动化漏洞研究与 Coding Agent 工作流编排。',
-  skills:['LLM Agent','MCP','Function Calling','RAG','Prompt 工程','Harness 工程','Python','C/C++','Java','Linux/Shell','Docker','CodeQL','Joern','AST / 数据流分析','AFL++'],
+  skills:['LLM Agent','MCP','Function Calling','LightRAG','Neo4j','RAG','Prompt 工程','Harness 工程','Python','C/C++','Java','Linux/Shell','Docker','CodeQL','Joern','AST / 数据流分析','AFL++'],
   experience:[
     {date:'2025.09 — 至今', org:'奇安信 · 校企联培', role:'基于大模型智能体的目标自适应漏洞挖掘方法研究', detail:'实现通用 Workflow-Harness，并设计“持续调查—证据复核—状态更新—重新规划”闭环；在 9 个真实系统中产出 21 个安全发现，11 个获厂商确认修复，获得 1 个 CVE 和 3 个 CNVD。'},
-    {date:'2024.12 — 2025.12', org:'国防科研项目', role:'基于大模型的自动化分析技术', detail:'Planner-Actor 架构、MCP 契约化编排、RAG/知识图谱与异常重规划。'},
+    {date:'2024.12 — 2025.12', org:'国防科研项目', role:'基于知识图谱与 MCP 的自主漏洞利用智能体', detail:'基于CWE、CVE等安全数据，使用LightRAG与Neo4j构建漏洞链知识图谱和文本/实体/关系混合索引；以Planner–Actor解耦路径规划与MCP工具执行，通过状态机和Error Log触发参数调整、工具替换与攻击路径重规划。项目通过验收，完成目标环境下无人工干预的长链路漏洞利用闭环。'},
     {date:'2023.07 — 2023.09', org:'华为技术有限公司', role:'通用软件开发工程师（实习）', detail:'参与 ICT 产品线 VRP 系统维护，理解 OSPF、BGP 与 MPLS 业务模型。'},
     {date:'2023.04 — 2023.06', org:'标贝（北京）科技有限公司', role:'数据处理实习生', detail:'C++ 开发异构语言 TN 引擎，通过正则与自动化脚本将清洗准确率从 40% 提升至 95%。'}
   ],
@@ -754,7 +754,11 @@ QUESTIONS.push(
   X('agent','百度一面复盘','怎样公平测试 Bare Agent、Skill 和 Harness 的效果？','设置 Bare、同模型加Skill、同知识加Harness三组，控制目标、模型、工具和总预算，多次重复；同时比较最终结果、过程错误和单位成本。',['T1只给任务目标；T2增加同一份领域Skill；T3使用相同知识，但由Harness管理显式状态、Session、Artifact、分支和复核，避免把更多知识误当成Harness收益。','匹配Token、墙钟或模型调用预算，固定目标版本、工具权限和环境快照；使用多随机种子与盲审，报告置信区间而非只挑最好一次。','最终看任务成功、验证后的发现、错误结论；过程看过早终止、重复动作、失败后错误关闭、证据交接；效率看Token、步骤、延迟，并对Fresh Review、显式状态、Resume做消融。'],['Harness多一次Reviewer是否天然不公平？','没有完整Ground Truth怎么办？','应该选Token还是墙钟做预算？'],'核心不是“谁找到漏洞多”，而是相同资源下谁更正确、可恢复、可复核。','困难',['百度测开','真实面经','Agent Eval','Ablation'],'高压'),
   X('agent','百度一面复盘','Agent 依赖人提供的经验，但经验本身是错的，系统怎么办？','经验只负责提出问题和调整调查优先级，当前目标的源码、配置和运行证据负责回答问题；错误经验不能直接改变事实状态、形成结论或触发高风险动作。',['每条经验保存来源、适用语言/版本、成立前提、已知反例、置信度和更新时间；例如“pickle可能RCE”还必须验证输入可控、路径可达、信任边界和真实影响。','证据优先级可设为当前目标运行结果与源码配置高于官方文档，高于历史案例与模型记忆；冲突时收窄、降权或否定经验在当前目标的适用性。','Fresh Reviewer检查竞争解释，经验库记录命中与失败案例并持续修订；工具侧仍执行最小权限、Sandbox和审批，防错误经验直接驱动危险命令。'],['谁有权修改经验库？','错误经验已经写入长期Memory怎么办？','Fresh Reviewer也相信同一经验怎么办？'],'记住一句话：经验负责提出问题，目标证据负责回答问题。','困难',['百度测开','真实面经','错误经验','Memory Poisoning'],'高压'),
   X('agent','百度一面复盘','面试中被问“怎么测试 Agent 效果”，怎样先给一个简单完整的回答？','先按最终效果、过程正确性、鲁棒性、效率和安全性五个维度回答，再补固定版本、多次运行和Trace归因，足以覆盖简单追问。',['最终效果：任务是否完成、答案和环境最终状态是否正确；过程正确性：工具、参数、结果理解、重复调用和终止是否合理。','鲁棒性：注入模型超时、429、工具失败、非法JSON、Session丢失和部分副作用，检查重试、恢复、降级或安全停止。','效率与安全：统计Token、步骤、延迟、成本、越权和敏感数据；冻结模型/Prompt/工具/数据版本，多次运行统计成功率并保存完整Trace。'],['非确定输出怎么断言？','最终结果对但过程越权算成功吗？','哪些故障最值得优先注入？'],'简单问题先回答五维框架，不必一上来展开完整评测平台。','简单',['百度测开','真实面经','Agent测试','五维评测'],'必背'),
-  X('agent','百度一面复盘','怎样用四句话介绍 GraphRAG 项目，并回答为什么不用普通 RAG？','先说知识来源和目标，再说离线构图与索引、在线混合检索，最后说明图谱解决多跳关系而向量检索解决语义入口，且图中结论仍要可追溯。',['口述示例：系统面向漏洞利用分析，把CVE、CWE和利用文档切成Chunk，用Embedding建立文本/实体/关系索引，同时由LLM抽取实体关系，去重后写入Neo4j。','查询时既可做普通Chunk向量检索，也可先找到相关实体或关系，再沿图扩展CVE、CWE、产品、攻击条件与相似案例。','普通RAG擅长找描述相似文本，但不稳定处理多跳关系；GraphRAG用向量解决“从哪里进入图”，用图关系解决“进入后怎样扩展”，最终引用仍回到原始文档。'],['LLM抽错实体关系怎么办？','图谱如何增量更新？','怎样评估GraphRAG确实更好？'],'这套表达只用于你真实参与的知识图谱/RAG项目，具体数据库和个人职责以简历为准。','中等',['百度测开','真实面经','GraphRAG','项目表达'],'必背'),
+  X('agent','百度一面复盘','怎样用四句话介绍基于 LightRAG 的知识图谱项目？','先说任务目标，再说 LightRAG 离线构图、向量与图混合检索，最后说明知识怎样交给 Planner；必须明确这里使用的是 LightRAG，不是 Microsoft GraphRAG。',['口述示例：系统面向复杂网络环境中的长链路漏洞利用任务，知识侧使用CWE、CVE等权威安全数据，并预先设计十类安全实体约束。','LightRAG将原始文档切成Chunk，由LLM抽取实体、属性和关系，经过实体去重、关系合并和描述更新后写入Neo4j；同时为原始文本块、实体描述和关系描述建立向量索引。','查询时融合语义检索与图关系查询，补充攻击者、攻击模式、先决条件、漏洞弱点、目标资产、利用工具、攻击技术和后置影响等关联知识，再作为可追溯上下文提供给Planner。'],['为什么不是Microsoft GraphRAG？','十类实体约束解决什么？','LLM抽错实体关系怎么办？'],'这是第二项目知识模块的推荐口径；不要再笼统称为Microsoft GraphRAG或只说“接了向量库”。','简单',['百度测开','真实面经','LightRAG','Neo4j','项目表达'],'必背'),
+  X('agent','国防项目','请用一分钟介绍“基于知识图谱与 MCP 的自主漏洞利用智能体”。','这是面向复杂网络环境长链路漏洞利用任务的Planner–Actor智能体：用漏洞知识图谱辅助规划，用MCP统一异构工具，用状态机根据执行反馈持续推进或重规划。',['背景与目标：单个扫描器或脚本只能完成局部步骤，系统需要根据目标状态完成多阶段漏洞利用规划与执行，并在某一步失败后继续寻找可行路径。','完整链路：CWE/CVE知识经LightRAG与Neo4j形成知识图谱和混合索引→Planner结合目标状态与知识生成攻击路径→Actor通过MCP工具执行→结构化结果与Error Log回写状态机→继续、换工具、调参数或重规划。','结果口径：项目通过国防科研项目验收，在目标网络环境中完成无人工干预的多阶段漏洞利用规划与执行，长链路任务成功率和异常恢复能力达到验收要求；不公开未经授权的具体数字。'],['你个人负责哪些模块？','为什么不能只用一个大模型加工具？','一个真实失败是怎样恢复的？'],'面试先讲“目标—四段链路—结果”，再按知识、规划、工具、状态四层展开。','简单',['国防项目','项目介绍','Planner-Actor','MCP'],'必背'),
+  X('agent','国防项目','漏洞链知识图谱从原始文档到 Neo4j 经历哪些步骤？','先约束实体Schema，再由LightRAG完成Chunk与LLM抽取，经过实体归一、关系合并和描述更新后写入Neo4j，同时保留原文来源与向量索引。',['数据源以CWE、CVE等权威安全材料为主；十类实体约束限定允许抽取的安全对象和字段，降低同一概念多种名称、关系方向混乱和无关实体膨胀。','文档切片后抽取实体、属性与关系；实体去重需要名称规范化、别名和上下文判断，关系合并要处理重复边、方向、属性和相互冲突的描述。','图节点和边应保留source/chunk等可追溯信息；原始Chunk、实体描述和关系描述分别建立向量索引，Neo4j承担结构化关系查询。'],['十类实体分别是什么？','实体去重只靠字符串相似度吗？','知识更新时旧描述怎样处理？'],'具体十类Schema若受项目限制，只列能够公开确认的类别，不临场补造剩余名称。','中等',['国防项目','LightRAG','Knowledge Graph','Neo4j'],'高压'),
+  X('agent','国防项目','为什么要同时索引文本块、实体描述和关系描述？','三种索引覆盖不同检索粒度：文本块保留原始语境，实体描述定位安全对象，关系描述召回“对象之间怎样关联”，再用图查询扩展结构化邻域。',['只检索Chunk容易得到文字相似但关系不完整的段落；只检索实体会丢失原文条件和上下文；关系向量能匹配“利用什么弱点影响什么资产”这类自然语言意图。','在线查询可先做语义召回，再依据命中实体/关系进入Neo4j补充关联知识，最后去重、过滤和组织为Planner上下文。','每一路都要独立评测命中率与噪声，并保留来源；图谱抽取结果是索引材料而非绝对事实，关键条件仍回到原始文档核对。'],['三路召回怎样融合？','图查询和向量查询谁先执行？','关系描述由谁生成？'],'回答重点是“文本语境 + 对象定位 + 关系扩展”的互补性，不编造线上权重或TopK。','困难',['国防项目','Hybrid Retrieval','Vector Index','Neo4j'],'深挖'),
+  X('agent','国防项目','Planner–Actor、MCP 与状态机在第二项目中分别负责什么？','Planner决定高层攻击路径，Actor执行具体步骤，MCP统一工具契约，状态机保存目标与任务进度并根据结构化反馈触发继续、调整或重规划。',['Planner读取任务目标、当前状态和检索知识，输出有前置条件、工具需求和预期结果的高层步骤；它不直接拼接Shell命令。','Actor选择并调用MCP化的扫描器、漏洞利用脚本和环境操作；Tool Schema统一参数、结果和错误，使高层规划不绑定底层脚本实现。','状态机接收成功结果和Error Log：参数不合适则调整，工具不可用则替换，路径前提不成立则让Planner重规划，从而避免单步失败直接中断整条链。'],['Planner和Actor能否由同一模型承担？','MCP是不是只做接口包装？','怎样避免无限重规划？'],'四者边界要讲清：知识提供依据，Planner做决策，Actor/MCP执行，状态机拥有可恢复进度。','中等',['国防项目','Planner-Actor','MCP','State Machine'],'必背'),
   X('algorithm','滑动窗口','滑动窗口最大值为什么使用单调双端队列，代码边界怎么处理？','队列保存下标并保持对应值单调递减：队首始终是当前窗口最大值；每个下标最多入队、出队一次，因此时间O(n)、空间O(k)。',['遍历下标i：先移除`deque[0] <= i-k`的过期元素；再从队尾移除所有`nums[deque[-1]] <= nums[i]`的元素；最后把i入队。','当`i >= k-1`时输出`nums[deque[0]]`；保存下标而不是值，才能判断最大值是否已滑出窗口。','明确处理空数组、k<=0、k>len(nums)、k=1、重复最大值；若题目保证1<=k<=n，可说明前置条件后省去异常分支。'],['为什么队尾可以删除比当前值小的元素？','相等元素保留哪个下标？','如何改成滑动窗口最小值？'],'百度AI测开一面真实手撕题；建议独立写出Python版本并手动走`[1,3,-1,-3,5,3,6,7], k=3`。','中等',['百度测开','真实面经','单调队列','Deque'],'必背')
 );
 
@@ -766,7 +770,7 @@ const JOB_SPRINTS = [
     sources:[{name:'百度校园招聘',url:'https://talent.baidu.com/jobs/list?recommendCode=IS3TJS'}],
     phases:[
       {id:'pitch',order:'01',title:'自我介绍与岗位转换',level:'S',desc:'先让面试官相信安全研究能力可以迁移到AI质量平台。',queries:['安全研究背景为什么适合','测试开发与普通开发','讲一个落地过的 Agent 项目']},
-      {id:'project',order:'02',title:'Harness / AV 项目深挖',level:'S·高压',desc:'先复盘真实一面表达，再进入状态证据、Fresh/Resume、失败与结果边界。',queries:['不要堆术语','项目里遇到的一个真实问题','第一次 PoC','Workflow-Harness 和 Agent Skill','当前版本的 AdaptiveVuls','当前严格实验结果']},
+      {id:'project',order:'02',title:'两个项目深挖',level:'S·高压',desc:'先讲清Harness/AV问题主线，再掌握国防项目的LightRAG、Neo4j、Planner–Actor、MCP与异常重规划。',queries:['不要堆术语','项目里遇到的一个真实问题','Workflow-Harness 和 Agent Skill','基于知识图谱与 MCP','漏洞链知识图谱','同时索引文本块','Planner–Actor、MCP','当前严格实验结果']},
       {id:'testing',order:'03',title:'传统软件测试',level:'S',desc:'测试流程、黑盒方法、登录/搜索、覆盖、回归与质量判断。',queries:['软件测试的完整流程','等价类、边界值','如何系统测试登录','如何测试搜索框','单元、集成、系统','回归测试范围','测试左移','严重程度','测试是否充分','MC/DC']},
       {id:'automation',order:'04',title:'Pytest 与自动化框架',level:'S/A',desc:'Fixture、参数化、Mock、模型API、接口/UI与脚本自愈。',queries:['Pytest fixture','Pytest 参数化','Mock 的价值','依赖外部模型API','接口自动化框架','UI 自动化为什么','脚本自愈']},
       {id:'llmeval',order:'05',title:'LLM / RAG 评测',level:'S·高压',desc:'非确定输出、Benchmark、幻觉、多轮、升级回归和污染。',queries:['大模型输出非确定','大模型评测指标','建设可持续的大模型 Benchmark','评估模型幻觉','测试多轮对话','模型升级后','降低 Benchmark 污染','怎样用数据证明 RAG']},
@@ -1121,7 +1125,7 @@ const INTERVIEW_SOURCES = [
 const INTERVIEW_PITCH_GROUPS = [
   {id:'intro',name:'自我介绍',desc:'30 秒、90 秒和 Agent 岗完整版本'},
   {id:'av',name:'核心项目',desc:'Workflow-Harness 与 AdaptiveVuls'},
-  {id:'defense',name:'国防项目',desc:'Planner-Actor、MCP、RAG 与异常重规划'},
+  {id:'defense',name:'国防项目',desc:'LightRAG/Neo4j、Planner–Actor、MCP 与动态重规划'},
   {id:'experience',name:'其他经历',desc:'标贝数据处理与华为 VRP'},
   {id:'fit',name:'岗位匹配',desc:'为什么是 Agent、安全与国产算力方向'},
   {id:'bridge',name:'追问转场',desc:'个人贡献、不会的问题和项目收口'}
@@ -1129,19 +1133,19 @@ const INTERVIEW_PITCH_GROUPS = [
 
 const INTERVIEW_PITCHES = [
   {id:'intro-30',group:'intro',title:'30 秒电梯版',duration:'30 秒',label:'开场极简',when:'面试官只说“简单介绍一下自己”，或群面、HR 面时间较短。',anchors:['北邮硕士','安全 × Agent','两个项目','求职方向'],script:[
-    '面试官您好，我叫游洋，目前是北京邮电大学网络与信息安全方向硕士，本科也是北邮人工智能专业。我的技术主线是安全和 Agent 工程的结合，主要做过两个项目：一个是把 Codex、Claude Code、OpenCode 这类完整 Coding Agent 作为 Runner 的 Workflow-Harness，以及上面的持续漏洞调查方法 AdaptiveVuls；另一个是国防科研项目中的 Planner-Actor、MCP 和 RAG 知识系统。我的优势是既能做 Agent 编排、状态和异常恢复，也有程序分析、漏洞验证和后端工程基础。希望应聘 Agent 工程或安全智能体相关岗位。'
+    '面试官您好，我叫游洋，目前是北京邮电大学网络与信息安全方向硕士，本科也是北邮人工智能专业。我的技术主线是安全和 Agent 工程的结合，主要做过两个项目：一个是把 Codex、Claude Code、OpenCode 这类完整 Coding Agent 作为 Runner 的 Workflow-Harness，以及上面的持续漏洞调查方法 AdaptiveVuls；另一个是国防科研项目中的自主漏洞利用智能体，使用 LightRAG 与 Neo4j 构建漏洞链知识图谱，通过 Planner–Actor、MCP 工具层和状态机完成长链路执行与异常重规划。我的优势是既能做 Agent 编排、状态和异常恢复，也有程序分析、漏洞验证和后端工程基础。希望应聘 Agent 工程或安全智能体相关岗位。'
   ],note:'不要在 30 秒版本里展开成果数字，给面试官留下一个可追问的主线。'},
   {id:'intro-90',group:'intro',title:'90 秒默认版',duration:'90 秒',label:'推荐背熟',when:'技术一面最常用；介绍后自然把话题引到核心项目。',anchors:['教育背景','当前主线','核心项目','第二项目','能力收口'],script:[
     '面试官您好，我叫游洋，目前是北京邮电大学网络与信息安全方向硕士，本科是北邮人工智能专业。我的经历一直围绕两个方向积累：一是 LLM Agent 和 Coding Agent 工程，二是安全分析与自动化验证。',
     '目前我在奇安信校企联培项目中，主要做面向真实开源仓库的漏洞挖掘智能体。我先实现了一套通用 Workflow-Harness，把 Codex、Claude Code、OpenCode 等完整 Coding Agent 作为 Runner 接入，统一管理会话、隔离工作区、运行产物、异常恢复和审计。然后在这个底座上设计 AdaptiveVuls，希望解决开放式漏洞调查里容易丢失上下文、验证不足、结论夸大和重复尝试的问题。它的重点不是多 Agent 数量，而是让 Agent 围绕调查方向持续取证，再由 Fresh Review 限定证据实际支持的结论和下一步行动。',
-    '这项工作在 9 个真实系统中形成了 21 个安全发现，其中 11 个得到厂商确认并修复，获得 1 个 CVE 和 3 个 CNVD。此前我还参与过国防科研项目，做 Planner-Actor、MCP 工具契约、RAG 与知识图谱，以及基于错误日志的状态监控和异常重规划。',
+    '这项工作在 9 个真实系统中形成了 21 个安全发现，其中 11 个得到厂商确认并修复，获得 1 个 CVE 和 3 个 CNVD。此前我还参与过国防科研项目，使用 LightRAG 与 Neo4j 构建漏洞链知识图谱，通过 Planner–Actor、MCP 工具契约和状态机完成无人工干预的长链路漏洞利用规划、执行与异常重规划。',
     '技术上我主要使用 Python、C/C++、Java、Linux 和 Docker，也接触 CodeQL、Joern、AST、数据流分析和 AFL++。我希望继续做需要真正处理状态、工具、可靠性和安全边界的 Agent 工程工作。'
   ],note:'这是默认版本。正常语速约 80–100 秒；不要逐字背，记住四段结构。'},
   {id:'intro-agent',group:'intro',title:'Agent 岗 2 分钟版',duration:'2 分钟',label:'岗位定制',when:'寒武纪、Agent 平台、研发助手、Coding Agent 等岗位。',anchors:['Agent 工程定位','Runner 路线','领域方法','RAG/MCP','落地判断'],script:[
     '面试官您好，我叫游洋，现在是北京邮电大学网络与信息安全方向硕士，本科是人工智能专业。我的定位不是只会调用模型 API，而是偏 Agent 的运行、状态、工具、安全和评测工程。',
     '我现在的核心工作有两层。底层是 Workflow-Harness：我们没有用 LangChain 从零重新实现代码 Agent 的 Tool Loop，而是把 Codex、Claude Code、OpenCode 作为完整 Runner，通过统一 agent 接口和 Adapter 管理启动、Session、Resume、Workspace、Artifact、异常恢复与审计。这样 Runner 负责单次会话里的代码搜索、终端、编辑和测试，Harness 负责跨会话的状态与运行边界。',
     '上层是 AdaptiveVuls。它面向漏洞类型、位置和验证方式都未知的开放式仓库审计：先结合目标安全认知和漏洞知识形成有依据的调查方向，再由持续的 Coding Agent 调查完成漏洞定位、假设形成、修订和验证。证据检查点之后由 Fresh Reviewer 限定材料实际支持的条件和范围，Runtime 只负责合法、原子地提交规范状态。当前版本把普通调查保持在目标级 Sticky Investigator 工作链中，同时让 Controller、Reviewer 和覆盖挑战保持 Fresh。',
-    '另一个国防科研项目中，我落地过 Planner-Actor、MCP 工具 Schema、RAG 与知识图谱，以及异常状态监控和重规划。这让我对两条 Agent 路线都有实践：一条是从模型、RAG、Tool Calling 搭业务 Agent，另一条是把成熟 Coding Agent 当 Runner，再在外面做 Harness。',
+    '另一个国防科研项目中，我参与构建了基于知识图谱与 MCP 的自主漏洞利用智能体。知识侧使用 LightRAG 与 Neo4j，执行侧使用 Planner–Actor、MCP Tool Schema和状态机，根据结构化结果与Error Log进行参数调整、工具替换和攻击路径重规划。这让我对两条 Agent 路线都有实践：一条是从知识、模型、Tool Calling搭领域Agent，另一条是把成熟Coding Agent当Runner，再在外面做Harness。',
     '我比较关注的不是 Demo 能不能跑一次，而是状态能不能恢复、工具有没有权限边界、错误能不能归因、结果能不能用证据和评测验证。这也是我希望继续深入的方向。'
   ],note:'面向 Agent 岗时优先讲“谁拥有模型—工具循环”和两层架构，这是你与普通框架调用候选人的区别。'},
 
@@ -1183,16 +1187,16 @@ const INTERVIEW_PITCHES = [
   ],note:'这段适合高压面，体现科研与工程口径都稳。'},
 
   {id:'defense-60',group:'defense',title:'国防科研项目 60 秒版',duration:'60 秒',label:'第二项目',when:'面试官要求介绍另一个 Agent/RAG 项目。',anchors:['任务背景','Planner-Actor','MCP','RAG/KG','异常重规划','验收'],script:[
-    '另一个项目是基于大模型和专家知识库的端到端自动化分析系统，目标是在复杂目标环境中完成长链路规划与工具执行。',
-    '架构上采用 Planner-Actor 解耦：Planner 负责根据目标和状态形成步骤，Actor 负责调用具体能力；底层使用 MCP 思路把异构工具抽象成标准 Schema，让编排不绑定某个脚本或设备接口。知识侧融合 RAG 与知识图谱，把专家知识和执行契约注入当前任务，而不是只依赖模型参数记忆。',
-    '可靠性方面用状态机监控执行流，遇到错误时保留 Error Log 和当前状态，再驱动 Agent 搜索兜底路径并重新规划。项目通过了高标准验收，在目标网络环境下的无干预长路径规划成功率和执行鲁棒性达到预期指标。由于项目性质，具体业务数据和部分细节不能公开，我会只讲可公开的架构和工程方法。'
-  ],note:'没有公开数字时只说简历中的“达到预期指标”，不要临场编造成功率。'},
+    '另一个项目是基于知识图谱与 MCP 的自主漏洞利用智能体，目标是在复杂网络环境中完成长链路漏洞利用规划和工具执行。',
+    '知识侧基于 CWE、CVE 等权威安全数据设计十类实体约束，使用 LightRAG 完成文档切片、LLM 实体关系抽取、去重和描述合并，再写入 Neo4j；同时为原始文本块、实体描述和关系描述建立向量索引，融合语义检索与图关系查询，为 Planner 提供攻击模式、先决条件、漏洞弱点、目标资产、利用工具和后置影响等关联知识。',
+    '执行侧采用 Planner–Actor 解耦，并通过 MCP 将扫描器、漏洞利用脚本和环境操作封装成标准化工具。状态机持续记录目标状态、任务阶段和工具结果，出现异常时根据结构化返回与 Error Log 调整参数、替换工具或重新规划攻击路径。项目通过国防科研项目验收，在目标环境中完成无人工干预的多阶段漏洞利用闭环，长链路任务成功率和异常恢复能力达到验收要求。'
+  ],note:'没有公开数字时只说“通过验收、相关能力达到验收要求”，不要临场编造成功率。'},
   {id:'defense-2m',group:'defense',title:'国防项目 2 分钟架构版',duration:'2 分钟',label:'深入展开',when:'追问完整链路、RAG、工具和异常恢复。',anchors:['在线链路','知识链路','工具契约','状态恢复','资源约束'],script:[
-    '这个项目可以分成知识、规划、执行和监控四层。用户目标进入后，系统先结合任务状态和专家知识做上下文构建；RAG负责召回相关文档，知识图谱补充实体和关系，最终把来源、约束和可执行契约组织成 Planner 输入。',
-    'Planner 不直接执行底层动作，而是输出带前置条件、参数和预期结果的步骤。Actor 根据步骤调用 MCP 化工具。每个工具有明确的名称、输入输出 Schema 和错误结构，宿主负责参数校验、超时和执行，模型只提出调用意图。这样替换底层实现时不需要修改高层编排。',
-    '执行结果进入状态机：成功则推进下一阶段，失败则按模型、工具、环境和数据问题分类。可恢复错误保留 Error Log 和已完成状态，触发 Query/计划调整或替代工具；不可恢复或高风险情况进入有界停止或人工处理，避免 Agent 无限循环。',
-    'RAG 方面我会把离线建库和在线查询分开讲：离线采集、清洗、切分、Embedding、索引和版本；在线做 Query理解、混合召回、过滤、重排、上下文组装和生成。具体 Chunk、TopK和Rerank参数应该由评测决定。如果面试官追问项目真实参数，我只回答我能从验收材料确认的部分，不用通用建议冒充当时线上配置。',
-    '项目最终通过验收。对我来说最大的积累不是用了几个框架，而是理解了长链路 Agent 必须把状态、工具契约、错误恢复和知识来源显式化。'
+    '这个项目可以分成知识、规划、执行和监控四层。知识层以 CWE、CVE 等权威安全数据为基础，先设计十类实体约束，再使用 LightRAG 对原始文档切片，由 LLM 抽取实体、属性和关系。经过实体去重、关系合并和描述更新后写入 Neo4j，形成统一的漏洞链知识图谱。这里使用的是 LightRAG，不是 Microsoft GraphRAG。',
+    '除了图数据库，我们还为原始文本块、实体描述和关系描述建立向量索引。在线查询同时使用语义检索和图关系查询：向量召回负责找到相关文本、实体或关系入口，图查询继续补充攻击者、攻击模式、先决条件、漏洞弱点、目标资产、利用工具、攻击技术和后置影响等关联知识，再把带来源的结果组织成 Planner 上下文。',
+    '规划与执行使用 Planner–Actor 架构。Planner 根据任务目标、目标状态和检索知识形成高层攻击路径；Actor 负责执行具体步骤。底层通过 MCP 把扫描工具、漏洞利用脚本和环境操作封装为标准 Tool Schema，统一参数、执行结果和错误结构，使高层规划不依赖某个脚本的具体调用方式。',
+    '执行结果进入状态机，状态中保存目标状态、任务阶段和工具结果。成功则继续推进；如果失败，系统根据结构化返回与 Error Log 判断是参数不合适、工具不可用还是当前路径前提不成立，分别触发参数调整、工具替换或让 Planner 重新规划攻击路径，避免一个步骤失败就让整条利用链中断。',
+    '项目通过国防科研项目验收，在目标网络环境中完成无人工干预的多阶段漏洞利用规划与执行，长链路任务成功率和异常恢复能力达到验收要求。没有授权的具体比例和业务数据我不会补造。这个项目让我真正理解了知识、规划、工具契约、状态和反馈闭环怎样共同构成一个可落地的 Agent。'
   ],note:'如果你能从原项目材料恢复真实四阶段名称、RAG 参数或 bad-case，再替换为真实细节。'},
   {id:'defense-badcase',group:'defense',title:'被追问真实 bad-case 时怎么说',duration:'45 秒',label:'待填真实案例',when:'面试官要求举模型/工具失败的具体例子。',anchors:['现象','定位','改动','验证'],script:[
     '这个问题我不会用一个虚构案例回答。我会选择项目日志中自己真正处理过的一次失败，按四步讲：第一，输入和预期状态是什么；第二，实际错误发生在模型规划、工具协议、环境还是返回数据；第三，我通过哪些日志、状态字段和最小复现定位；第四，修改了错误分类、Schema、重试或重规划中的哪一层，并用什么回归验证。',
@@ -1231,7 +1235,7 @@ const INTERVIEW_PITCHES = [
     '收口：这个项目最终让我形成的判断是【工程认识】。目前已经验证的是【真实结果】，还没有充分验证的是【边界】。您如果感兴趣，我可以继续展开 Harness、AdaptiveVuls 的证据闭环，或者 RAG/MCP 的落地细节。'
   ],note:'先向面试官声明结构，可以减少被认为答非所问。'},
   {id:'bridge-result',group:'bridge',title:'没有公开指标时怎么回答',duration:'30 秒',label:'数据口径',when:'国防项目、保密场景或历史日志不完整。',anchors:['可公开事实','不可公开边界','测量方法'],script:[
-    '这个项目的具体业务数据受限制，我不适合给出未经授权的数字。可以公开的结果是项目通过了高标准验收，相关长路径规划成功率和执行鲁棒性达到预期指标。工程上我们从任务成功、异常恢复、人工介入和链路稳定性做验证。',
+    '这个项目的具体业务数据受限制，我不适合给出未经授权的数字。可以公开的结果是项目通过国防科研项目验收，在目标网络环境中完成无人工干预的多阶段漏洞利用规划与执行，长链路任务成功率和异常恢复能力达到验收要求。',
     '如果需要讨论方法，我可以完整说明应该怎样设计离线集、故障注入、p95延迟和成功率统计，但我会把“当时实际测过的数据”和“现在建议的测量方案”分开。'
   ],note:'用诚实边界换可信度，不要使用“提升了很多”一类无法验证的话。'},
   {id:'bridge-question',group:'bridge',title:'技术面结束后的反问',duration:'30 秒',label:'反向判断',when:'面试官问“你还有什么想了解的”。',anchors:['真实链路','主要瓶颈','角色预期'],script:[
@@ -1636,7 +1640,7 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     <div class="pitch-principle"><span>${icon('mic')}</span><div><strong>练习方式</strong><p>第一遍照稿读顺；第二遍只看关键词；第三遍录音并压缩赘词。最终应该能按面试官追问随时停下，而不是强行把稿子背完。</p></div></div>
     <div class="filterbar pitch-filter"><button class="filter-chip ${pitchFilter==='all'?'active':''}" data-pitch-filter="all">全部 <b>${INTERVIEW_PITCHES.length}</b></button>${INTERVIEW_PITCH_GROUPS.map(g=>`<button class="filter-chip ${pitchFilter===g.id?'active':''}" data-pitch-filter="${g.id}">${esc(g.name)} <b>${INTERVIEW_PITCHES.filter(x=>x.group===g.id).length}</b></button>`).join('')}<span class="result-count">${list.length} 份说辞</span></div>
     <section class="pitch-list">${list.map(pitchCardHTML).join('')}</section>
-    <section class="pitch-boundary"><div><span class="eyebrow">FACT BOUNDARY</span><h2>当前必须守住的事实口径</h2></div><ul><li>AdaptiveVuls 当前工作区文档为 V1.43：目标级 Sticky Investigator；Controller、Reviewer、Refresh Survey 与 Saturation Challenge 保持 Fresh。</li><li>三个 lane 是权限与视角边界，不是并行流水线；不要把完整 Coding Agent Runner 说成 LangChain Tool。</li><li>9 个系统、21 个发现、11 个厂商确认修复、1 个 CVE、3 个 CNVD 是真实结果；不等于已经证明方法普遍优于基线。</li><li>国防项目只使用可公开口径：“高标准通过验收、相关指标达到预期”；没有真实日志和数字时不要补造。</li></ul></section>`;
+    <section class="pitch-boundary"><div><span class="eyebrow">FACT BOUNDARY</span><h2>当前必须守住的事实口径</h2></div><ul><li>AdaptiveVuls 当前工作区文档为 V1.43：目标级 Sticky Investigator；Controller、Reviewer、Refresh Survey 与 Saturation Challenge 保持 Fresh。</li><li>三个 lane 是权限与视角边界，不是并行流水线；不要把完整 Coding Agent Runner 说成 LangChain Tool。</li><li>9 个系统、21 个发现、11 个厂商确认修复、1 个 CVE、3 个 CNVD 是真实结果；不等于已经证明方法普遍优于基线。</li><li>国防项目使用 LightRAG 而不是 Microsoft GraphRAG；只说“项目通过验收、无人工干预完成长链路闭环、相关能力达到验收要求”，没有授权的数字不要补造。</li></ul></section>`;
   }
   function pitchCardHTML(p){
     const group=INTERVIEW_PITCH_GROUPS.find(g=>g.id===p.group);
