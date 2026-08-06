@@ -17,7 +17,7 @@ const q = (category, subcategory, question, shortAnswer, fullAnswer, followUps, 
 });
 
 const QUESTIONS = [
-  q('adaptivevuls','项目定位','请按照最新简历，用一分钟介绍目标自适应漏洞挖掘项目。','这是一个面向真实开源仓库长程漏洞调查的安全智能体项目：我先实现通用 Workflow-Harness，再让 AdaptiveVuls 显式维护目标认知、调查方向、漏洞候选、证据缺口和结论状态。',`<p><strong>先讲问题：</strong>完整 Coding Agent 已经能读代码、调用工具和写 PoC，但长程开放调查中容易过早终止、重复探索、把复现失败误判成漏洞不存在，或在证据不足时升级结论。</p><p><strong>再讲方案：</strong>我独立设计 Workflow-Harness，统一适配 Codex、Claude Code、OpenCode 等完整代码智能体，管理 Fresh/Resume 会话、隔离工作区、显式上下文、运行产物、预算、异常恢复和审计轨迹。在上层，AdaptiveVuls 持续维护目标架构与攻击面、调查方向、漏洞候选、已有证据和关键未知，并根据证据缺口组织源码追踪、静态关系分析、运行时重放、对照实验或模糊测试。</p><p><strong>最后讲复核与结果：</strong>源码位置、调用链、命令输出、PoC 和运行日志等原始证据被外部化，Fresh Reviewer 在独立会话中限制错误假设和确认偏差传播，将候选收口为报告、否定、收窄或暂存。项目在 9 个真实系统中产出 21 个安全发现，其中 11 个获厂商确认修复，获得 1 个 CVE 和 3 个 CNVD。</p>`,['Workflow-Harness 与 AdaptiveVuls 分别负责什么？','为什么不能直接让 Codex 一直执行？','你遇到的最典型工程问题是什么？'],'默认先使用简历中的问题—方案—复核—成果口径；只有追问方法细节时再展开 Case/OES/Action Board。','简单',['最新简历','项目介绍','60秒'], '必背'),
+  q('adaptivevuls','项目定位','请按照最新简历，用一分钟介绍目标自适应漏洞挖掘项目。','这是一个面向漏洞类型、位置和验证方式均未预先给定的真实开源仓库，研究开放式多漏洞调查如何持续形成方向、在线获取证据并调整后续投入的安全智能体项目。',`<p><strong>先讲相关工作缺口：</strong>传统SAST/Fuzzing擅长已知规则或稳定Oracle，许多LLM漏洞检测与验证工作从给定代码单元、漏洞类型或冻结候选出发；通用Coding Agent已经具备读仓库、用工具和写PoC的能力，但相关研究相对缺少对<strong>多方向长期调查</strong>的显式建模：在线证据怎样修改候选、怎样影响其他方向的投入，以及怎样把开放探索收敛为可复核结论。</p><p><strong>再讲方案：</strong>我独立设计Workflow-Harness，统一适配Codex、Claude Code、OpenCode等完整代码智能体，管理Fresh/Resume会话、隔离工作区、显式上下文、运行产物、预算、异常恢复和审计轨迹。在上层，AdaptiveVuls让Coding Agent完成单个方向内的代码理解、工具调用和证据获取，外层持续维护可演化的调查方向、漏洞候选和证据状态，使在线验证结果能够调整后续调查投入。</p><p><strong>最后讲复核与结果：</strong>源码位置、调用链、命令输出、PoC和运行日志等原始证据被外部化，由Fresh Reviewer独立复核并把候选收口为报告、否定、收窄或暂存。项目在9个真实系统中产出21个安全发现，其中11个获厂商确认修复，获得1个CVE和3个CNVD。</p>`,['现有漏洞智能体工作具体缺少什么？','为什么不是Batch-and-Confirm？','Coding Agent的能力和你们的方法贡献怎样分开？'],'默认按“相关工作→研究空缺→方法→结果”回答；运行中观察到的过早终止等问题只能作为出发点和案例，不要当作唯一研究动机。','简单',['最新简历','相关工作','项目介绍','60秒'], '必背'),
   q('adaptivevuls','问题定义','什么是“调查状态—下一步行动错配”？','当前证据状态已经变化，但 Agent 仍沿用不适合的行动策略，导致过早终止、无效深挖或结论膨胀。',`<p>开放式调查没有预定义任务终点，行动是否正确依赖当前 Case 的科学状态。例如机制 M 已复现，但攻击者控制 C 与边界 B 仍未知，此时继续重复同类 PoC 就是证据膨胀；首次复现失败若源于环境缺失，却直接关闭 Case，则是失败归因与行动不匹配。</p><ul><li><strong>过早停止：</strong>只有局部 Observation 就放弃可证伪方向。</li><li><strong>单点深陷：</strong>低信息增益动作不断重复。</li><li><strong>失败即放弃：</strong>未区分触发形状、环境问题与真阴性。</li><li><strong>结论膨胀：</strong>Mechanism reproduced 被写成 Boundary/Impact 已证明。</li></ul><p>AV 把“该做什么”变为 OES、Obligation 和 Portfolio 状态的函数，而非仅依赖当前聊天上下文。</p>`,['如何度量错配？','举一个真实失败轨迹。','怎样证明不是模型能力不足？'],'可以用基线轨迹中四类失败模式引出方法设计。','困难',['失败模式','高压','方法论'],'高压'),
   q('adaptivevuls','科学对象','Observation、Frontier、Case、Evidence 分别是什么，如何关联？','Observation 是有来源的局部事实；Frontier 是高召回安全关系问题；Case 是可证伪命题；Evidence 是 Artifact 对指定 Case Claim 的有方向更新。',`<p><strong>Observation</strong> 描述“材料显示了什么”，必须有 provenance；<strong>Frontier</strong> 把若干 Observation 组织成尚模糊的开放问题，不要求完整攻击模型；<strong>Case</strong> 需要 Grounded、Security-Relevant、Falsifiable、Alternative-Aware、Scoped，是可长期修订的调查对象；<strong>Artifact</strong> 是源码、脚本、trace 等原始材料，只有经过审查并针对某项 Claim 产生支持或反驳作用时，才成为 <strong>Evidence</strong>。</p><p>典型链路：源码事实 → Observation → “这里是否跨越权限边界”的 Frontier → 形成带竞争解释的 Case → 获取 Artifact → Reviewer 限定证据覆盖范围 → 更新 OES。</p>`,['每个 grep 结果都要持久化吗？','Frontier 完成是否代表攻击面覆盖？','Case admission 的最低门槛是什么？'],'这是讲清 AV 数据模型的关键题。','困难',['OES','科学对象','深挖'],'深挖'),
   q('adaptivevuls','证据模型','为什么 Mechanism reproduced 不等于 Vulnerability Report？','机制发生只支持 M；报告还需要攻击者控制、目标安全边界、增量影响、责任归属与适用范围等证据。',`<p>AV 把安全结论拆成 C/M/B/I/Own/S：</p><ul><li><strong>C Control：</strong>攻击者能控制什么、入口是否可达；</li><li><strong>M Mechanism：</strong>目标行为是否发生及条件；</li><li><strong>B Boundary：</strong>目标拥有或承诺的安全属性是否被破坏；</li><li><strong>I Impact：</strong>增加了什么攻击能力或安全损失；</li><li><strong>Own Ownership：</strong>责任属于目标、调用者、部署还是依赖；</li><li><strong>S Scope：</strong>版本、配置、入口和环境。</li></ul><p>一个 crash 或 PoC 常只覆盖 M；如果输入本就来自可信管理员，C 不成立；如果接口明确允许该行为，B 不成立；如果攻击者没有新增能力，I 被夸大。Report Gate 应检查必要 Claim 和 Scope，而不是检查“是否有 PoC”。</p>`,['Crash 与可利用漏洞是什么关系？','如何表示 refuting evidence？','哪个 Claim 最容易被忽略？'],'可联系厂商确认前的边界验证与负面结论。','困难',['CMBIOwnS','证据门','必背'],'必背'),
@@ -91,7 +91,7 @@ const RESUME = {
   positioning:'北京邮电大学网络与信息安全方向硕士，聚焦 LLM Agent、Harness/MCP/RAG 工程，以及程序分析、动态验证与自动化漏洞研究。',
   skills:['LLM Agent','Harness','MCP','Tool Calling','RAG','Agent Memory','Skills','Python','C/C++','Java','Linux / Shell','控制流分析','数据流分析','动态验证','漏洞复现','PoC 构造'],
   experience:[
-    {date:'2025.09 — 至今', org:'奇安信 · 校企联培', role:'基于大模型智能体的目标自适应漏洞挖掘方法研究', detail:'实现通用Workflow-Harness，显式维护目标认知、调查方向、漏洞候选、证据缺口和结论状态，并通过外部化证据与Fresh Reviewer完成独立复核；在9个真实系统中产出21个安全发现，11个获厂商确认修复，获得1个CVE和3个CNVD。'},
+    {date:'2025.09 — 至今', org:'奇安信 · 校企联培', role:'基于大模型智能体的目标自适应漏洞挖掘方法研究', detail:'面向漏洞类型、位置和验证方式均未预先给定的真实仓库，由Coding Agent完成单个方向内的代码理解、工具调用与证据获取，外层持续维护可演化的调查方向、漏洞候选和证据状态，使在线验证结果调整后续调查投入并收敛为可复核结论；在9个系统中产出21个安全发现，11个获厂商确认修复，获得1个CVE和3个CNVD。'},
     {date:'2024.12 — 2025.12', org:'国防科研项目', role:'技术开发者｜基于知识图谱与 MCP 的自主漏洞利用智能体', detail:'使用LightRAG与Neo4j构建漏洞链知识图谱和文本/实体/关系混合索引；以Planner–Actor解耦高层规划与MCP工具执行，通过状态机和Error Log触发参数调整、工具替换与攻击路径重规划。项目通过验收，完成目标环境下无人工干预的长链路漏洞利用闭环。'},
     {date:'2023.07 — 2023.09', org:'华为技术有限公司', role:'通用软件开发工程师（实习）', detail:'参与 ICT 产品线 VRP 系统维护，理解 OSPF、BGP 与 MPLS 业务模型。'},
     {date:'2023.04 — 2023.06', org:'标贝（北京）科技有限公司', role:'数据处理实习生', detail:'C++ 开发异构语言 TN 引擎，通过正则与自动化脚本将清洗准确率从 40% 提升至 95%。'}
@@ -106,9 +106,12 @@ const RESUME = {
 const PROJECT_SUMMARY = `
 <h1>基于大模型智能体的目标自适应漏洞挖掘方法研究</h1>
 <blockquote><p><strong>一句话定位：</strong>面向真实开源仓库的长程漏洞调查，用 Workflow-Harness 管理完整 Coding Agent 的运行，用 AdaptiveVuls 显式维护目标认知、调查方向、漏洞候选、证据缺口和结论状态。</p></blockquote>
-<h2>1. 项目为什么要做</h2>
-<p>Codex、Claude Code、OpenCode 等 Coding Agent 已经能够阅读代码、调用终端和构造 PoC，但在开放式长任务中仍容易出现四类问题：</p>
-<ul><li><strong>过早终止：</strong>只看少量代码就判断没有问题。</li><li><strong>重复探索：</strong>长期围绕同一可疑点做不能改变结论的尝试。</li><li><strong>失败误判：</strong>把依赖、配置、输入或工具问题造成的复现失败，当作漏洞不存在。</li><li><strong>结论升级：</strong>只有可疑代码或一次机制复现，就直接写成高影响漏洞。</li></ul>
+<h2>1. 从相关工作看，项目为什么要做</h2>
+<p>项目面向漏洞类型、位置和验证方式均未预先给定的真实开源仓库。研究动机不能简单说成“Coding Agent 有问题，所以我们做一个新 Agent”，而要先说明现有路线覆盖了什么、还缺什么：</p>
+<ul><li><strong>传统静态分析与Fuzzing：</strong>擅长已知规则、Source/Sink或稳定运行时Oracle，但通常不会自己维护多个会演化的安全问题并决定跨方向调查投入。</li><li><strong>LLM漏洞检测与假设验证：</strong>许多工作从给定代码单元、漏洞类型、可疑位置或已经形成的候选出发，重点判断候选是否成立；开放仓库中“先形成什么问题、问题如何随证据改变”研究相对不足。</li><li><strong>批量发现后逐个确认：</strong>适合稳定候选，但候选池一旦冻结，调查中发现的新攻击者、边界、根因、责任或新方向不容易反馈到后续发现空间。</li><li><strong>通用Coding Agent：</strong>已经拥有仓库理解、工具调用和PoC能力；缺口不在“会不会用工具”，而在相关工作较少显式回答在线证据怎样改变候选、跨方向资源分配和最终可复核结论。</li></ul>
+<p>因此本项目研究的是<strong>开放式多漏洞调查的外层控制问题</strong>：Coding Agent负责单个方向内的调查，外层持续维护可演化的方向、候选和证据状态，使在线验证结果能够调整后续调查投入，并让长期调查收敛。</p>
+<h3>运行中的失败现象只是出发点和验证对象</h3>
+<p>过早终止、重复探索、复现失败误判和证据不足升级仍然可以讲，但应放在相关工作缺口之后，用作设计动机、故障案例和评测指标，不能据此断言所有Coding Agent必然存在这些问题。</p>
 <h2>2. 两层架构怎样分工</h2>
 <h3>Workflow-Harness：通用运行与编排底座</h3>
 <p>通过统一 <code>agent()</code> 接口和 Runner Adapter 适配完整 Coding Agent，管理代码化 Workflow、Fresh/Resume 会话、隔离工作区、显式上下文、运行产物、预算、异常恢复和审计轨迹。Harness 解决“Agent 怎样被可靠地调用、恢复、交接和观察”。</p>
@@ -135,7 +138,7 @@ Fresh Reviewer 独立复核
 <p>简历中的“预算管理”属于 Workflow-Harness 的工程运行能力；AdaptiveVuls 不把剩余时间、Token 或轮数暴露给 Investigator 作为科学决策条件。</p>
 <h2>6. 项目成果与回答边界</h2>
 <p>项目在 9 个真实系统中产出 21 个安全发现，其中 11 个获得厂商确认并修复，获得 1 个 CVE 编号和 3 个 CNVD 编号。</p>
-<p>这些结果证明系统具有真实安全产出，但不能单独证明方法普遍优于原生 Coding Agent。面试时先按“问题—方案—复核—成果”讲清主线，再根据追问展开 Case、OES、Action Board 和实验设计。</p>`;
+<p>这些结果证明系统具有真实安全产出，但不能单独证明方法普遍优于原生Coding Agent。面试时先按“相关工作—研究空缺—方法—成果”讲清主线，再根据追问展开失败案例、Case/OES、Action Board和实验设计。</p>`;
 ;
 /* 扩展通用题库：综合 JavaGuide、OWASP、MCP/LLM 官方资料与常见校招面经主题整理。
    题目在界面中会按模块、再按“简单→中等→困难”排序。 */
@@ -763,7 +766,7 @@ QUESTIONS.push(
 
 /* 2026-08 百度 AI 测开一面真实追问复盘：保留口语化回答主线，再给可继续深挖的工程细节。 */
 QUESTIONS.push(
-  X('adaptivevuls','百度一面复盘','不要堆术语，怎样用一分钟把主项目讲清楚？','先说发现了什么真实问题，再说自己做了什么系统、系统怎样解决，最后给结果和个人贡献；第一分钟不要展开 OES、C/M/B/I 等内部名词。',['可以直接说：我们发现 Coding Agent 会读代码，但长任务中容易在证据不足时做错下一步，例如提前报告、一次失败就放弃或反复调查同一点。','因此我开发 Workflow-Harness，在完整 Coding Agent 外部管理 Session、Workspace、显式状态、证据交接和独立复核；AdaptiveVuls 是运行在上面的漏洞调查方法。','最后说明真实结果与边界：9个系统、21个安全发现、11个获厂商确认修复；自己主要负责Harness实现、调查与证据机制、实验和结果复核，但这些结果不能单独证明方法优于所有基线。'],['为什么不能直接让Codex一直跑？','Harness和AdaptiveVuls分别是什么？','你个人写了哪些模块？'],'固定使用“问题→方案→链路→结果→个人贡献”五步主线；面试官追问后再展开术语。','简单',['百度测开','真实面经','项目表达','一分钟介绍'],'必背'),
+  X('adaptivevuls','百度一面复盘','不要堆术语，怎样用一分钟把主项目讲清楚？','先说开放仓库的任务设定和相关工作缺口，再说外层怎样维护方向、候选和证据，最后给结果与个人贡献；不要把“Coding Agent有缺陷”当作唯一动机。',['相关工作口径：传统静态分析/Fuzzing偏已知规则或稳定Oracle，很多LLM方法从给定代码单元、漏洞类型或候选出发；当类型、位置和验证方式都未知时，在线证据怎样改变多方向调查投入和最终结论研究相对不足。','方案口径：Coding Agent负责单个方向内的代码理解、工具调用和证据获取；Workflow-Harness管理完整Runner，AdaptiveVuls在外层持续维护可演化的调查方向、候选和证据状态，Fresh Reviewer限制结论范围。','结果口径：9个系统、21个安全发现、11个获厂商确认修复、1个CVE和3个CNVD；说明真实产出，但不单独证明优于强原生Agent。'],['为什么不能直接用强Coding Agent？','与Batch-and-Confirm差在哪？','你个人写了哪些模块？'],'固定使用“相关工作→研究空缺→方法→结果→边界”主线；过早停止等失败只作为出发点、案例和评测对象。','简单',['百度测开','最新简历','相关工作','项目表达'],'必背'),
   X('harness','百度一面复盘','项目里遇到的一个真实问题，怎样按“发现—定位—修复—验证”回答？','选一个具体故障讲完整闭环：后续 Reviewer 没读到原始证据，只看到自然语言摘要，造成重复调查或过强结论；根因是状态交接不确定，而不只是 Prompt 不够好。',['发现：Trace显示前一阶段已经运行命令并生成文件，后续Agent却重复读同一代码，甚至引用了摘要中不存在的结论。','定位：Session隐式上下文无法保证跨Agent传递，自然语言摘要又丢失文件路径、命令输出、环境条件和失败信息。','修复与验证：每次执行输出结构化Result和Artifact引用，Reviewer只能基于允许访问的原始文件与运行结果判断；用回归任务检查证据可读率、重复动作、无证据升级和Fresh复核结果。'],['为什么不用更长的Prompt？','怎样证明Reviewer真的读取了Artifact？','修改后有什么可量化指标？'],'这是最适合映射百度质量岗位的故障案例：Agent测试不能只看最终文本，还要测试状态流转和证据交接。','中等',['百度测开','真实面经','Bad-case','证据交接'],'高压'),
   X('adaptivevuls','百度一面复盘','Agent 第一次 PoC 或工具执行失败，为什么不能直接判定漏洞不存在？','失败只说明这次尝试没有得到预期结果；必须先区分输入、环境、工具、前置条件、可达性和漏洞机制本身，只有决定性证据否定核心假设时才能关闭。',['输入失败：触发形态、编码或协议不匹配；环境失败：依赖、版本、配置、权限或服务未就绪；工具失败：超时、崩溃、脏输出或副作用状态未知。','路径失败还要区分当前入口不可达与所有合理入口都不可达；一次负例通常只能缩小Scope，不能自动证明整个项目安全。','系统应保存命令、退出码、日志、环境与Artifact，形成新的证据缺口；修复环境后重试，或设计正负对照与竞争解释来决定refute、narrow还是park。'],['超时应该算哪类失败？','什么证据足以Refute？','怎样避免无限重试？'],'这体现测开能力：区分被测系统缺陷、测试环境故障、测试工具故障和真实阴性。','中等',['百度测开','真实面经','失败归因','PoC'],'必背'),
   X('harness','百度一面复盘','Workflow-Harness 和 Agent Skill 的区别是什么？','Skill主要告诉一次Agent执行“可以怎样做”，Harness在Agent外部决定“调用谁、何时调用、给什么状态、怎样交接、失败后去哪以及何时结束”。',['Skill是可复用的领域手册，可包含步骤、示例、脚本和参考资料，改善单个Agent Turn的知识与操作方式，但不天然拥有工具权限或权威状态写入权。','Harness负责Runner Adapter、Fresh/Resume Session、Workspace、结构化上下文、分支循环、重试、Artifact、Evidence Gate和终止条件，这些由代码与运行时强制。','两者可以组合：Skill作为某次调用的知识输入，Harness作为整个长任务的调度、交接和验收系统；类比为“员工操作手册”和“项目管理与验收系统”。'],['Skill能否自己维护状态？','Harness是不是硬编码状态机？','只用LangGraph能否替代？'],'回答时先用一句对比和类比，再补项目中的Fresh Reviewer与证据Gate实例。','简单',['百度测开','真实面经','Harness','Skill'],'必背'),
@@ -786,7 +789,7 @@ const JOB_SPRINTS = [
     sources:[{name:'百度校园招聘',url:'https://talent.baidu.com/jobs/list?recommendCode=IS3TJS'}],
     phases:[
       {id:'pitch',order:'01',title:'自我介绍与岗位转换',level:'S',desc:'先让面试官相信安全研究能力可以迁移到AI质量平台。',queries:['安全研究背景为什么适合','测试开发与普通开发','讲一个落地过的 Agent 项目']},
-      {id:'project',order:'02',title:'两个项目深挖',level:'S·高压',desc:'逐条覆盖最新简历：目标自适应、证据行动、Harness边界，以及LightRAG、Planner–Actor、MCP和动态重规划。',queries:['不要堆术语','目标自适应','为什么要显式维护目标认知','怎样在源码追踪','Harness 中的预算','两个 Agent 项目','基于知识图谱与 MCP','漏洞链知识图谱','同时索引文本块','Planner–Actor、MCP','当前严格实验结果']},
+      {id:'project',order:'02',title:'两个项目深挖',level:'S·高压',desc:'先从相关工作推出研究空缺，再逐条覆盖目标自适应、证据行动、Harness边界和国防项目技术链。',queries:['不要堆术语','现有漏洞发现','目标自适应','为什么要显式维护目标认知','怎样在源码追踪','Harness 中的预算','两个 Agent 项目','基于知识图谱与 MCP','漏洞链知识图谱','同时索引文本块','Planner–Actor、MCP','当前严格实验结果']},
       {id:'testing',order:'03',title:'传统软件测试',level:'S',desc:'测试流程、黑盒方法、登录/搜索、覆盖、回归与质量判断。',queries:['软件测试的完整流程','等价类、边界值','如何系统测试登录','如何测试搜索框','单元、集成、系统','回归测试范围','测试左移','严重程度','测试是否充分','MC/DC']},
       {id:'automation',order:'04',title:'Pytest 与自动化框架',level:'S/A',desc:'Fixture、参数化、Mock、模型API、接口/UI与脚本自愈。',queries:['Pytest fixture','Pytest 参数化','Mock 的价值','依赖外部模型API','接口自动化框架','UI 自动化为什么','脚本自愈']},
       {id:'llmeval',order:'05',title:'LLM / RAG 评测',level:'S·高压',desc:'非确定输出、Benchmark、幻觉、多轮、升级回归和污染。',queries:['大模型输出非确定','大模型评测指标','建设可持续的大模型 Benchmark','评估模型幻觉','测试多轮对话','模型升级后','降低 Benchmark 污染','怎样用数据证明 RAG']},
@@ -803,7 +806,7 @@ const JOB_SPRINTS = [
     sources:[{name:'阿里星',url:'https://campus-talent.alibaba.com/campus/alistar?lang=zh'},{name:'OWASP Agentic',url:'https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/'},{name:'OWASP Agent Security Cheat Sheet',url:'https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html'}],
     phases:[
       {id:'talent',order:'01',title:'人才计划与原创贡献',level:'S·高压',desc:'一个核心贡献、两个项目技术路线、方法/工程/应用边界、强模型与论文追问。',queries:['为什么认为自己适合阿里星','讲一个落地过的 Agent 项目','两个 Agent 项目','当前版本的 AdaptiveVuls','AdaptiveVuls 是否过拟合']},
-      {id:'research',order:'02',title:'AV研究与严格实验',level:'高压',desc:'构念、失败分类、负面结果、Fresh公平预算、严格结论和路线图。',queries:['调查状态—下一行动错配','不能声称四类失败','可能降低Agent哪些能力','Fresh Review收益','当前严格实验结果','给六个月和一个团队']},
+      {id:'research',order:'02',title:'AV研究与严格实验',level:'高压',desc:'从相关工作与任务设定推出空缺，再回答构念、失败分类、Fresh公平预算、严格结论和路线图。',queries:['现有漏洞发现','调查状态—下一行动错配','不能声称四类失败','可能降低Agent哪些能力','Fresh Review收益','当前严格实验结果','给六个月和一个团队']},
       {id:'traditional',order:'03',title:'传统应用与系统安全',level:'S',desc:'补齐简历中的程序分析、动态验证与PoC，再进入认证授权、注入、内存安全和容器。',queries:['控制流分析和数据流分析','高质量漏洞 PoC','Authentication、Authorization','BOLA','SQL 注入','SSRF','路径遍历','Java 原生反序列化','Use-After-Free','容器安全应']},
       {id:'agentcore',order:'04',title:'Agent架构与协议',level:'S',desc:'LLM/Agent/Coding Agent/Harness、Memory/Skill/RAG、ReAct、多Agent和MCP/A2A。',queries:['LLM、Agent、Coding Agent','Agent Memory、Skill','ReAct、Planner-Executor','A2A 与 MCP','Agent Skill 与 Tool','多 Agent 上下文爆炸']},
       {id:'injection',order:'05',title:'Prompt / Tool 劫持',level:'S·高压',desc:'直接/间接注入、恶意仓库、Excessive Agency、Confused Deputy和工具策略。',queries:['间接 Prompt Injection','企业 Agent 怎样分层','Excessive Agency','Confused Deputy','敏感工具白名单','Tool Calling 怎样做参数校验']},
@@ -827,6 +830,10 @@ QUESTIONS.push(
   X('agent','Memory工程','简历中的 Agent Memory、Skill、RAG 和 Harness 分别解决什么？','Memory保存跨步经历或状态，Skill封装可复用做法，RAG提供外部事实，Harness在Agent外部强制执行顺序、会话、资源、交接和恢复。',['Memory可分当前工作记忆、历史经历和结构化状态；写入前要校验来源、作用域、时效和用户隔离，避免错误长期污染。','Skill像操作手册，可包含步骤、脚本和模板，但不会自动获得Tool权限，也不能保证Agent一定正确执行。','RAG回答“当前需要哪些外部知识”；Harness回答“系统下一步调用谁、是否Resume/Fresh、结果怎样验收”，四者可以组合但不能互相替代。'],['长期Memory和Canonical State一样吗？','Skill过时怎么办？','RAG结果能直接写入Memory吗？'],'四个词都出现在最新简历或项目描述中，面试时要能一句话区分。','简单',['最新简历','Agent Memory','Skill','RAG'],'必背'),
   X('security','程序分析','控制流分析和数据流分析分别解决什么，为什么漏洞分析通常两者都要？','控制流回答程序可能按什么顺序和条件执行，数据流回答某个值从哪里来、怎样传播到哪里；漏洞成立通常同时需要危险值可传播且危险路径可执行。',['CFG由基本块和跳转边组成，用于可达性、分支、循环和支配关系；调用图补充跨函数控制转移，但动态分派和反射会造成不完整。','数据流定义Source、Sink、传播与Sanitizer，污点分析关注不可信影响而不要求值完全相同；别名、字段、容器和异步持久化增加难度。','静态结果只生成候选，还要结合路径约束、默认配置、认证授权和动态实验验证真实可达性与影响。'],['CFG和调用图有什么区别？','污点分析为什么误报高？','隐式流怎么处理？'],'直接对应最新简历的“控制流/数据流分析”，不要只会说使用过某个扫描器。','中等',['最新简历','控制流','数据流'],'必背'),
   X('security','漏洞分析','怎样构造一个高质量漏洞 PoC 和动态验证包？','先用最小输入稳定证明目标机制，再补正负对照、环境与版本、完整命令日志、攻击者入口和影响边界，使他人能够独立复现。',['PoC记录目标commit/版本、依赖、配置、启动方式、请求或输入、预期/实际结果和原始日志；脚本默认无破坏并限制目标范围。','正例触发机制，负例只改变一个关键条件；修复前后差分验证能证明补丁阻断漏洞且正常路径不回归。','区分代码位置、PoC草稿、局部机制复现、真实入口复现和完整安全影响；Crash或一次成功不自动等于可利用漏洞。'],['PoC和Exploit有什么区别？','无法在真实环境复现怎么办？','怎样证明不是环境偶然现象？'],'对应最新简历的“动态验证、漏洞复现与PoC构造”，也是Fresh Reviewer读取的核心Artifact。','中等',['最新简历','PoC','动态验证'],'必背')
+);
+
+QUESTIONS.push(
+  X('adaptivevuls','相关工作','现有漏洞发现与验证相关工作有哪些路线，AdaptiveVuls 补充了什么？','现有路线分别擅长规则/数据流、运行时触发、给定候选验证和通用仓库操作；AV补充的是漏洞类型、位置和验证方式均未知时，多方向长期调查如何随在线证据演化和重新分配投入。',['SAST/CodeQL类方法擅长已知Source、Sink、数据流和规则，Fuzzing擅长有Harness与Oracle时扩大输入搜索；它们仍是AV可调用的证据能力，而不是被替代对象。','LLM漏洞检测与函数/代码单元级假设验证，例如VulAgent式路线，通常从较明确的代码范围、敏感操作、漏洞条件或候选出发；Batch-and-Confirm先冻结候选池再逐个确认，适合稳定候选。','OpenAnt等可运行仓库级Agent和通用Coding Agent已经具备仓库导航、工具调用和PoC能力，因此AV不声称赋予新能力；它研究外层怎样维护可演化方向、候选和证据状态，让单方向验证结果影响跨方向Portfolio和结论边界。','真正要通过公平实验验证的是：相同模型、工具和资源下，这种外层控制是否获得基线没有得到的正确问题修订、决定性Artifact、合理投入或有界结论。'],['不要贬低相关工作，怎样表述研究空缺？','哪些任务Batch-and-Confirm可能更好？','AV是否在替代SAST和Fuzzing？'],'这是新版简历“项目目的”的核心必答题，应先讲任务设定和相关工作，再讲运行中的失败模式。','困难',['最新简历','Related Work','研究动机'],'高压')
 );
 ;
 /* 独立漏洞复盘页数据。公开案例与本地审计案例分开标注，不进入题库计数。 */
@@ -1166,7 +1173,7 @@ const INTERVIEW_PITCHES = [
   ],note:'不要在 30 秒版本里展开成果数字，给面试官留下一个可追问的主线。'},
   {id:'intro-90',group:'intro',title:'90 秒默认版',duration:'90 秒',label:'推荐背熟',when:'技术一面最常用；介绍后自然把话题引到核心项目。',anchors:['教育背景','当前主线','核心项目','第二项目','能力收口'],script:[
     '面试官您好，我叫游洋，目前是北京邮电大学网络与信息安全方向硕士，本科是北邮人工智能专业。我的经历一直围绕两个方向积累：一是 LLM Agent 和 Coding Agent 工程，二是安全分析与自动化验证。',
-    '目前我在奇安信校企联培项目中，主要做面向真实开源仓库的漏洞挖掘智能体。我先实现了一套通用 Workflow-Harness，把 Codex、Claude Code、OpenCode 等完整 Coding Agent 作为 Runner 接入，统一管理会话、隔离工作区、运行产物、异常恢复和审计。然后在这个底座上设计 AdaptiveVuls，希望解决开放式漏洞调查里容易丢失上下文、验证不足、结论夸大和重复尝试的问题。它的重点不是多 Agent 数量，而是让 Agent 围绕调查方向持续取证，再由 Fresh Review 限定证据实际支持的结论和下一步行动。',
+    '目前我在奇安信校企联培项目中，主要做面向真实开源仓库的开放式多漏洞调查智能体。现有静态分析和Fuzzing更擅长已知规则或稳定Oracle，很多LLM漏洞检测与验证工作则从给定代码单元、漏洞类型或冻结候选出发；但当漏洞类型、位置和验证方式均未预先给定时，在线证据怎样修改候选、影响其他调查方向并收敛为可复核结论，研究相对不足。为此我先实现通用Workflow-Harness，把Codex、Claude Code、OpenCode等完整Coding Agent作为Runner，再在外层持续维护可演化的调查方向、漏洞候选和证据状态，并通过Fresh Review限制结论范围。',
     '这项工作在 9 个真实系统中形成了 21 个安全发现，其中 11 个得到厂商确认并修复，获得 1 个 CVE 和 3 个 CNVD。此前我还参与过国防科研项目，使用 LightRAG 与 Neo4j 构建漏洞链知识图谱，通过 Planner–Actor、MCP 工具契约和状态机完成无人工干预的长链路漏洞利用规划、执行与异常重规划。',
     '技术上，我的Agent方向主要包括LLM Agent、Harness、MCP、Tool Calling、RAG、Agent Memory和Skills；工程语言主要使用Python、C/C++、Java与Linux/Shell；安全侧有控制流、数据流分析、动态验证、漏洞复现和PoC构造经验。我希望继续做需要真正处理状态、工具、可靠性和安全边界的Agent工程工作。'
   ],note:'这是默认版本。正常语速约 80–100 秒；不要逐字背，记住四段结构。'},
@@ -1178,14 +1185,14 @@ const INTERVIEW_PITCHES = [
     '我比较关注的不是 Demo 能不能跑一次，而是状态能不能恢复、工具有没有权限边界、错误能不能归因、结果能不能用证据和评测验证。这也是我希望继续深入的方向。'
   ],note:'面向 Agent 岗时优先讲“谁拥有模型—工具循环”和两层架构，这是你与普通框架调用候选人的区别。'},
 
-  {id:'project-core-60',group:'av',title:'核心项目 60 秒版',duration:'60 秒',label:'项目开场',when:'面试官说“介绍一下你最重要的项目”。',anchors:['问题','Harness','AV','结果','边界'],script:[
+  {id:'project-core-60',group:'av',title:'核心项目 60 秒版',duration:'60 秒',label:'项目开场',when:'面试官说“介绍一下你最重要的项目”。',anchors:['相关工作','研究空缺','Harness/AV','结果','边界'],script:[
     '我最核心的项目是面向真实开源仓库的漏洞挖掘智能体，整体分成 Workflow-Harness 和 AdaptiveVuls 两层。',
-    'Workflow-Harness 是通用运行底座，把 Codex、Claude Code、OpenCode 等完整 Coding Agent 作为 Runner，负责统一会话、Workspace、Artifact、异常恢复和审计。AdaptiveVuls 是上面的安全调查方法，解决开放式审计中 Agent 容易过早停止、重复尝试、复现失败就放弃，以及把一个技术机制直接夸大成漏洞的问题。',
-    '方法上先通过目标认知和仓库 Survey 形成有依据的调查方向，再让 Coding Agent 持续阅读代码、追调用链、运行实验和编写 PoC。出现有意义的证据检查点后，由 Fresh Reviewer 限定证据真正支持的攻击条件、机制、边界、影响、责任和范围，再决定继续、修订、拆分或有界结束。',
+    '相关工作中，传统静态分析和Fuzzing更适合已知规则或稳定Oracle，很多LLM漏洞检测与验证方法从给定代码单元、漏洞类型或冻结候选出发；开放仓库里漏洞类型、位置和验证方式都未知时，怎样维护多个会演化的调查方向，并让在线证据改变后续投入和最终结论，研究相对不足。',
+    '因此Workflow-Harness把Codex等完整Coding Agent作为Runner，负责会话、Workspace、Artifact、恢复和审计；AdaptiveVuls在外层维护调查方向、漏洞候选和证据状态。Coding Agent在单个方向内持续读代码、用工具和获取证据，Fresh Reviewer再限定证据实际支持的条件和范围，使调查继续、修订、拆分或有界结束。',
     '目前在 9 个真实系统中形成 21 个安全发现，11 个得到厂商确认并修复，获得 1 个 CVE 和 3 个 CNVD。需要说明的是，当前方法仍然是待进一步实验验证的研究假设，不能把运行机制本身说成已经证明有效。'
   ],note:'最后一句主动守住研究边界，能显著降低面试官对“包装项目”的警惕。'},
-  {id:'project-core-3m',group:'av',title:'核心项目 3 分钟完整版',duration:'3 分钟',label:'技术深讲',when:'二面或面试官要求从架构、状态到结果完整展开。',anchors:['背景失败','两层架构','持续调查','证据裁决','会话状态','结果实验'],script:[
-    '这个项目的背景是：现在的 Coding Agent 已经会读大型仓库、搜索调用链、运行静态和动态工具、写测试和 PoC，所以问题不再只是“模型会不会找漏洞”。真实开放式审计里更难的是，初始问题往往不完整，攻击者、边界、影响和责任会随着调查不断变化；Agent 很容易在一次会话里过早停止、在低价值方向反复深挖，或者把 Mechanism reproduced 直接写成高影响漏洞。',
+  {id:'project-core-3m',group:'av',title:'核心项目 3 分钟完整版',duration:'3 分钟',label:'技术深讲',when:'二面或面试官要求从相关工作、架构、状态到结果完整展开。',anchors:['相关工作','研究空缺','两层架构','持续调查','证据裁决','结果实验'],script:[
+    '这个项目首先来自相关工作的边界。传统SAST、规则扫描和Fuzzing对已知模式、Source/Sink或稳定运行时Oracle很有效；不少LLM漏洞检测与假设验证工作从给定代码单元、漏洞类型、可疑位置或已经形成的候选出发；Batch-and-Confirm也适合先冻结候选池再逐个验证。它们都很重要，但当真实仓库中漏洞类型、位置和验证方式都没有预先给定，而且证据会改变攻击者、边界、影响、责任甚至产生新方向时，如何组织多方向长期调查、让在线验证反馈后续投入并形成可复核结论，仍然相对不足。',
     '工程上我先做了 Workflow-Harness。它不重新实现模型调用和 Tool Loop，而是把现成 Coding Agent 当 Runner，通过统一接口和 Adapter 管理不同 CLI/SDK、原生 Session、Resume、流式事件、取消、Workspace、Manifest 和 Artifact。Session 保存仓库导航、构建命令和临时经验，但它不是权威状态；会话丢失后必须能从会话外状态和产物恢复。',
     '在 Harness 上，AdaptiveVuls 先建立部分、可修订的目标安全认知，把现实参与者、资产、目标承诺的边界、状态生命周期与代码检查联系起来，再结合漏洞知识做宽度优先 Survey，形成一组有目标依据但成熟度不同的调查方向。',
     '后续不是固定“发现—验证”流水线，而是一条持续调查过程。目标级 Sticky Investigator 保留仓库工作记忆，围绕当前最能改变判断的未知去读代码、执行工具、建立对照和 PoC。只有 Claim 实质变化、解释被区分、需要 Revision/Branch、出现决定性阻塞或有界结论时，才形成有意义的 Evidence Checkpoint。',
@@ -1200,9 +1207,9 @@ const INTERVIEW_PITCHES = [
     '所以 LangGraph 可以用于上层状态图，但 Harness 解决的是完整 Coding Agent 子进程、会话、工作区和产物的运行问题。两者不是简单竞争关系。'
   ],note:'这段是你的工程差异化说辞，建议能脱稿讲清。'},
   {id:'av-problem-90',group:'av',title:'为什么需要 AdaptiveVuls',duration:'90 秒',label:'研究问题',when:'被问“强 Coding Agent 直接给一个 Prompt 不行吗”。',anchors:['承认基线能力','开放调查','证据改变问题','可检验假设'],script:[
-    '首先我不预设原生 Coding Agent 不会检查边界或修订假设。强 Agent 理论上也能完成这些动作，所以 AdaptiveVuls 的贡献不能描述成让模型第一次拥有工具能力，也不能只说多 Agent 提效。',
-    '它关注的是开放仓库审计中的控制问题：漏洞位置、类型、攻击者、边界和验证方式都没有预先给定，而且会随着证据变化。原生会话中的这些变化通常埋在对话里，难以判断一个新证据究竟改变了哪项假设、为什么下一步动作随之变化，以及结论是否超过材料覆盖范围。',
-    'AV 把调查方向、Case Revision、Evidence Obligation、Artifact、Reviewed Update 和处置外置，让持续 Investigator 获取证据，让 Fresh Reviewer限制证据提升，再让新状态影响 Portfolio 下一步。但这些结构只是实现；真正需要实验验证的是：目标认知和漏洞知识是否带来更有价值的方向，Evidence是否真的带来基线没有得到的正确问题修订、决定性材料或有界结论。'
+    '首先我不预设原生Coding Agent不会检查边界或修订假设。强Agent已经具备仓库理解、工具调用和PoC能力，所以AdaptiveVuls的贡献不能描述成修复Coding Agent，或者让模型第一次拥有调查能力。',
+    '研究空缺来自任务设定和控制对象：传统规则/Fuzzing侧重已知模式或Oracle，许多LLM方法从给定代码单元、漏洞类型或候选出发，Batch-and-Confirm会冻结候选池；而开放仓库审计需要在多个方向间持续形成和修订安全问题，并让在线证据改变后续调查投入。',
+    'AV把调查方向、Case Revision、Evidence Obligation、Artifact、Reviewed Update和处置外置，让持续Investigator获取证据，让Fresh Reviewer限制证据提升，再让新状态影响Portfolio下一步。真正需要实验验证的是：这些机制是否比强原生Agent和固定候选验证带来更有价值的方向、正确问题修订、决定性材料或有界结论。'
   ],note:'开头主动承认强基线能力，比贬低原生 Agent 更符合当前 av.md。'},
   {id:'av-contribution',group:'av',title:'我个人具体做了什么',duration:'60–90 秒',label:'必问',when:'面试官追问个人贡献、团队分工或是否主导。',anchors:['底座实现','协议设计','实验与真实系统','不夸大'],script:[
     '我的工作主要有两部分。工程上，我实现和完善 Workflow-Harness 的统一 Runner 接入、Session/Resume、隔离 Workspace、Artifact/Manifest、异常恢复和审计，让不同 Coding Agent 可以在同一套显式 Workflow 下运行。',
@@ -1665,11 +1672,11 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     const list=pitchFilter==='all'?INTERVIEW_PITCHES:INTERVIEW_PITCHES.filter(x=>x.group===pitchFilter);
     const recommended=INTERVIEW_PITCHES.find(x=>x.id==='intro-90');
     return `${pageHead('面试说辞','基于最新简历和 av.md 整理的可直接口述版本。背结构和事实，不要机械逐字背诵。','INTERVIEW PLAYBOOK',`<button class="secondary-btn" data-go="resume">${icon('user')}核对简历</button><button class="primary-btn" data-copy-pitch="${recommended.id}">${icon('copy')}复制 90 秒版</button>`)}
-    <section class="pitch-hero"><div><span class="eyebrow">CLAIM → MECHANISM → EVIDENCE → BOUNDARY</span><h2>先让面试官记住一条主线：<strong>安全 × Agent 工程</strong></h2><p>默认使用 90 秒自我介绍；项目题按“问题—架构—个人贡献—结果—边界”回答。遇到不懂或没有真实数据的部分，明确边界并给出验证路径。</p><div class="pitch-hero-tags"><span>北邮 AI 本科</span><span>网安硕士</span><span>Workflow-Harness</span><span>AdaptiveVuls</span><span>RAG / MCP</span></div></div><div class="pitch-metrics"><div><strong>${INTERVIEW_PITCHES.length}</strong><small>套口述稿</small></div><div><strong>6</strong><small>回答场景</small></div><div><strong>90s</strong><small>默认开场</small></div></div></section>
+    <section class="pitch-hero"><div><span class="eyebrow">RELATED WORK → GAP → METHOD → EVIDENCE</span><h2>先让面试官记住一条主线：<strong>安全 × Agent 工程</strong></h2><p>默认使用90秒自我介绍；主项目先从任务设定与相关工作推出研究空缺，再讲方法、个人贡献、结果和边界。过早终止等问题只是出发点与评测对象，不能作为唯一研究动机。</p><div class="pitch-hero-tags"><span>北邮 AI 本科</span><span>网安硕士</span><span>Workflow-Harness</span><span>AdaptiveVuls</span><span>RAG / MCP</span></div></div><div class="pitch-metrics"><div><strong>${INTERVIEW_PITCHES.length}</strong><small>套口述稿</small></div><div><strong>6</strong><small>回答场景</small></div><div><strong>90s</strong><small>默认开场</small></div></div></section>
     <div class="pitch-principle"><span>${icon('mic')}</span><div><strong>练习方式</strong><p>第一遍照稿读顺；第二遍只看关键词；第三遍录音并压缩赘词。最终应该能按面试官追问随时停下，而不是强行把稿子背完。</p></div></div>
     <div class="filterbar pitch-filter"><button class="filter-chip ${pitchFilter==='all'?'active':''}" data-pitch-filter="all">全部 <b>${INTERVIEW_PITCHES.length}</b></button>${INTERVIEW_PITCH_GROUPS.map(g=>`<button class="filter-chip ${pitchFilter===g.id?'active':''}" data-pitch-filter="${g.id}">${esc(g.name)} <b>${INTERVIEW_PITCHES.filter(x=>x.group===g.id).length}</b></button>`).join('')}<span class="result-count">${list.length} 份说辞</span></div>
     <section class="pitch-list">${list.map(pitchCardHTML).join('')}</section>
-    <section class="pitch-boundary"><div><span class="eyebrow">FACT BOUNDARY</span><h2>当前必须守住的事实口径</h2></div><ul><li>AdaptiveVuls 当前工作区文档为 V1.43：目标级 Sticky Investigator；Controller、Reviewer、Refresh Survey 与 Saturation Challenge 保持 Fresh。</li><li>三个 lane 是权限与视角边界，不是并行流水线；不要把完整 Coding Agent Runner 说成 LangChain Tool。</li><li>9 个系统、21 个发现、11 个厂商确认修复、1 个 CVE、3 个 CNVD 是真实结果；不等于已经证明方法普遍优于基线。</li><li>国防项目使用 LightRAG 而不是 Microsoft GraphRAG；只说“项目通过验收、无人工干预完成长链路闭环、相关能力达到验收要求”，没有授权的数字不要补造。</li></ul></section>`;
+    <section class="pitch-boundary"><div><span class="eyebrow">FACT BOUNDARY</span><h2>当前必须守住的事实口径</h2></div><ul><li>主项目动机先讲相关工作：现有路线更集中于已知规则/Oracle、给定代码单元或冻结候选；不要说“Coding Agent有这些缺陷，所以我们做”。失败模式只能作为出发点、案例和评测对象。</li><li>AdaptiveVuls 当前工作区文档为 V1.43：目标级 Sticky Investigator；Controller、Reviewer、Refresh Survey 与 Saturation Challenge 保持 Fresh。</li><li>三个 lane 是权限与视角边界，不是并行流水线；不要把完整 Coding Agent Runner 说成 LangChain Tool。</li><li>9 个系统、21 个发现、11 个厂商确认修复、1 个 CVE、3 个 CNVD 是真实结果；不等于已经证明方法普遍优于基线。</li><li>国防项目使用 LightRAG 而不是 Microsoft GraphRAG；只说“项目通过验收、无人工干预完成长链路闭环、相关能力达到验收要求”，没有授权的数字不要补造。</li></ul></section>`;
   }
   function pitchCardHTML(p){
     const group=INTERVIEW_PITCH_GROUPS.find(g=>g.id===p.group);
