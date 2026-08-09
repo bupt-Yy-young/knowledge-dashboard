@@ -19,21 +19,32 @@
         <span><strong>复习</strong><small>SEC × AGENT</small></span>
       </a>
       <nav class="side-nav" id="sideNav">
-        <button data-view="dashboard" class="active"><span data-icon="grid"></span>复习总览</button>
-        <button data-view="questions"><span data-icon="layers"></span>知识题库 <b id="navQuestionCount">0</b></button>
-        <button data-view="project"><span data-icon="workflow"></span>项目深挖</button>
-        <button data-view="agentstack"><span data-icon="bot"></span>Agent 技术栈 <b id="navAgentCount">0</b></button>
-        <button data-view="securitytargets"><span data-icon="shield"></span>目标安全图谱 <b id="navSecurityCount">0</b></button>
-        <button data-view="vulnerabilities"><span data-icon="target"></span>漏洞复盘 <b id="navVulnCount">0</b></button>
-        <button data-view="visuals"><span data-icon="image"></span>图解知识 <b id="navVisualCount">0</b></button>
-        <button data-view="sources"><span data-icon="book"></span>面经来源 <b id="navSourceCount">0</b></button>
+        <span class="nav-section-label">开始学习</span>
+        <button data-view="dashboard" class="active"><span data-icon="grid"></span>今日计划</button>
+        <button data-view="sprints"><span data-icon="rocket"></span>专项训练 <b id="navSprintCount">6</b></button>
+        <button data-view="review"><span data-icon="refresh"></span>到期复习 <b id="navDueCount">0</b></button>
+
+        <span class="nav-section-label">面试实战</span>
         <button data-view="mock"><span data-icon="mic"></span>模拟面试</button>
-        <button data-view="review"><span data-icon="refresh"></span>今日复习 <b id="navDueCount">0</b></button>
-        <button data-view="bookmarks"><span data-icon="bookmark"></span>收藏错题</button>
-        <button data-view="resume"><span data-icon="user"></span>我的简历</button>
-        <button data-view="pitch"><span data-icon="message"></span>面试说辞 <b id="navPitchCount">0</b></button>
-        <button data-view="sprints"><span data-icon="rocket"></span>岗位冲刺 <b id="navSprintCount">6</b></button>
-        <button data-view="jobs"><span data-icon="briefcase"></span>招聘雷达 <b id="navJobCount">···</b></button>
+        <button data-view="pitch"><span data-icon="message"></span>口述稿 <b id="navPitchCount">0</b></button>
+
+        <span class="nav-section-label">知识管理</span>
+        <button data-view="questions"><span data-icon="layers"></span>全部题库 <b id="navQuestionCount">0</b></button>
+        <button data-view="bookmarks"><span data-icon="bookmark"></span>收藏与错题</button>
+
+        <details class="nav-more">
+          <summary><span data-icon="book"></span>资料与工具 <span data-icon="chevron"></span></summary>
+          <div>
+            <button data-view="project"><span data-icon="workflow"></span>项目深挖</button>
+            <button data-view="vulnerabilities"><span data-icon="target"></span>漏洞复盘 <b id="navVulnCount">0</b></button>
+            <button data-view="agentstack"><span data-icon="bot"></span>Agent 技术栈 <b id="navAgentCount">0</b></button>
+            <button data-view="securitytargets"><span data-icon="shield"></span>安全图谱 <b id="navSecurityCount">0</b></button>
+            <button data-view="visuals"><span data-icon="image"></span>图解知识 <b id="navVisualCount">0</b></button>
+            <button data-view="sources"><span data-icon="book"></span>面经来源 <b id="navSourceCount">0</b></button>
+            <button data-view="resume"><span data-icon="user"></span>我的简历</button>
+            <button data-view="jobs"><span data-icon="briefcase"></span>招聘雷达 <b id="navJobCount">···</b></button>
+          </div>
+        </details>
       </nav>
       <div class="sidebar-bottom">
         <div class="streak-card">
@@ -56,7 +67,7 @@
         </div>
         <div class="top-actions">
           <button class="icon-btn" id="randomBtn" aria-label="随机抽题" title="随机抽题"><span data-icon="shuffle"></span></button>
-          <button class="primary-btn compact" id="startReviewBtn"><span data-icon="play"></span>开始复习</button>
+          <button class="primary-btn compact" id="startReviewBtn"><span data-icon="play"></span>继续专项</button>
           <div class="avatar" aria-label="用户：游洋">YY</div>
         </div>
       </header>

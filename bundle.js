@@ -1786,11 +1786,12 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
   const today = () => new Date().toISOString().slice(0,10);
   const dayMs = 86400000;
   const STORAGE_KEY = 'qiuzhao-review-v1';
-  const defaultState = { progress:{}, jobActions:{}, activity:[], settings:{theme:'dark'}, studyDates:[], version:2 };
+  const defaultState = { progress:{}, jobActions:{}, activity:[], settings:{theme:'dark',activeTrack:'master:core40'}, drillSessions:{}, studyDates:[], version:3 };
   let state = loadState();
   let filters = {query:'', category:'all', difficulty:'all', priority:'all', bookmark:false, stage:null, securityFamily:null, sprint:null};
   let currentView = location.hash.slice(1) || 'dashboard';
   let mock = {pool:[], index:0, started:false, showing:false, seconds:120, timer:null};
+  let drill = {key:null,pool:[],index:0,revealed:false,finished:false};
   let visualFilter = 'all';
   let sourceFilter = 'all';
   let pitchFilter = 'all';
@@ -1816,13 +1817,20 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
   function hydrateIcons(root=document) { $$('[data-icon]',root).forEach(el => { el.innerHTML=icon(el.dataset.icon); }); }
 
   function loadState() {
-    try { return {...defaultState, ...JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')}; }
+    try {
+      const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+      return {...defaultState,...saved,settings:{...defaultState.settings,...(saved.settings||{})},drillSessions:saved.drillSessions||{}};
+    }
     catch { return structuredClone(defaultState); }
   }
   function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); updateNavBadges(); }
   function pstate(id) { return state.progress[id] || (state.progress[id]={mastery:0,interval:0,ease:2.5,due:today(),reviews:0,bookmarked:false,wrong:false}); }
   function masteredCount(list=QUESTIONS) { return list.filter(x => (state.progress[x.id]?.mastery||0)>=3).length; }
-  function dueQuestions() { const t=today(); return QUESTIONS.filter(x => { const p=state.progress[x.id]; return !p || !p.due || p.due<=t; }); }
+  function dueQuestions() {
+    const t=today(),due=QUESTIONS.filter(x=>{const p=state.progress[x.id];return p?.reviews&&(!p.due||p.due<=t)});
+    if(due.length)return due;
+    return QUESTIONS.filter(x=>!state.progress[x.id]&&x.priority==='必背').slice(0,20);
+  }
   function addActivity(text, type='review') {
     state.activity.unshift({text,type,time:new Date().toISOString()}); state.activity=state.activity.slice(0,20);
     if (!state.studyDates.includes(today())) state.studyDates.push(today()); saveState();
@@ -1837,8 +1845,13 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
 
   function setView(view, opts={}) {
     currentView=view; if(location.hash!==`#${view}`) history.pushState(null,'',`#${view}`);
-    $$('.side-nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
+    syncNavState(view);
     closeSidebar(); render(opts); window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function syncNavState(view=currentView){
+    const navView=view==='drill'?'sprints':view;
+    $$('.side-nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===navView));
+    const active=$(`.side-nav button[data-view="${navView}"]`),details=active?.closest('details');if(details)details.open=true;
   }
   function render(opts={}) {
     clearInterval(mock.timer);
@@ -1853,9 +1866,10 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     else if(currentView==='sources') main.innerHTML=sourcesHTML();
     else if(currentView==='pitch') main.innerHTML=pitchHTML();
     else if(currentView==='sprints') main.innerHTML=sprintsHTML();
+    else if(currentView==='drill') main.innerHTML=drillHTML();
     else if(currentView==='mock') main.innerHTML=mockHTML();
-    else if(currentView==='review') main.innerHTML=collectionHTML('今日复习',dueQuestions(),'根据间隔复习计划，今天建议完成这些题目。','REVIEW QUEUE');
-    else if(currentView==='bookmarks') main.innerHTML=collectionHTML('收藏与错题',QUESTIONS.filter(x=>state.progress[x.id]?.bookmarked||state.progress[x.id]?.wrong),'集中处理标记过的高风险知识点。','FOCUS LIST');
+    else if(currentView==='review') main.innerHTML=collectionHTML('到期复习',dueQuestions(),'根据间隔复习计划，优先处理到期和尚未接触的题目。','REVIEW QUEUE','review:due');
+    else if(currentView==='bookmarks') main.innerHTML=collectionHTML('收藏与错题',QUESTIONS.filter(x=>state.progress[x.id]?.bookmarked||state.progress[x.id]?.wrong),'集中处理标记过的高风险知识点。','FOCUS LIST','bookmarks:all');
     else if(currentView==='resume') main.innerHTML=resumeHTML();
     else if(currentView==='jobs') { main.innerHTML=jobsLoadingHTML(); loadJobs(); }
     else main.innerHTML=dashboardHTML();
@@ -1863,12 +1877,29 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     if(opts.openId) setTimeout(()=>openQuestion(opts.openId),0);
   }
 
+  function activeTrackKey(){
+    const key=state.settings.activeTrack||'master:core40',resolved=resolveDrillPool(key);
+    return resolved.pool.length?key:'master:core40';
+  }
+  function resolveDrillPool(key){
+    if(key==='review:due')return {key,title:'到期复习',subtitle:'按间隔计划巩固薄弱知识',pool:dueQuestions()};
+    if(key==='bookmarks:all')return {key,title:'收藏与错题',subtitle:'集中消除反复出错的问题',pool:QUESTIONS.filter(x=>state.progress[x.id]?.bookmarked||state.progress[x.id]?.wrong)};
+    const selection=sprintSelection(key);
+    if(!selection)return {key,title:'专项训练',subtitle:'',pool:[]};
+    return {key,title:selection.phase?.title||selection.mode.name,subtitle:selection.phase?selection.mode.name:selection.mode.summary,pool:selection.questions,mode:selection.mode,phase:selection.phase};
+  }
+  function trackProgress(mode){
+    const selection=sprintSelection(`${mode.id}:all`),done=masteredCount(selection.questions),pct=selection.questions.length?Math.round(done/selection.questions.length*100):0;
+    return {selection,done,pct};
+  }
   function dashboardHTML() {
-    const done=masteredCount(), reviewed=QUESTIONS.filter(x=>state.progress[x.id]?.reviews).length, due=dueQuestions().length;
-    const pct=Math.round(done/QUESTIONS.length*100);
-    return `<section class="hero"><div class="hero-copy"><span class="eyebrow">2026 AUTUMN RECRUITMENT</span><h1>晚上好，游洋。<br><strong>今天继续向前。</strong></h1><p>围绕「安全 × Agent 工程」建立可解释、可复用的面试知识体系。今天建议优先复习 ${due} 道到期题。</p><div class="hero-actions"><button class="primary-btn" data-go="review">${icon('play')}开始今日复习</button><button class="secondary-btn" data-go="mock">${icon('mic')}模拟面试</button></div></div><div class="hero-metric"><div class="mini-metric"><strong>${QUESTIONS.length}</strong><small>核心题目</small></div><div class="mini-metric"><strong>${done}</strong><small>已掌握</small></div><div class="mini-metric"><strong>${reviewed}</strong><small>已接触</small></div><div class="mini-metric"><strong>${streak()}<small> 天</small></strong><small>连续学习</small></div></div></section>
-    <section class="stat-grid"><div class="stat-card"><span class="stat-icon">${icon('clock')}</span><div><div class="value">${due}</div><div class="label">今日待复习</div></div></div><div class="stat-card"><span class="stat-icon">${icon('check')}</span><div><div class="value">${pct}%</div><div class="label">整体掌握度</div></div></div><div class="stat-card"><span class="stat-icon">${icon('star')}</span><div><div class="value">${QUESTIONS.filter(x=>state.progress[x.id]?.bookmarked).length}</div><div class="label">已收藏题目</div></div></div><div class="stat-card"><span class="stat-icon">${icon('target')}</span><div><div class="value">${QUESTIONS.filter(x=>x.priority==='高压').length}</div><div class="label">高压深挖题</div></div></div></section>
-    <section class="dashboard-grid"><div class="panel"><div class="panel-head"><h2>知识模块进度</h2><button class="text-btn" data-go="questions">查看全部</button></div><div class="topic-grid">${TOPICS.map(topicCardHTML).join('')}</div></div><div class="panel"><div class="panel-head"><h2>复习进度</h2><span class="eyebrow">SPACED</span></div><div class="progress-overview"><div class="progress-ring" style="--pct:${pct}"><div><strong>${pct}%</strong><small>${done}/${QUESTIONS.length}</small></div></div><div class="progress-bars">${[['已掌握',done,'var(--accent)'],['复习过',reviewed,'var(--blue)'],['收藏',QUESTIONS.filter(x=>state.progress[x.id]?.bookmarked).length,'var(--orange)']].map(([n,v,c])=>`<div class="bar-row"><span>${n}</span><div class="bar"><i style="width:${v/QUESTIONS.length*100}%;background:${c}"></i></div><b>${v}</b></div>`).join('')}</div></div><div class="panel-head" style="margin-top:25px"><h2>最近活动</h2></div><div class="activity-list">${activityHTML()}</div></div></section>`;
+    const activeKey=activeTrackKey(),active=resolveDrillPool(activeKey),done=masteredCount(active.pool),pct=active.pool.length?Math.round(done/active.pool.length*100):0;
+    const session=state.drillSessions[activeKey]||{},sessionComplete=Boolean(session.completedAt)&&session.index>=active.pool.length,next=sessionComplete?null:(active.pool[session.index%Math.max(1,active.pool.length)]||active.pool.find(x=>(state.progress[x.id]?.mastery||0)<3));
+    const due=dueQuestions(),bookmarks=QUESTIONS.filter(x=>state.progress[x.id]?.bookmarked||state.progress[x.id]?.wrong);
+    const topicStats=TOPICS.map(t=>{const list=QUESTIONS.filter(q=>q.category===t.id),reviewed=list.filter(q=>state.progress[q.id]?.reviews).length,mastered=masteredCount(list);return {...t,total:list.length,reviewed,mastered,pct:list.length?Math.round(mastered/list.length*100):0}}).sort((a,b)=>(a.pct-b.pct)||(b.reviewed-a.reviewed)).slice(0,4);
+    return `<section class="study-command"><div class="study-command-copy"><span class="eyebrow">TODAY / FOCUS MODE</span><p class="study-kicker">今天不要浏览全部 ${QUESTIONS.length} 道题，只推进一个专项。</p><h1>${esc(active.title)}</h1><p>${esc(active.subtitle)}</p><div class="study-progress-line"><div><i style="width:${pct}%"></i></div><strong>${pct}%</strong><span>${done}/${active.pool.length} 已掌握</span></div><div class="hero-actions"><button class="primary-btn" ${sessionComplete?`data-drill-restart="${esc(activeKey)}"`:`data-drill-start="${esc(activeKey)}"`}>${icon(sessionComplete?'rotate':'play')}${sessionComplete?'再练一轮':session.index?'继续上次':'开始训练'}</button><button class="secondary-btn" data-open-sprint="${esc(active.mode?.id||'master')}">${icon('rocket')}调整专项</button></div></div><aside class="next-question"><span>下一题</span><small>${esc(next?`${TOPICS.find(t=>t.id===next.category)?.name||next.category} · ${next.priority}`:'当前专项已完成')}</small><h2>${esc(next?.question||'选择新的专项继续训练')}</h2><p>${next?'先脱稿口述，再查看一句话答案和完整框架。':'可以转入模拟面试或选择其他岗位专项。'}</p></aside></section>
+    <section class="today-actions"><article><span class="today-icon due">${icon('refresh')}</span><div><small>SPACED REVIEW</small><h3>到期复习</h3><p>${due.length} 道 · 优先巩固遗忘题</p></div><button class="secondary-btn" data-drill-start="review:due">开始</button></article><article><span class="today-icon mock">${icon('mic')}</span><div><small>INTERVIEW MODE</small><h3>10 题模拟</h3><p>每题 2 分钟，训练完整表达</p></div><button class="secondary-btn" data-go="mock">开始</button></article><article><span class="today-icon wrong">${icon('bookmark')}</span><div><small>WEAK POINTS</small><h3>收藏与错题</h3><p>${bookmarks.length} 道 · 集中消除卡点</p></div><button class="secondary-btn" ${bookmarks.length?'data-drill-start="bookmarks:all"':'data-go="questions"'}>${bookmarks.length?'复习':'去标记'}</button></article></section>
+    <section class="home-learning-grid"><div class="learning-panel"><div class="panel-head"><div><span class="eyebrow">SPECIAL TRACKS</span><h2>专项进度</h2></div><button class="text-btn" data-go="sprints">查看完整路线</button></div><div class="home-track-list">${JOB_SPRINTS.map(mode=>{const p=trackProgress(mode);return `<button data-open-sprint="${mode.id}" class="home-track ${active.mode?.id===mode.id?'active':''}"><span class="track-mark">${mode.id==='master'?'M':esc(mode.name.slice(0,1))}</span><div><strong>${esc(mode.name)}</strong><small>${p.done}/${p.selection.questions.length} 已掌握</small><div class="bar"><i style="width:${p.pct}%"></i></div></div><b>${p.pct}%</b></button>`}).join('')}</div></div><div class="learning-panel"><div class="panel-head"><div><span class="eyebrow">KNOWLEDGE HEALTH</span><h2>优先补齐</h2></div><button class="text-btn" data-go="questions">进入题库</button></div><div class="weak-topic-list">${topicStats.map(t=>`<button data-category="${t.id}"><span class="topic-icon" style="--topic:${t.color}">${icon(t.icon)}</span><div><strong>${esc(t.name)}</strong><small>${t.reviewed?`已复习 ${t.reviewed} / ${t.total}`:'尚未系统复习'}</small></div><b>${t.pct}%</b></button>`).join('')}</div><div class="home-activity"><div class="panel-head"><h3>最近记录</h3><small>${streak()} 天连续学习</small></div>${activityHTML()}</div></div></section>`;
   }
   function topicCardHTML(t) {
     const list=QUESTIONS.filter(q=>q.category===t.id), done=masteredCount(list), pct=list.length?Math.round(done/list.length*100):0;
@@ -1889,7 +1920,7 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     return `${pageHead('知识题库','覆盖项目、安全、Agent、LLM、数据库与开发基础；每个模块默认按“简单 → 中等 → 困难”排列。','KNOWLEDGE BASE',`<a class="secondary-btn" href="KNOWLEDGE_SOURCES.md" target="_blank">${icon('external')}整理来源</a><button class="secondary-btn" id="clearFilters">${icon('rotate')}清除筛选</button><button class="primary-btn" data-random>${icon('shuffle')}随机抽题</button>`)}
     ${activeStage?`<div class="active-stage"><span>${activeStage.order}</span><div><small>AGENT LEARNING PATH</small><strong>${esc(activeStage.title)}</strong></div><button id="clearStage">查看完整题库 ${icon('x')}</button></div>`:''}${activeFamily?`<div class="active-stage security"><span>${activeFamily.order}</span><div><small>SECURITY TARGET MAP</small><strong>${esc(activeFamily.title)}</strong></div><button id="clearSecurityFamily">查看完整题库 ${icon('x')}</button></div>`:''}${activeSprint?`<div class="active-stage sprint"><span>${activeSprint.phase?.order||'ALL'}</span><div><small>${esc(activeSprint.mode.name)} · JOB SPRINT</small><strong>${esc(activeSprint.phase?.title||'完整冲刺题单')}</strong></div><button id="clearSprint">查看完整题库 ${icon('x')}</button></div>`:''}<div class="filterbar"><select class="select" id="categoryFilter" aria-label="知识模块"><option value="all">全部模块</option>${TOPICS.map(t=>`<option value="${t.id}" ${filters.category===t.id?'selected':''}>${t.name}</option>`).join('')}</select><select class="select" id="difficultyFilter" aria-label="难度"><option value="all">全部难度</option>${['简单','中等','困难'].map(x=>`<option ${filters.difficulty===x?'selected':''}>${x}</option>`).join('')}</select>${['必背','高压','深挖'].map(x=>`<button class="filter-chip ${filters.priority===x?'active':''}" data-priority="${x}">${x==='必背'?icon('star'):x==='高压'?icon('target'):icon('layers')}${x}</button>`).join('')}<button class="filter-chip ${filters.bookmark?'active':''}" id="bookmarkFilter">${icon('bookmark')}仅收藏</button><span class="result-count">找到 ${list.length} / ${QUESTIONS.length} 道题</span></div>${questionListHTML(list)}`;
   }
-  function collectionHTML(title,list,desc,eyebrow) { return `${pageHead(title,desc,eyebrow,`<button class="secondary-btn" data-go="questions">${icon('layers')}完整题库</button><button class="primary-btn" data-random>${icon('shuffle')}随机抽题</button>`)}${questionListHTML(list)}`; }
+  function collectionHTML(title,list,desc,eyebrow,drillKey) { return `${pageHead(title,desc,eyebrow,`<button class="secondary-btn" data-go="questions">${icon('layers')}完整题库</button><button class="primary-btn" data-drill-start="${esc(drillKey)}">${icon('play')}单题训练</button>`)}${questionListHTML(list)}`; }
   function pageHead(title,desc,eyebrow,actions='') { return `<div class="page-head"><div><span class="eyebrow">${eyebrow}</span><h1>${title}</h1><p>${desc}</p></div><div class="page-actions">${actions}</div></div>`; }
   function filteredQuestions() {
     const s=filters.query.trim().toLowerCase();
@@ -2034,21 +2065,56 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     return {mode,phase,questions,key:`${mode.id}:${phase?.id||'all'}`};
   }
   function applicationMapHTML(){
-    return `<section class="application-map"><div class="panel-head"><div><span class="eyebrow">APPLICATION MAP</span><h2>已投岗位与能力对齐</h2></div><small>以 Agent Systems 为横向能力，以漏洞与安全研究为领域纵深</small></div><div class="application-role-grid">${APPLICATION_ROLE_MAP.map(r=>`<article class="application-role-card"><header><div><span>${esc(r.status)}</span><h3>${esc(r.company)}</h3></div><b>${esc(r.track)}</b></header><strong>${esc(r.role)}</strong><small>${esc(r.org)}</small><div class="application-focus">${r.focus.map(x=>`<i>${esc(x)}</i>`).join('')}</div><dl><div><dt>当前匹配</dt><dd>${esc(r.fit)}</dd></div><div><dt>优先补齐</dt><dd>${esc(r.gap)}</dd></div></dl></article>`).join('')}</div><div class="capability-tree">${APPLICATION_CAPABILITY_TREE.map((x,i)=>`<article><span>${String(i+1).padStart(2,'0')}</span><div><strong>${esc(x.name)}</strong><p>${x.items.map(y=>`<i>${esc(y)}</i>`).join('')}</p></div></article>`).join('')}</div></section>`;
+    return `<section class="application-map-inner"><div class="panel-head"><div><span class="eyebrow">APPLICATION MAP</span><h2>已投岗位与能力对齐</h2></div><small>以 Agent Systems 为横向能力，以漏洞与安全研究为领域纵深</small></div><div class="application-role-grid">${APPLICATION_ROLE_MAP.map(r=>`<article class="application-role-card"><header><div><span>${esc(r.status)}</span><h3>${esc(r.company)}</h3></div><b>${esc(r.track)}</b></header><strong>${esc(r.role)}</strong><small>${esc(r.org)}</small><div class="application-focus">${r.focus.map(x=>`<i>${esc(x)}</i>`).join('')}</div><dl><div><dt>当前匹配</dt><dd>${esc(r.fit)}</dd></div><div><dt>优先补齐</dt><dd>${esc(r.gap)}</dd></div></dl></article>`).join('')}</div><div class="capability-tree">${APPLICATION_CAPABILITY_TREE.map((x,i)=>`<article><span>${String(i+1).padStart(2,'0')}</span><div><strong>${esc(x.name)}</strong><p>${x.items.map(y=>`<i>${esc(y)}</i>`).join('')}</p></div></article>`).join('')}</div></section>`;
   }
   function sprintsHTML(){
     const mode=JOB_SPRINTS.find(x=>x.id===sprintMode)||JOB_SPRINTS[0],selection=sprintSelection(`${mode.id}:all`),done=masteredCount(selection.questions),pct=selection.questions.length?Math.round(done/selection.questions.length*100):0;
-    return `${pageHead('岗位冲刺模式','先用AI Agent × 安全总面经和核心40题建立主干，再进入百度、OPPO、字节、阿里/阿里云和蚂蚁五个岗位专项。','ROLE-SPECIFIC SPRINT',`<button class="secondary-btn" data-go="pitch">${icon('message')}先练自我介绍</button><button class="primary-btn" data-sprint-start="${mode.id}:all">${icon('play')}开始完整题单</button>`)}
-    ${applicationMapHTML()}
-    <div class="sprint-mode-tabs" role="tablist" aria-label="选择岗位冲刺模式">${JOB_SPRINTS.map(x=>`<button role="tab" aria-selected="${mode.id===x.id}" class="${mode.id===x.id?'active':''}" data-sprint-mode="${x.id}"><span>${esc(x.eyebrow)}</span><strong>${esc(x.name)}</strong><small>${x.phases.length} 个阶段</small></button>`).join('')}</div>
-    <section class="sprint-hero ${mode.tone}"><div><span class="eyebrow">${esc(mode.eyebrow)}</span><h2>${esc(mode.name)}</h2><p>${esc(mode.summary)}</p><div class="sprint-role"><strong>岗位核心画像</strong><span>${esc(mode.role)}</span></div><div class="sprint-source-links">${mode.sources.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)} ${icon('external')}</a>`).join('')}</div></div><div class="sprint-progress"><div class="progress-ring" style="--pct:${pct}"><div><strong>${pct}%</strong><small>${done}/${selection.questions.length}</small></div></div><p><strong>${selection.questions.length}</strong> 道精选题</p><small>${selection.questions.filter(x=>x.priority==='高压').length} 道高压 · 已掌握 ${done}</small></div></section>
-    <div class="sprint-rule"><span>${icon('target')}</span><div><strong>回答纪律</strong><p>${esc(mode.discipline||(mode.id==='baidu'?'把安全研究翻译成质量工程：每题都说测试对象、Oracle、数据、故障、指标和剩余风险。':'把方法、工程和应用分开：传统安全要讲机制，Agent安全要讲权限与副作用，研究结论要讲严格证据边界。'))}</p></div></div>
-    <section class="sprint-phase-grid">${mode.phases.map(phase=>sprintPhaseCard(mode,phase)).join('')}</section>
-    <section class="sprint-plan"><div><span class="eyebrow">7-DAY PLAN</span><h2>${esc(mode.planTitle||(mode.id==='baidu'?'百度：先项目，再测试，再平台':'阿里/阿里云：先真实安全深度，再Agent治理与研究高压'))}</h2><p>${esc(mode.plan||(mode.id==='baidu'?'Day 1 口述与项目；Day 2 测试方法；Day 3 Pytest/接口；Day 4 LLM评测；Day 5 Agent测试和性能；Day 6 系统设计；Day 7 基础题与模拟面试。':'Day 1 真实漏洞与项目；Day 2 传统安全；Day 3 Prompt/Tool/Memory；Day 4 Sandbox与隐私；Day 5 安全平台；Day 6 研究高压；Day 7 全链模拟。'))}</p></div><div class="sprint-plan-actions">${mode.id==='master'?`<button class="secondary-btn" data-core-mock>${icon('mic')}核心40随机模拟</button>`:`<button class="secondary-btn" data-go="mock">${icon('mic')}随机模拟</button>`}<button class="primary-btn" data-sprint-start="${mode.id}:${mode.phases[0].id}">${icon('arrow')}${mode.id==='master'?'从核心40开始':'从阶段 01 开始'}</button></div></section>`;
+    const recommendedKey=mode.id==='master'?'master:core40':`${mode.id}:${mode.phases[0].id}`,isActive=activeTrackKey().startsWith(`${mode.id}:`);
+    return `${pageHead('专项训练','先选一个目标，再按阶段逐题口述。不要在多个知识页面之间来回跳。','FOCUSED LEARNING',`<button class="secondary-btn" data-go="pitch">${icon('message')}练口述稿</button><button class="primary-btn" data-drill-start="${mode.id}:all">${icon('play')}训练完整路线</button>`)}
+    <section class="track-switcher"><div class="track-switcher-head"><div><span class="eyebrow">CHOOSE ONE TRACK</span><h2>当前只推进一个方向</h2></div><small>切换不会丢失各专项的训练位置</small></div><div class="sprint-mode-tabs" role="tablist" aria-label="选择专项训练模式">${JOB_SPRINTS.map(x=>{const p=trackProgress(x);return `<button role="tab" aria-selected="${mode.id===x.id}" class="${mode.id===x.id?'active':''}" data-sprint-mode="${x.id}"><span>${esc(x.eyebrow)}</span><strong>${esc(x.name)}</strong><small>${p.pct}% · ${x.phases.length} 阶段</small></button>`}).join('')}</div></section>
+    <section class="sprint-hero ${mode.tone}"><div><span class="eyebrow">${esc(mode.eyebrow)}</span><h2>${esc(mode.name)}</h2><p>${esc(mode.summary)}</p><div class="sprint-role"><strong>这一专项要解决</strong><span>${esc(mode.role)}</span></div><div class="sprint-hero-actions"><button class="${isActive?'secondary-btn':'primary-btn'}" ${isActive?'disabled aria-disabled="true"':`data-set-active-track="${esc(recommendedKey)}"`}>${isActive?icon('check'):icon('target')}${isActive?'当前专项':'设为当前专项'}</button><button class="secondary-btn" data-drill-start="${mode.id}:all">${icon('play')}开始逐题训练</button>${mode.sources.map(x=>`<a class="secondary-btn" href="${esc(x.url)}" target="_blank" rel="noopener">${icon('external')}${esc(x.name)}</a>`).join('')}</div></div><div class="sprint-progress"><div class="progress-ring" style="--pct:${pct}"><div><strong>${pct}%</strong><small>${done}/${selection.questions.length}</small></div></div><p><strong>${selection.questions.length}</strong> 道精选题</p><small>${selection.questions.filter(x=>x.priority==='高压').length} 道高压 · ${selection.questions.filter(x=>x.priority==='必背').length} 道必背</small></div></section>
+    <div class="sprint-rule"><span>${icon('target')}</span><div><strong>回答纪律</strong><p>${esc(mode.discipline||(mode.id==='baidu'?'把安全研究翻译成质量工程：每题都说测试对象、Oracle、数据、故障、指标和剩余风险。':'把方法、工程和应用分开：传统安全讲机制，Agent安全讲权限与副作用，研究结论讲证据边界。'))}</p></div></div>
+    <div class="section-title-row"><div><span class="eyebrow">LEARNING PATH</span><h2>按阶段推进</h2></div><small>训练模式一次只展示一题；题单模式适合查漏补缺</small></div><section class="sprint-phase-grid">${mode.phases.map(phase=>sprintPhaseCard(mode,phase)).join('')}</section>
+    <section class="sprint-plan"><div><span class="eyebrow">7-DAY PLAN</span><h2>${esc(mode.planTitle||(mode.id==='baidu'?'百度：先项目，再测试，再平台':'阿里/阿里云：先真实安全深度，再Agent治理与研究高压'))}</h2><p>${esc(mode.plan||(mode.id==='baidu'?'Day 1 口述与项目；Day 2 测试方法；Day 3 Pytest/接口；Day 4 LLM评测；Day 5 Agent测试和性能；Day 6 系统设计；Day 7 基础题与模拟面试。':'Day 1 真实漏洞与项目；Day 2 传统安全；Day 3 Prompt/Tool/Memory；Day 4 Sandbox与隐私；Day 5 安全平台；Day 6 研究高压；Day 7 全链模拟。'))}</p></div><div class="sprint-plan-actions"><button class="secondary-btn" data-go="mock">${icon('mic')}模拟面试</button><button class="primary-btn" data-drill-start="${esc(recommendedKey)}">${icon('arrow')}从推荐阶段开始</button></div></section>
+    <details class="application-map application-map-collapsed"><summary><div><span class="eyebrow">APPLICATION MAP</span><strong>查看五个岗位与能力差距</strong></div><span>${icon('chevron')}</span></summary><div class="application-map-body">${applicationMapHTML()}</div></details>`;
   }
   function sprintPhaseCard(mode,phase){
-    const questions=sprintQuestionsForQueries(phase.queries),done=masteredCount(questions),pct=questions.length?Math.round(done/questions.length*100):0;
-    return `<article class="sprint-phase-card ${mode.tone}"><div class="sprint-phase-head"><span>${phase.order}</span><div><small>${esc(phase.level)}</small><h3>${esc(phase.title)}</h3></div><button class="icon-btn" data-sprint-start="${mode.id}:${phase.id}" aria-label="开始${esc(phase.title)}">${icon('arrow')}</button></div><p>${esc(phase.desc)}</p><div class="sprint-phase-meta"><span>${questions.length} 道题</span><span>${questions.filter(x=>x.difficulty==='困难').length} 道困难</span><span>${questions.filter(x=>x.priority==='高压').length} 道高压</span></div><div class="stage-progress"><div class="bar"><i style="width:${pct}%"></i></div><small>${done}/${questions.length}</small></div></article>`;
+    const key=`${mode.id}:${phase.id}`,questions=sprintQuestionsForQueries(phase.queries),done=masteredCount(questions),reviewed=questions.filter(x=>state.progress[x.id]?.reviews).length,pct=questions.length?Math.round(done/questions.length*100):0,session=state.drillSessions[key],sessionComplete=Boolean(session?.completedAt)&&session.index>=questions.length,status=pct===100?'已完成':sessionComplete?'待巩固':session?.index?'进行中':reviewed?'待巩固':'未开始';
+    return `<article class="sprint-phase-card ${mode.tone} ${activeTrackKey()===key?'current':''}"><div class="sprint-phase-head"><span>${phase.order}</span><div><small>${esc(phase.level)} · ${status}</small><h3>${esc(phase.title)}</h3></div>${activeTrackKey()===key?`<i class="current-track-mark">当前</i>`:''}</div><p>${esc(phase.desc)}</p><div class="sprint-phase-meta"><span>${questions.length} 道题</span><span>${questions.filter(x=>x.difficulty==='困难').length} 道困难</span><span>${questions.filter(x=>x.priority==='高压').length} 道高压</span></div><div class="stage-progress"><div class="bar"><i style="width:${pct}%"></i></div><small>${done}/${questions.length}</small></div><div class="phase-actions"><button class="primary-btn" ${sessionComplete?`data-drill-restart="${key}"`:`data-drill-start="${key}"`}>${icon(sessionComplete?'rotate':'play')}${sessionComplete?'巩固一轮':session?.index?'继续训练':'开始训练'}</button><button class="secondary-btn" data-sprint-start="${key}">${icon('layers')}查看题单</button></div></article>`;
+  }
+
+  function prepareDrill(key,restart=false){
+    const resolved=resolveDrillPool(key),baseIds=resolved.pool.map(x=>x.id),saved=state.drillSessions[key]||{};
+    const baseSet=new Set(baseIds),previous=restart?[]:(saved.order||[]).filter(id=>baseSet.has(id)),oldIndex=restart?0:Math.min(saved.index||0,(saved.order||[]).length);
+    const answered=restart?[]:(saved.order||[]).slice(0,oldIndex).filter(id=>baseSet.has(id)),pending=previous.filter(id=>!answered.includes(id)),known=new Set([...answered,...pending]);
+    const order=[...answered,...pending,...baseIds.filter(id=>!known.has(id))],byId=new Map(QUESTIONS.map(x=>[x.id,x])),pool=order.map(id=>byId.get(id)).filter(Boolean),index=answered.length;
+    const finished=!restart&&Boolean(saved.completedAt)&&index>=pool.length;
+    drill={key,pool,index,revealed:false,finished};
+    state.drillSessions[key]={...saved,order,index,updatedAt:new Date().toISOString(),completedAt:finished?saved.completedAt:null};
+    state.settings.lastDrill=key;
+    if(JOB_SPRINTS.some(x=>key.startsWith(`${x.id}:`)))state.settings.activeTrack=key;
+    saveState();return resolved;
+  }
+  function startDrill(key,restart=false){
+    const resolved=prepareDrill(key,restart);if(!resolved.pool.length){showToast('当前专项还没有可训练题目');return}setView('drill');
+  }
+  function drillHTML(){
+    if(!drill.pool.length)prepareDrill(state.settings.lastDrill||activeTrackKey());
+    const resolved=resolveDrillPool(drill.key),total=drill.pool.length,mastered=masteredCount(drill.pool),reviewed=drill.pool.filter(x=>state.progress[x.id]?.reviews).length;
+    if(drill.finished||drill.index>=total)return `${pageHead('本轮训练完成',`已走完「${esc(resolved.title)}」的 ${total} 道题。`,'SESSION COMPLETE')}<section class="drill-finish"><span>${icon('check')}</span><h2>不要追求一次全会，下一轮只处理遗忘和卡顿。</h2><div><article><strong>${mastered}</strong><small>已掌握</small></article><article><strong>${reviewed}</strong><small>已回答</small></article><article><strong>${total-mastered}</strong><small>待巩固</small></article></div><div class="hero-actions"><button class="primary-btn" data-drill-restart="${esc(drill.key)}">${icon('rotate')}再练一轮</button><button class="secondary-btn" data-go="sprints">${icon('rocket')}返回专项</button></div></section>`;
+    const x=drill.pool[drill.index],topic=TOPICS.find(t=>t.id===x.category),pct=Math.round(drill.index/Math.max(1,total)*100),p=state.progress[x.id]||{};
+    return `<section class="drill-top"><button class="text-btn" data-go="sprints">${icon('arrow','back-icon')}退出训练</button><div><span>${esc(resolved.subtitle)}</span><strong>${esc(resolved.title)}</strong></div><small>${drill.index+1} / ${total}</small></section><div class="drill-progress"><i style="width:${pct}%"></i></div><section class="drill-layout"><article class="drill-card ${drill.revealed?'revealed':''}"><header><div class="meta-row"><span class="pill">${esc(topic?.name||x.category)}</span><span class="pill">${esc(x.difficulty)}</span><span class="pill ${x.priority==='必背'?'must':x.priority==='高压'?'hard':'deep'}">${esc(x.priority)}</span>${p.mastery>=3?'<span class="pill must">已掌握</span>':''}</div><span class="question-counter">QUESTION ${String(drill.index+1).padStart(2,'0')}</span></header><div class="drill-prompt"><h1>${esc(x.question)}</h1>${!drill.revealed?`<div class="recall-guide"><span>${icon('mic')}</span><div><strong>先口述，不要马上看答案</strong><p>用“一句话结论 → 2–3个机制 → 项目例子 → 边界”回答，建议 90–120 秒。</p></div></div><div class="drill-primary-actions"><button class="secondary-btn" data-drill-skip>稍后再答</button><button class="primary-btn" data-drill-reveal>${icon('play')}我说完了，查看参考</button></div>`:`<div class="drill-answer"><section class="drill-one-line"><span>ONE-LINE ANSWER</span><p>${x.shortAnswer}</p></section><section class="drill-full"><span>完整回答</span>${x.fullAnswer}</section><div class="drill-answer-grid"><section><span>连续追问</span><ul>${x.followUps.map(y=>`<li>${esc(y)}</li>`).join('')}</ul></section><section><span>如何连回自己项目</span><p>${esc(x.relatedProject)}</p></section></div></div><div class="drill-rating"><div><strong>这次回答得怎样？</strong><small>评价后自动进入下一题</small></div><button data-drill-rating="0">忘记</button><button data-drill-rating="1">吃力</button><button data-drill-rating="2">还行</button><button class="good" data-drill-rating="3">掌握</button></div>`}</div></article><aside class="drill-side"><div><span class="eyebrow">SESSION</span><h3>本轮进度</h3><dl><div><dt>已回答</dt><dd>${drill.index}</dd></div><div><dt>已掌握</dt><dd>${mastered}</dd></div><div><dt>待巩固</dt><dd>${total-mastered}</dd></div></dl></div><div><span class="eyebrow">KEYBOARD</span><p><kbd>Space</kbd> 显示答案</p><p><kbd>1–4</kbd> 自我评价</p><p><kbd>→</kbd> 稍后再答</p></div></aside></section>`;
+  }
+  function finishDrillStep(rating){
+    const x=drill.pool[drill.index];if(!x)return;rateQuestion(x.id,rating);drill.index++;drill.revealed=false;
+    const session=state.drillSessions[drill.key];session.index=drill.index;session.updatedAt=new Date().toISOString();
+    if(drill.index>=drill.pool.length){drill.finished=true;session.completedAt=session.updatedAt;addActivity(`完成专项：${resolveDrillPool(drill.key).title}`,'master')}
+    saveState();render();
+  }
+  function skipDrillStep(){
+    if(!drill.pool.length||drill.index>=drill.pool.length)return;
+    if(drill.pool.length-drill.index<=1){showToast('已经是本轮最后一题');return}
+    const x=drill.pool.splice(drill.index,1)[0];drill.pool.push(x);state.drillSessions[drill.key].order=drill.pool.map(q=>q.id);saveState();drill.revealed=false;render();showToast('已移到本轮最后');
   }
 
   function jobsLoadingHTML(){
@@ -2122,6 +2188,7 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
   function bindViewEvents() {
     $$('[data-go]').forEach(b=>b.onclick=()=>setView(b.dataset.go));
     $$('.topic-card').forEach(c=>c.onclick=()=>{filters.category=c.dataset.category;filters.stage=null;filters.securityFamily=null;filters.sprint=null;setView('questions')});
+    $$('.weak-topic-list [data-category]').forEach(c=>c.onclick=()=>{filters={...filters,query:'',category:c.dataset.category,difficulty:'all',priority:'all',bookmark:false,stage:null,securityFamily:null,sprint:null};setView('questions')});
     $$('[data-agent-stage]').forEach(b=>b.onclick=()=>{filters={...filters,query:'',category:'agent',difficulty:'all',priority:'all',bookmark:false,stage:b.dataset.agentStage,securityFamily:null,sprint:null};$('#globalSearch').value='';setView('questions')});
     $$('[data-agent-all]').forEach(b=>b.onclick=()=>{filters={...filters,query:'',category:'agent',difficulty:'all',priority:'all',bookmark:false,stage:null,securityFamily:null,sprint:null};$('#globalSearch').value='';setView('questions')});
     $$('[data-security-family]').forEach(b=>b.onclick=()=>{filters={...filters,query:'',category:'security',difficulty:'all',priority:'all',bookmark:false,stage:null,securityFamily:b.dataset.securityFamily,sprint:null};$('#globalSearch').value='';setView('questions')});
@@ -2131,6 +2198,13 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     $$('[data-pitch-filter]').forEach(b=>b.onclick=()=>{pitchFilter=b.dataset.pitchFilter;render()});
     $$('[data-copy-pitch]').forEach(b=>b.onclick=async()=>{const p=INTERVIEW_PITCHES.find(x=>x.id===b.dataset.copyPitch);if(!p)return;const content=`${p.title}（${p.duration}）\n\n${p.script.join('\n\n')}`;try{await copyText(content);showToast(`已复制：${p.title}`)}catch{showToast('复制失败，请手动选择文本')}});
     $$('[data-sprint-mode]').forEach(b=>b.onclick=()=>{sprintMode=b.dataset.sprintMode;render()});
+    $$('[data-open-sprint]').forEach(b=>b.onclick=()=>{sprintMode=b.dataset.openSprint;setView('sprints')});
+    $$('[data-set-active-track]').forEach(b=>b.onclick=()=>{state.settings.activeTrack=b.dataset.setActiveTrack;saveState();showToast('已设为当前专项');render()});
+    $$('[data-drill-start]').forEach(b=>b.onclick=()=>startDrill(b.dataset.drillStart));
+    $$('[data-drill-restart]').forEach(b=>b.onclick=()=>startDrill(b.dataset.drillRestart,true));
+    const reveal=$('[data-drill-reveal]');if(reveal)reveal.onclick=()=>{drill.revealed=true;render()};
+    const skip=$('[data-drill-skip]');if(skip)skip.onclick=skipDrillStep;
+    $$('[data-drill-rating]').forEach(b=>b.onclick=()=>finishDrillStep(+b.dataset.drillRating));
     $$('[data-sprint-start]').forEach(b=>b.onclick=()=>{filters={...filters,query:'',category:'all',difficulty:'all',priority:'all',bookmark:false,stage:null,securityFamily:null,sprint:b.dataset.sprintStart};$('#globalSearch').value='';setView('questions')});
     const coreMock=$('[data-core-mock]');if(coreMock)coreMock.onclick=()=>{const pool=sprintSelection('master:core40').questions;mock={pool:shuffle(pool).slice(0,10),index:0,started:true,showing:false,seconds:120,timer:null};setView('mock');startMockTimer()};
     $$('[data-lightbox]').forEach(b=>b.onclick=()=>openFigure(b.dataset.lightbox,b.dataset.alt));
@@ -2193,21 +2267,28 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
   function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
   function init() {
-    document.documentElement.dataset.theme=state.settings.theme||'dark';hydrateIcons();updateNavBadges();render();
+    document.documentElement.dataset.theme=state.settings.theme||'dark';hydrateIcons();updateNavBadges();syncNavState();render();
     if(currentView!=='jobs') fetch(`jobs.json?v=${today()}`,{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(data=>{if(data){jobFeed=data;updateNavBadges()}}).catch(()=>{});
     setInterval(()=>{if(currentView==='jobs')loadJobs(true)},30*60*1000);
     $$('.side-nav button').forEach(b=>b.onclick=()=>setView(b.dataset.view));
     $('#menuBtn').onclick=()=>{$('#sidebar').classList.add('open');$('#mobileScrim').classList.add('show')};$('#mobileScrim').onclick=closeSidebar;
     $('#themeBtn').onclick=()=>{state.settings.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=state.settings.theme;saveState();showToast(state.settings.theme==='dark'?'已切换深色模式':'已切换浅色模式')};
-    $('#randomBtn').onclick=randomQuestion;$('#startReviewBtn').onclick=()=>setView('review');
+    $('#randomBtn').onclick=randomQuestion;$('#startReviewBtn').onclick=()=>startDrill(activeTrackKey());
     const search=$('#globalSearch'); search.oninput=()=>{filters.query=search.value;filters.stage=null;filters.securityFamily=null;filters.sprint=null;if(currentView!=='questions')setView('questions');else render()};
-    document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();search.focus()}if(e.key==='Escape')closeSidebar()});
+    document.addEventListener('keydown',e=>{
+      if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();search.focus();return}if(e.key==='Escape'){closeSidebar();return}
+      if(currentView!=='drill'||['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;
+      if(drill.finished||drill.index>=drill.pool.length)return;
+      if(e.code==='Space'&&!drill.revealed){e.preventDefault();drill.revealed=true;render()}
+      else if(drill.revealed&&['1','2','3','4'].includes(e.key)){e.preventDefault();finishDrillStep(Number(e.key)-1)}
+      else if(e.key==='ArrowRight'&&!drill.revealed){e.preventDefault();skipDrillStep()}
+    });
     $('#dataBtn').onclick=()=>$('#dataDialog').showModal();
     $('#figureDialog .figure-close').onclick=()=>$('#figureDialog').close();$('#figureDialog').onclick=e=>{if(e.target===$('#figureDialog'))$('#figureDialog').close()};
     $('#exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`秋招复习进度-${today()}.json`;a.click();URL.revokeObjectURL(a.href);showToast('复习进度已导出')};
-    $('#importInput').onchange=async e=>{try{const incoming=JSON.parse(await e.target.files[0].text());if(!incoming.progress)throw 0;state={...defaultState,...incoming};saveState();render();$('#dataDialog').close();showToast('进度导入成功')}catch{showToast('文件格式不正确')}};
+    $('#importInput').onchange=async e=>{try{const incoming=JSON.parse(await e.target.files[0].text());if(!incoming.progress)throw 0;state={...defaultState,...incoming,settings:{...defaultState.settings,...(incoming.settings||{})},drillSessions:incoming.drillSessions||{}};saveState();render();$('#dataDialog').close();showToast('进度导入成功')}catch{showToast('文件格式不正确')}};
     $('#resetBtn').onclick=()=>{if(confirm('确定清空全部复习进度吗？此操作不可撤销。')){state=structuredClone(defaultState);saveState();render();$('#dataDialog').close();showToast('复习进度已清空')}};
-    window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(v&&v!==currentView){currentView=v;render()}});
+    window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(v&&v!==currentView){currentView=v;syncNavState();render()}});
   }
   init();
 })();
