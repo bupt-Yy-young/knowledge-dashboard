@@ -780,6 +780,23 @@ QUESTIONS.push(
   X('agent','求职表达','入职前三个月优先打通哪条业务链路？','先选一个高价值、边界清晰、可评测的纵向最小链路，从真实请求到工具结果和反馈闭环，再补可靠性、评测与规模化，而不是先造通用平台。',['0–30天理解用户、现有架构、MLU推理链和指标，复现基线与主要失败；不急于重构。','30–60天打通一个意图→检索/规划→受限工具→结果的 E2E，用 Trace/Eval/Guardrail 建最小生产闭环。','60–90天针对最大瓶颈做灰度优化，补Checkpoint、成本、权限和Runbook，形成可复制模板与下一季度路线。'],['为什么选这条链？','前三个月如何衡量成功？','现有系统很乱怎么办？'],'结合真实JD修改，优先项不能脱离团队业务。','中等',['寒武纪','HR面经','90 Day Plan'],'必背')
 );
 ;
+/* 新投递岗位专项：AI 应用、AI for Code Security 与 AI 安全运营。 */
+QUESTIONS.push(
+  X('agent','AI应用工程','设计一个可上线的 Agent 应用，完整分层是什么？','从接入层、任务与编排层、模型/RAG层、Tool/MCP层、State/Memory层、执行沙箱和Eval/Trace/Guardrail层分开设计。',['接入层负责身份、租户、限流、SSE/WebSocket和请求幂等；长任务进队列，返回task/run id。','编排层维护State、路由、中断和预算；RAG提供有来源事实，Tool Gateway执行鉴权、Schema校验、超时和审计。','权威State进Postgres等持久库，热Session/租约可进Redis，大Artifact进对象存储；全链记录Trace并用离线Eval与线上SLO回归。'],['为什么不同步一次请求做完？','哪层拥有最终业务状态？','如何支持多模型降级？'],'OPPO/通用AI应用岗的系统设计主题；可用两个项目分别举Runner和MCP例子。','困难',['OPPO','AI应用','系统设计'],'高压'),
+  X('backend','Agent后端','为什么 Agent 长任务通常需要异步队列？','模型与工具链路耗时、可暂停且易受外部故障影响，异步任务能解耦HTTP连接与执行生命周期，支持排队、恢复、取消和背压。',['API建立run并返回ID，Worker持有短期租约执行，客户端通过SSE/轮询获取进度。','队列常是至少一次投递，每个Action要有幂等键、可见性超时、心跳、重试上限和死信处理。','取消是持久化的desired state；Worker在安全点检查取消，向模型和子进程传播，并保留已发生副作用的记录。'],['队列中一条消息被消费两次怎么办？','客户端断开是否应取消任务？','如何避免长任务饿饿？'],'可连接Harness的Run ID、Resume、取消与accepted-but-uncommitted问题。','困难',['OPPO','Task Queue','Async Agent'],'必背'),
+  X('backend','Agent后端','Redis、MySQL/Postgres、MQ 和对象存储在 Agent 系统中怎样分工？','Redis适合热Session、缓存、限流和短租约，关系库保存权威任务/State与审计索引，MQ解耦异步任务，对象存储保存大日志和Artifact。',['Redis快但不宜默认作长期唯一真值；淘汰、持久化和事务语义需结合业务要求。','关系库使用revision/CAS、事务与唯一约束防重复提交；向量索引是召回投影，不是业务权威状态。','MQ中只放任务ID和小型命令，大Prompt/文件通过有权限和hash的引用读取，避免消息膨胀与敏感数据扩散。'],['Kafka和RocketMQ什么时候需要？','Redis Stream可以替代MQ吗？','Artifact为什么要内容寻址？'],'泛AI应用岗必须会的存储边界题。','中等',['OPPO','Redis','MQ','Postgres'],'必背'),
+
+  X('security','程序分析','AST、CFG、DFG、Call Graph 和 CPG 分别表示什么？','AST表示语法结构，CFG表示可能执行转移，DFG表示值与定义使用传播，Call Graph表示跨函数调用，CPG把多种程序图统一供关联查询。',['AST能找语法模式但不表示运行顺序；CFG加入分支、循环和异常边，是可达性/路径分析基础。','DFG/污点分析追踪Source到Sink之间的传播；Call Graph对虚调用、反射和动态语言常只能近似。','CPG方便表达“某调用参数来自外部且所在基本块受某条件支配”，但不自动解决框架建模和动态语义。'],['PDG是什么？','Call Graph越大越准吗？','CodeQL与Joern分别怎样使用这些表示？'],'字节AI for代码分析岗的底层基础题。','中等',['字节','SAST','AST','CFG','CPG'],'必背'),
+  X('security','程序分析','Context-sensitive、Path-sensitive、Flow-sensitive 和 Alias Analysis 是什么？','它们分别区分调用上下文、分支路径条件、语句执行顺序和多个引用是否指向同一对象，用精度与成本换取更少误报。',['上下文不敏感会把不同调用者的信息合并；常用call-site、object-sensitive或有限k长上下文折中。','路径敏感能利用`if (isAdmin)`等约束排除不可行路径，但路径数会指数爆炸，需合并、剪枝或SMT。','Alias不准会使数据流既断链又污染过广；指针、容器、字段敏感和动态语言尤其难。'],['为什么不能全部做最强精度？','污点分析一定是flow-sensitive吗？','如何评估分析可扩展性？'],'用来回答SAST的Precision/Recall/Scalability三角权衡。','困难',['字节','Program Analysis','Context-sensitive','Alias Analysis'],'高压'),
+  X('security','程序分析','SAST 为什么会误报和漏报？','误报常来自保守近似、缺少业务/框架约束；漏报常来自Source/Sink、传播步、语言前端、反射/动态特性或跨组件建模不完整。',['把所有调用都当可达、把自定义校验当未净化、忽略权限/默认配置会制造误报。','未识别ORM/Template的Sink、异步消息传播、隐式流或代码生成会漏报。','治理用可解释路径、框架模型、负例回归、分类严重度和动态验证；不应为了零误报把召回压没。'],['怎样构建SAST规则的测试集？','误报率和Precision什么关系？','开发人员点“误报”就是Ground Truth吗？'],'回答时主动说明静态分析结果是Candidate，不是完整漏洞结论。','中等',['字节','SAST','False Positive','False Negative'],'必背'),
+  X('security','AI for Code','LLM/Coding Agent 为什么不能直接替代 SAST，两者如何结合？','SAST提供稳定、可规模化和可回归的程序关系搜索，LLM擅长理解上下文、生成假设、调用工具与构造验证；结合比互相替代更可靠。',['SAST可产生Source-Sink路径、库调用和规则命中，作为Agent可追溯的候选与定位索引。','LLM可辅助规则迁移/生成、路径语义解释、框架建模建议、误报分流、PoC/测试构造和修复草案。','必须保留规则回归集、原始路径、确定性验证和人工Gate；不能让模型的自然语言解释覆盖分析事实。'],['LLM生成CodeQL规则怎样测？','怎么评估AI误报分流？','用Embedding找漏洞是SAST吗？'],'与AdaptiveVuls关系：SAST/Fuzz是获取Artifact的能力，Coding Agent组织开放Investigation Space。','困难',['字节','AI for Code','SAST','Coding Agent'],'高压'),
+  X('security','AI for Code','自动漏洞修复从 Finding 到合入需要哪些 Gate？','先确认Finding与失败复现，再生成最小Patch，通过安全回归、正常功能、静态/动态分析、Diff审核、沙箱CI和人工准入后才能合入。',['先保存修复前能触发的安全测试/证据，修复后要“攻击输入失败 + 合法输入继续成功”，并检查同类旁路。','防止模型同时生成Patch和唯一测试导致共同过拟合；使用隐藏测试、属性测试、已知负例和独立Reviewer。','检查API/数据兼容、性能、依赖/锁文件、日志与配置改动；高风险库采用人工批准和渐进灰度。'],['测试全过为什么还不够？','如何防止Patch只禁用功能？','修复失败怎样回退？'],'字节DevSecOps与自动Patch方向的高频系统题。','困难',['字节','Automated Repair','Patch Verification','DevSecOps'],'高压'),
+
+  X('security','AI安全运营','安全告警研判 Agent 的完整链路怎样设计？','将告警标准化后补齐资产、身份、情报与历史，形成可验证假设，通过受限查询/检测工具求证，给出分级、证据和处置建议。',['输入日志、邮件、网页和情报都可被攻击者控制，只能当数据；不能让日志文本直接生成Shell/封禁动作。','工具使用每用户/任务短凭证，只读查询与有副作用处置分权；结论引用原始事件、查询结果和时间窗。','低风险可自动补上下文/去重，高风险封禁、隔离、删除或权限变更需Dry-run、人工审批、幂等与回滚。'],['怎样评估研判正确性？','恶意日志如何做Prompt Injection？','哪些动作可以自动化？'],'蚂蚁AI安全工程与Agentic SOC的典型场景。','困难',['蚂蚁','AI for Security','SOC','告警研判'],'高压'),
+  X('security','AI安全运营','如何评测安全运营 Agent？','同时评测告警召回/精度、分级与根因、证据完整性、调查时间、人工接管、越权/误处置和恢复成本，不能只看最终自然语言结论。',['数据集包含真实事件、良性噪声、模糊告警、缺失数据、对抗日志和多阶段攻击，以时间/资产类型分层。','过程指标检查是否查对资产、时间窗、工具与参数，是否正确理解结果并避免重复/无进展循环。','处置指标区分“建议正确”和“实际副作用正确”；用Shadow/演练逐步放开自动权限。'],['Ground Truth不完整怎么办？','如何统计MTTD/MTTR？','安全Agent误杀率怎样计算？'],'可同时展示你在Agent Eval和安全两条线的交叉能力。','困难',['蚂蚁','Security Agent Eval','SOC'],'高压'),
+  X('agent','求职表达','为什么你同时投AI应用、AI测开、AI for Code和AI安全，方向不散吗？','这些岗位共享Agent系统工程底座，只是对质量、代码分析或安全治理的业务纵深不同；我的定位是以Agent系统工程为横向能力，以漏洞与安全研究为领域纵深。',['共同底座包括Workflow/Harness、State/Context/Memory、Tool/MCP、RAG、Eval、异常恢复和后端工程。','OPPO偏应用架构，百度偏Eval/质量，字节是AI+Code+Security，阿里/蚂蚁偏Agent for Security与Security for Agent。','两个项目正好覆盖两种路线：一个从RAG、Planner、MCP和状态机搭领域Agent，一个把成熟Coding Agent作为Runner做长程Harness。'],['你最想去哪一类岗位？','如果做纯业务AI你的安全经验有什么用？','为什么不只投安全？'],'这是新投递图谱的统一口径，但面试某家公司时要将答案收束到对方业务。','简单',['投递定位','OPPO','字节','阿里','蚂蚁'],'必背')
+);
+;
 /* 百度 AI 测试开发 + 阿里星 Agent 安全岗位冲刺题。复用已有基础题，仅新增缺失的测试、评测、隐私和研究高压题。 */
 QUESTIONS.push(
   // ── 百度：测试方法与岗位转换 ─────────────────────────────────────
@@ -874,6 +891,20 @@ QUESTIONS.push(
   X('algorithm','滑动窗口','滑动窗口最大值为什么使用单调双端队列，代码边界怎么处理？','队列保存下标并保持对应值单调递减：队首始终是当前窗口最大值；每个下标最多入队、出队一次，因此时间O(n)、空间O(k)。',['遍历下标i：先移除`deque[0] <= i-k`的过期元素；再从队尾移除所有`nums[deque[-1]] <= nums[i]`的元素；最后把i入队。','当`i >= k-1`时输出`nums[deque[0]]`；保存下标而不是值，才能判断最大值是否已滑出窗口。','明确处理空数组、k<=0、k>len(nums)、k=1、重复最大值；若题目保证1<=k<=n，可说明前置条件后省去异常分支。'],['为什么队尾可以删除比当前值小的元素？','相等元素保留哪个下标？','如何改成滑动窗口最小值？'],'百度AI测开一面真实手撕题；建议独立写出Python版本并手动走`[1,3,-1,-3,5,3,6,7], k=3`。','中等',['百度测开','真实面经','单调队列','Deque'],'必背')
 );
 
+const APPLICATION_ROLE_MAP = [
+  {id:'baidu',company:'百度',role:'AI测试开发工程师 J101055',org:'移动生态质量效能方向',track:'Agent Eval / AI质量工程',status:'已完成一面',focus:['Agent评测','Benchmark','故障注入','自动化测试','质量平台'],fit:'Harness、失败分类、轨迹与Fresh Review',gap:'Pytest平台、接口/性能测试、移动端质量'},
+  {id:'oppo',company:'OPPO',role:'AI工程师（AI应用方向）',org:'软件类；具体部门待官方JD确认',track:'通用 Agent / AI应用工程',status:'已投递',focus:['Agent应用','RAG','MCP / A2A','后端工程','效果评测'],fit:'两种Agent路线、RAG/MCP、State与异常恢复',gap:'Redis/MQ/MySQL、异步任务、Web与生产部署'},
+  {id:'bytedance',company:'字节跳动',role:'安全研发工程师（AI for代码分析）',org:'安全与风控',track:'AI for Code Security',status:'已投递',focus:['SAST','程序分析','AI for Code','自动Patch','DevSecOps'],fit:'AdaptiveVuls、Coding Agent、漏洞分析与动态验证',gap:'SAST规则/平台、跨过程分析、Patch Verification'},
+  {id:'alicloud',company:'阿里巴巴 / 阿里云',role:'AI安全技术工程师',org:'控股集团、阿里云；具体部门待流程确认',track:'Security Agent / Agent Security',status:'已投递',focus:['Agent Harness','安全工具','Evidence / Eval','Prompt Injection','云安全'],fit:'Harness+证据闭环+真实漏洞+Agent安全',gap:'云安全产品、企业级权限与评测数据Pipeline'},
+  {id:'ant',company:'蚂蚁集团',role:'AI安全工程',org:'具体部门待官方JD/流程确认',track:'AI for Security + Security for AI',status:'已投递',focus:['安全运营','告警研判','Agent行为管控','AI应用安全','威胁检测'],fit:'漏洞研究、自动化Agent、证据与权限边界',gap:'SOC业务指标、告警数据、自动处置与风险分级'}
+];
+
+const APPLICATION_CAPABILITY_TREE = [
+  {name:'Agent Systems',items:['Workflow / Harness','State / Context / Memory','Tool / MCP / A2A','RAG','Eval / Trace','Backend / Sandbox']},
+  {name:'AI for Security',items:['Vulnerability','SAST / Fuzz','Code Analysis','Exploit / Verification','Automated Repair','DevSecOps']},
+  {name:'Security for AI',items:['Prompt Injection','Tool / MCP Security','RAG / Memory Poisoning','Identity / Credential','Least Privilege','Audit / Replay']}
+];
+
 const JOB_SPRINTS = [
   {
     id:'baidu',name:'百度 AI 测试开发',eyebrow:'AI QUALITY ENGINEERING',tone:'blue',
@@ -893,10 +924,48 @@ const JOB_SPRINTS = [
     ]
   },
   {
-    id:'alistar',name:'阿里星 Agent 安全',eyebrow:'AGENTIC SECURITY RESEARCH',tone:'red',
+    id:'oppo',name:'OPPO AI应用',eyebrow:'AI APPLICATION ENGINEERING',tone:'blue',
+    role:'Agent应用架构 + RAG/MCP/A2A + 后端工程 + 效果与生产可靠性',
+    summary:'主线是把模型、知识、工具、状态和后端系统组成可上线Agent；安全经验作为可靠性和权限边界的差异化。',
+    sources:[{name:'OPPO校园招聘',url:'https://careers.oppo.com/university/oppo/campus/post/1580'}],
+    discipline:'先讲业务闭环和上线架构，再讲模型技巧；每题要回到异步、State、权限、延迟、成本和可观测。',
+    planTitle:'OPPO：从完整应用链路到生产工程',
+    plan:'Day 1 两个项目与Agent基础；Day 2 RAG/Context；Day 3 Tool/MCP/A2A；Day 4 异步后端与存储；Day 5 Eval/Trace；Day 6 Sandbox/多租户；Day 7 系统设计模拟。',
+    phases:[
+      {id:'pitch',order:'01',title:'定位与两个项目',level:'S',desc:'说清两种Agent技术路线，安全是领域纵深不是岗位限制。',queries:['同时投AI应用','两个 Agent 项目','介绍“基于Workflow-Harness','基于知识图谱与 MCP']},
+      {id:'architecture',order:'02',title:'Agent应用架构',level:'S·高压',desc:'接入、编排、模型/RAG、工具、状态、沙箱和观测分层。',queries:['可上线的 Agent 应用','Model Gateway','模型路由','Agent Runtime 的责任']},
+      {id:'rag',order:'03',title:'RAG与Context',level:'S',desc:'切分、Hybrid、Rerank、Agentic RAG、多租户与LightRAG/Neo4j。',queries:['RAG 的线上全链路','Chunk','Hybrid Search','Rerank','Agentic RAG','同时索引文本块']},
+      {id:'tools',order:'04',title:'Tool / MCP / A2A',level:'S',desc:'工具调用闭环、参数契约、异构能力接入与Agent间任务。',queries:['Function Calling 的线上执行架构','A2A 与 MCP','国防项目为什么使用 MCP','Tool Description','高风险 Tool']},
+      {id:'backend',order:'05',title:'Agent后端与中间件',level:'S·高压',desc:'异步队列、存储分工、幂等、取消、Streaming、限流和并发。',queries:['Agent 长任务通常需要异步','Redis、MySQL/Postgres','SSE 和 WebSocket','幂等性','分布式令牌桶','重复消费']},
+      {id:'state',order:'06',title:'State / Memory / Durable',level:'S',desc:'显式状态、Session、Checkpoint、Resume、Reducer和上下文压缩。',queries:['State、Context 和 Memory','Workflow Resume 和 Runner Session','Checkpointer 和 Store','Bootstrap Context Injection','Agent Resume 必须考虑幂等']},
+      {id:'eval',order:'07',title:'Eval / Trace / 效果测试',level:'A·高压',desc:'任务成功、过程、非确定性、故障注入和成本。',queries:['怎么测试 Agent 效果','大模型输出非确定','多 Agent 错误回答','如何做故障注入','成本和效果']},
+      {id:'production',order:'08',title:'生产安全与部署',level:'A',desc:'沙箱、多租户、Secret、Prompt Injection、容器与可观测。',queries:['代码执行 Agent 的 Sandbox','多租户 Agent','Prompt Injection','Secrets 应如何','Log、Metric 和 Trace']}
+    ]
+  },
+  {
+    id:'bytedance',name:'字节 AI for代码分析',eyebrow:'AI FOR CODE SECURITY',tone:'red',
+    role:'SAST/程序分析 + Coding Agent/CodeLLM + 漏洞原理 + 自动修复 + DevSecOps',
+    summary:'用程序分析给出可规模化关系和候选，用LLM/Coding Agent做上下文理解、验证与修复，最后进入可回归的DevSecOps Gate。',
+    sources:[{name:'字节校招岗位',url:'https://jobs.bytedance.com/campus/m/position/detail/7668301513408841989'}],
+    discipline:'每个“AI可以”都要落到程序表示、结果Oracle、误报/漏报、规则回归和Patch Gate，不用自然语言解释替代分析证据。',
+    planTitle:'字节：从程序分析基础到AI修复闭环',
+    plan:'Day 1 项目与真实漏洞；Day 2 AST/CFG/DFG/CPG；Day 3 Taint/跨过程/别名；Day 4 CodeQL/Joern与规则测试；Day 5 LLM+SAST；Day 6 Patch/DevSecOps；Day 7 系统设计与算法。',
+    phases:[
+      {id:'pitch',order:'01',title:'项目与岗位匹配',level:'S',desc:'将AdaptiveVuls讲成AI+Code+Security，区分Coding Agent能力和外层调查方法。',queries:['同时投AI应用','介绍“基于Workflow-Harness','现有漏洞发现','SAST/Fuzz是获取']},
+      {id:'representation',order:'02',title:'程序表示基础',level:'S',desc:'AST、CFG、DFG、Call Graph、PDG与CPG。',queries:['AST、CFG、DFG','Code Property Graph','控制流分析和数据流分析']},
+      {id:'analysis',order:'03',title:'污点与跨过程分析',level:'S·高压',desc:'Source/Sink/Sanitizer、上下文/路径/流敏感、Alias与规模权衡。',queries:['Context-sensitive、Path-sensitive','CodeQL 的 Source','数据流与污点分析','SAST 为什么会误报']},
+      {id:'tools',order:'04',title:'CodeQL / Joern / Fuzz',level:'S',desc:'查询生态、CPG探索、Harness/Oracle和Crash Triage。',queries:['CodeQL','Joern 与 CodeQL','Fuzzing','AFL++','Crash 为什么不等于']},
+      {id:'hybrid',order:'05',title:'LLM + 程序分析',level:'S·高压',desc:'候选生成、规则迁移、路径解释、验证与公平评测。',queries:['不能直接替代 SAST','LLM 生成的静态分析规则','Coding Agent 对 SAST/Fuzzing']},
+      {id:'patch',order:'06',title:'自动Patch与验证',level:'S·高压',desc:'从Finding复现、最小Patch、安全/功能回归到审核上线。',queries:['自动漏洞修复','Agent 自动修改代码','AI Coding 从单测生成']},
+      {id:'devsecops',order:'07',title:'DevSecOps平台',level:'A',desc:'PR触发、增量分析、去重、准入、评测数据与可观测。',queries:['Agent 接入 DevSecOps','漏洞结果去重','安全扫描误报','软件供应链']},
+      {id:'security',order:'08',title:'漏洞原理与动态验证',level:'S',desc:'Web/API、Java、Native、PoC、Sanitizer与修复边界。',queries:['Source→Sink','Authentication、Authorization','SSRF','Java 原生反序列化','Use-After-Free','ASan、MSan','高质量漏洞 PoC']}
+    ]
+  },
+  {
+    id:'alistar',name:'阿里 / 阿里云 AI安全',eyebrow:'AGENTIC SECURITY RESEARCH',tone:'red',
     role:'Agent安全治理 + 自动化漏洞研究 + 传统安全 + 隐私数据 + 研究创新',
     summary:'既回答“怎样用Agent做安全”，也回答“怎样保护Agent”，同时守住真实结果与方法因果证据的边界。',
-    sources:[{name:'阿里星',url:'https://campus-talent.alibaba.com/campus/alistar?lang=zh'},{name:'OWASP Agentic',url:'https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/'},{name:'OWASP Agent Security Cheat Sheet',url:'https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html'}],
+    sources:[{name:'阿里校园招聘',url:'https://campus-talent.alibaba.com/'},{name:'OWASP Agentic',url:'https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/'},{name:'OWASP Agent Security Cheat Sheet',url:'https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html'}],
     phases:[
       {id:'talent',order:'01',title:'人才计划与原创贡献',level:'S·高压',desc:'一个核心贡献、两个项目技术路线、方法/工程/应用边界、强模型与论文追问。',queries:['为什么认为自己适合阿里星','讲一个落地过的 Agent 项目','两个 Agent 项目','当前版本的 AdaptiveVuls','AdaptiveVuls 是否过拟合']},
       {id:'research',order:'02',title:'AV研究与严格实验',level:'高压',desc:'从相关工作与任务设定推出空缺，再回答构念、失败分类、Fresh公平预算、严格结论和路线图。',queries:['现有漏洞发现','调查状态—下一行动错配','不能声称四类失败','可能降低Agent哪些能力','Fresh Review收益','当前严格实验结果','给六个月和一个团队']},
@@ -908,6 +977,25 @@ const JOB_SPRINTS = [
       {id:'privacy',order:'08',title:'数据与隐私安全',level:'A/B',desc:'最小化、多租户、Secret、差分隐私、联邦学习和模型隐私攻击。',queries:['差分隐私','联邦学习为什么','成员推断','Secrets 应如何','跨租户风险']},
       {id:'platform',order:'09',title:'Agent安全平台设计',level:'高压',desc:'防护平台、Tool Gateway、安全评测与自动响应。',queries:['企业级Agent安全防护平台','Agent Tool Gateway','Agent安全评测平台','安全Agent的自动响应系统','企业Agent安全评测指标']},
       {id:'devsecops',order:'10',title:'安全工具链与DevSecOps',level:'A',desc:'CodeQL、Semgrep、Fuzz、SAST/DAST/SCA、PR Gate与结果去重。',queries:['CodeQL','SAST、DAST','Fuzzing','Agent 自动修改代码','模型、数据集和 Agent Skill 供应链']}
+    ]
+  },
+  {
+    id:'ant',name:'蚂蚁 AI安全工程',eyebrow:'AI SECURITY OPERATIONS',tone:'red',
+    role:'AI for Security + Security for AI + 安全运营智能化 + Agent行为治理',
+    summary:'一条线用Agent补齐告警上下文、形成假设和调用检测工具；另一条线控制Prompt、RAG、Memory、Tool、身份与真实副作用。',
+    sources:[{name:'蚂蚁集团招聘',url:'https://talent.antgroup.com/'},{name:'OWASP AI Agent Security',url:'https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html'}],
+    discipline:'告警、日志和情报都是不可信数据；每个自动处置都要说可逆性、影响范围、权限、幂等、审批和回滚。',
+    planTitle:'蚂蚁：AI for Security与Security for AI双线冲刺',
+    plan:'Day 1 项目与真实安全案例；Day 2 告警研判/SOC；Day 3 Prompt/Tool安全；Day 4 RAG/Memory/多Agent安全；Day 5 Sandbox/身份/数据；Day 6 Eval与自动处置；Day 7 企业平台设计。',
+    phases:[
+      {id:'pitch',order:'01',title:'项目与安全定位',level:'S',desc:'用两个Agent项目说清攻击研究、工具编排、证据和安全边界。',queries:['同时投AI应用','两个 Agent 项目','介绍“基于Workflow-Harness','基于知识图谱与 MCP']},
+      {id:'soc',order:'02',title:'AI for Security / SOC',level:'S·高压',desc:'告警补充、假设、工具求证、风险分级与证据链。',queries:['安全告警研判 Agent','用 Agent 做告警研判','Agentic SOC','恶意日志']},
+      {id:'eval',order:'03',title:'安全Agent评测',level:'S·高压',desc:'准确、证据、时延、接管、误处置、攻击成功与防御误杀。',queries:['评测安全运营 Agent','企业Agent安全评测指标','测试 Prompt Injection 防御','非确定Agent']},
+      {id:'injection',order:'04',title:'Prompt / Tool / MCP安全',level:'S',desc:'直接/间接注入、Confused Deputy、Tool Poisoning和最小权限。',queries:['间接 Prompt Injection','Confused Deputy','Excessive Agency','Tool Description 投毒','恶意 MCP Server']},
+      {id:'memory',order:'05',title:'RAG / Memory / 多Agent安全',level:'S',desc:'数据投毒、跨租户、持久污染、身份与错误传播。',queries:['Memory Poisoning','RAG 数据投毒','跨租户向量','Agent 身份与 Delegation','多 Agent 共享黑板']},
+      {id:'runtime',order:'06',title:'Runtime / Sandbox / Data',level:'S·高压',desc:'工具网关、短凭证、容器/microVM、租户和敏感数据。',queries:['Agent Tool Gateway','代码执行 Agent 的 Sandbox','多租户 Agent','Secrets 应如何','容器安全']},
+      {id:'response',order:'07',title:'自动处置与HITL',level:'S',desc:'按可逆性、影响和置信分级，设计Dry-run、审批、幂等与补偿。',queries:['安全Agent的自动响应','Human-in-the-loop','Interrupt 之前','误封怎样']},
+      {id:'platform',order:'08',title:'企业AI安全平台',level:'高压',desc:'Agent Registry、Policy、Tool Gateway、Sandbox、Runtime Monitor、Eval与Incident Response。',queries:['企业级Agent安全防护平台','Agent安全评测平台','责任追踪','Harness安全']}
     ]
   }
 ];
@@ -1394,17 +1482,37 @@ const INTERVIEW_PITCHES = [
   {id:'bridge-question',group:'bridge',title:'技术面结束后的反问',duration:'30 秒',label:'反向判断',when:'面试官问“你还有什么想了解的”。',anchors:['真实链路','主要瓶颈','角色预期'],script:[
     '我想了解三个问题。第一，团队当前 Agent 已经进入哪一条真实业务主链路，成功标准主要看任务质量、效率还是替代人工比例？第二，现在最主要的瓶颈是在模型与算力、RAG和工具，还是状态、评测和业务接入？第三，如果我加入，前三个月更希望我先负责一个纵向场景，还是先补平台层的 Harness、Trace、Eval 和安全能力？'
   ],note:'实际只问 1–2 个，根据前面交流删掉已回答的问题。'},
+  {id:'fit-role-map',group:'fit',title:'为什么同时投这些岗位',duration:'45‑60 秒',label:'投递定位',when:'HR或技术面质疑AI应用、测开、AI for Code和AI安全方向太散。',anchors:['共同底座','业务分支','两个项目','个人定位'],script:[
+    '这几类岗位看起来分散，但底层共享同一套Agent系统工程能力：Workflow和Harness、State/Context/Memory、RAG、Tool/MCP、Eval、异常恢复和后端工程。区别是OPPO更偏应用落地，百度更偏评测和质量，字节是AI加代码分析和安全，阿里与蚂蚁则更关注安全Agent与Agent自身安全。',
+    '我的两个项目也分别覆盖两种路线：国防项目是从LightRAG、Planner–Actor、MCP和状态机搭领域Agent；主项目是把成熟Coding Agent当Runner，在外层做长程State、Context、Evidence和Verification。',
+    '所以我的定位是：以Agent系统工程为横向能力，以漏洞与安全研究为领域纵深。面试具体岗位时，我会把经历收束到对方的主链路，而不是平均地讲所有方向。'
+  ],note:'必须补一句“具体面试会收束到该岗位”，否则容易给人没有主线的印象。'},
+  {id:'intro-oppo',group:'intro',title:'OPPO AI应用 2 分钟版',duration:'2 分钟',label:'OPPO定制',when:'AI工程师（AI应用方向）技术面开场。',anchors:['Agent工程','两种路线','生产可靠性','安全差异化'],script:[
+    '面试官您好，我叫游洋，目前是北京邮电大学网络与信息安全方向硕士，本科是人工智能专业。我的主线是Agent系统工程，关注的不只是模型能否回答，还包括长任务的State、Context、Tool、恢复、评测和权限。',
+    '我做过两种Agent路线。一个国防项目从LightRAG和Neo4j知识图谱、Planner–Actor、MCP工具契约和状态机出发，完成长链路任务与异常重规划。另一个项目复用Codex、Claude Code、OpenCode等完整Coding Agent，用Thin Runtime统一管理Session、Workspace、Artifact、预算、权限与恢复，再通过外部State、Bootstrap/Delta Context和Evidence组织长程多方向调查。',
+    '这些经历让我能从应用架构视角处理RAG、MCP/A2A、异步任务、State持久化、Trace和Agent Eval。安全背景则让我在做普通AI应用时，会更重视不可信上下文、工具副作用、多租户和Secret隔离。我希望继续做能进入真实业务主链路的Agent应用工程。'
+  ],note:'OPPO版先讲应用和工程，安全只作为可靠性与权限优势，不要把开场讲成渗透岗。'},
+  {id:'intro-bytedance-code',group:'intro',title:'字节 AI for代码分析 2 分钟版',duration:'2 分钟',label:'字节定制',when:'安全研发工程师（AI for代码分析）面试开场。',anchors:['AI+Code+Security','开放调查','程序分析','验证与Patch'],script:[
+    '面试官您好，我叫游洋，是北邮网络与信息安全方向硕士，本科是人工智能。我的方向可以概括为AI、Code和Security的交叉：一方面做Coding Agent的长程运行与状态工程，另一方面做程序分析、漏洞验证和PoC构造。',
+    '主项目面向漏洞类型、位置和候选路径都未知的真实仓库，把强Coding Agent作为完整Runner。Thin Runtime只管Session、Workspace、Artifact、权限和恢复，不接管Agent原生搜索；外层用Investigation Portfolio、Direction、Evidence Savepoint和Fresh Verification让静态路径、源码追踪、PoC和运行实验持续改变下一步调查。项目在9个真实系统中产出21个安全发现，11个获厂商确认修复，获得1个CVE和3个CNVD。',
+    '我认为SAST和LLM不是替代关系：SAST擅长可规模化的AST/CFG/数据流与Source–Sink关系搜索，Coding Agent擅长理解仓库上下文、构造验证和调用工具。我希望继续深入两者的结合，把候选发现、验证、自动Patch和DevSecOps回归做成真正可落地的闭环。'
+  ],note:'被追问SAST实战时明确自己的实际使用边界；不把了解CodeQL/Joern原理说成已做过大规模规则平台。'},
+  {id:'intro-ant-security',group:'intro',title:'蚂蚁 AI安全 2 分钟版',duration:'2 分钟',label:'蚂蚁定制',when:'蚂蚁AI安全工程或安全运营智能化岗位开场。',anchors:['AI for Security','Security for AI','证据与工具','自动化边界'],script:[
+    '面试官您好，我叫游洋，是北邮网络与信息安全方向硕士，本科是人工智能。我的方向正好横跨AI for Security和Security for AI：既用Agent做漏洞调查和工具编排，也关注不可信上下文、工具权限、记忆污染、沙箱和责任追溯。',
+    '主项目中，我们把Codex等完整Coding Agent作为Runner，用Thin Runtime管理Session、Workspace、Artifact、预算、权限与恢复；外部State维护Portfolio、Direction和Evidence，正式Claim必须绑定原始Artifact并进入Fresh Review。这让我不仅关注Agent能否找到结果，还关注它使用了什么身份和工具、证据是否足够、失败后如何恢复。',
+    '国防项目中，我又实践了知识图谱、Planner–Actor、MCP工具和状态反馈重规划。迁移到安全运营场景时，我会把日志和告警当不可信数据，让Agent做上下文补齐和假设求证，但高风险封禁、删除和权限变更必须有策略、Dry-run、审批和回滚。'
+  ],note:'蚂蚁版不要只讲漏洞发现，必须主动连到告警研判、工具副作用和安全运营指标。'},
   {id:'intro-baidu-test',group:'intro',title:'百度 AI 测试开发 2 分钟版',duration:'2 分钟',label:'百度定制',when:'百度移动生态质量效能部或AI测试开发岗位的技术面开场。',anchors:['北邮网安','Agent质量问题','Harness/AV','真实结果','测开迁移'],script:[
     '面试官您好，我叫游洋，目前是北京邮电大学网络与信息安全方向硕士，本科是北邮人工智能专业。我的研究场景是安全智能体，但我长期解决的问题其实更接近复杂Agent系统的质量工程，包括工作流开发、状态和轨迹记录、失败归因、结果验证以及效果与成本评测。',
     '目前在奇安信校企联培项目中，我先实现了一套Workflow-Harness，把Codex、Claude Code、OpenCode等完整Coding Agent作为Runner，统一管理Session、Workspace、Artifact、异常恢复和审计。在这个底座上，我继续设计AdaptiveVuls，面向开放式仓库审计，让Agent结合目标认知和漏洞知识形成调查方向，再在持续调查中定位、形成和验证假设；证据检查点后由Fresh Review限定材料真正支持的结论和后续动作。',
     '从测试视角看，这个项目需要定义什么才算正确漏洞、构造正负用例、区分模型失败、Runner失败、环境失败和真实阴性，通过故障与真实运行验证恢复，还要保存轨迹并限制一次PoC被直接夸大成最终结果。项目在9个真实系统中形成21个安全发现，其中11个得到厂商确认修复，获得1个CVE和3个CNVD；这些说明真实产出，但方法相对基线的效果仍需要严格对照。',
     '我投AI测试开发，是希望把这些在高难度安全场景中形成的Agent评测和质量保障能力迁移到更通用的平台与移动业务中。我更偏向AI测试平台、Agent评测和自动化工具开发，也愿意从具体业务场景补齐传统测试与移动端质量经验。'
   ],note:'百度版必须把“安全项目”翻译为Oracle、用例、轨迹、故障注入、失败归因和质量平台。'},
-  {id:'intro-alistar',group:'intro',title:'阿里星 Agent 安全 2 分钟版',duration:'2 分钟',label:'阿里星定制',when:'阿里星Agent安全、安全AI研发或研究高压面开场。',anchors:['安全×Coding Agent','核心原创问题','通用Harness','真实漏洞','严格边界'],script:[
+  {id:'intro-alistar',group:'intro',title:'阿里 / 阿里云 AI安全 2 分钟版',duration:'2 分钟',label:'阿里定制',when:'阿里或阿里云AI安全技术、Agent安全或安全AI研发面试开场。',anchors:['安全×Coding Agent','核心原创问题','通用Harness','真实漏洞','严格边界'],script:[
     '面试官您好，我叫游洋，目前是北京邮电大学网络与信息安全方向硕士，本科是人工智能专业。我的方向比较集中，是安全和Coding Agent的交叉：一方面研究如何用完整Coding Agent做开放式漏洞调查，另一方面也关注Agent自身的工具权限、状态污染、证据边界和运行安全。',
     '工程底座是我实现和迭代的Workflow-Harness。它不是LangChain Demo，而是把Codex、Claude Code、OpenCode等完整Agent作为Runner，通过统一接口管理原生Session、Resume、隔离Workspace、Artifact、异常恢复和审计。上面的AdaptiveVuls则是安全特化方法：从部分且可修订的目标安全认知出发，结合漏洞知识形成调查方向，让目标级Sticky Investigator持续读代码和做实验，再由Fresh Reviewer独立限定证据、问题修订和有界处置，Runtime只负责合法提交。',
     '我认为最核心的问题抽象不是“多Agent提效”，而是开放调查中证据怎样真正改变漏洞假设、下一步行动和最终结论，以及怎样避免Mechanism reproduced直接膨胀为漏洞报告。真实系统上我们形成了21个安全发现，11个得到厂商确认修复，获得1个CVE和3个CNVD。',
-    '我也会明确研究边界：这些成果证明系统有实际安全产出，但不能单独证明方法优于强原生Agent。目前已有负面和混合实验促使方法收缩，后续需要在同等模型、工具和外部运行边界下完成前瞻基线与消融。我希望在阿里星这样的岗位上，把真实攻防、Agent安全治理、系统实现和严格研究验证继续结合起来。'
+    '我也会明确研究边界：这些成果证明系统有实际安全产出，但不能单独证明方法优于强原生Agent。目前已有负面和混合实验促使方法收缩，后续需要在同等模型、工具和外部运行边界下完成前瞻基线与消融。我希望在阿里或阿里云的AI安全岗位上，把真实攻防、Agent安全治理、系统实现和严格研究验证继续结合起来。'
   ],note:'阿里星版只讲一个核心原创问题，同时主动交代负面实验和未证明边界。'}
 ];
 ;
@@ -1814,14 +1922,18 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     const queries=phase?phase.queries:mode.phases.flatMap(x=>x.queries),questions=sprintQuestionsForQueries(queries);
     return {mode,phase,questions,key:`${mode.id}:${phase?.id||'all'}`};
   }
+  function applicationMapHTML(){
+    return `<section class="application-map"><div class="panel-head"><div><span class="eyebrow">APPLICATION MAP</span><h2>已投岗位与能力对齐</h2></div><small>以 Agent Systems 为横向能力，以漏洞与安全研究为领域纵深</small></div><div class="application-role-grid">${APPLICATION_ROLE_MAP.map(r=>`<article class="application-role-card"><header><div><span>${esc(r.status)}</span><h3>${esc(r.company)}</h3></div><b>${esc(r.track)}</b></header><strong>${esc(r.role)}</strong><small>${esc(r.org)}</small><div class="application-focus">${r.focus.map(x=>`<i>${esc(x)}</i>`).join('')}</div><dl><div><dt>当前匹配</dt><dd>${esc(r.fit)}</dd></div><div><dt>优先补齐</dt><dd>${esc(r.gap)}</dd></div></dl></article>`).join('')}</div><div class="capability-tree">${APPLICATION_CAPABILITY_TREE.map((x,i)=>`<article><span>${String(i+1).padStart(2,'0')}</span><div><strong>${esc(x.name)}</strong><p>${x.items.map(y=>`<i>${esc(y)}</i>`).join('')}</p></div></article>`).join('')}</div></section>`;
+  }
   function sprintsHTML(){
     const mode=JOB_SPRINTS.find(x=>x.id===sprintMode)||JOB_SPRINTS[0],selection=sprintSelection(`${mode.id}:all`),done=masteredCount(selection.questions),pct=selection.questions.length?Math.round(done/selection.questions.length*100):0;
-    return `${pageHead('岗位冲刺模式','不再按通用知识树漫游：围绕真实 JD，把已有题库与新增高压题组织成百度 AI 测试开发和阿里星 Agent 安全两条路径。','ROLE-SPECIFIC SPRINT',`<button class="secondary-btn" data-go="pitch">${icon('message')}先练自我介绍</button><button class="primary-btn" data-sprint-start="${mode.id}:all">${icon('play')}开始完整题单</button>`)}
+    return `${pageHead('岗位冲刺模式','将百度、OPPO、字节、阿里/阿里云和蚂蚁的差异化要求，统一到 Agent Systems、AI for Security 与 Security for AI 三层能力树。','ROLE-SPECIFIC SPRINT',`<button class="secondary-btn" data-go="pitch">${icon('message')}先练自我介绍</button><button class="primary-btn" data-sprint-start="${mode.id}:all">${icon('play')}开始完整题单</button>`)}
+    ${applicationMapHTML()}
     <div class="sprint-mode-tabs" role="tablist" aria-label="选择岗位冲刺模式">${JOB_SPRINTS.map(x=>`<button role="tab" aria-selected="${mode.id===x.id}" class="${mode.id===x.id?'active':''}" data-sprint-mode="${x.id}"><span>${esc(x.eyebrow)}</span><strong>${esc(x.name)}</strong><small>${x.phases.length} 个阶段</small></button>`).join('')}</div>
     <section class="sprint-hero ${mode.tone}"><div><span class="eyebrow">${esc(mode.eyebrow)}</span><h2>${esc(mode.name)}</h2><p>${esc(mode.summary)}</p><div class="sprint-role"><strong>岗位核心画像</strong><span>${esc(mode.role)}</span></div><div class="sprint-source-links">${mode.sources.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)} ${icon('external')}</a>`).join('')}</div></div><div class="sprint-progress"><div class="progress-ring" style="--pct:${pct}"><div><strong>${pct}%</strong><small>${done}/${selection.questions.length}</small></div></div><p><strong>${selection.questions.length}</strong> 道精选题</p><small>${selection.questions.filter(x=>x.priority==='高压').length} 道高压 · 已掌握 ${done}</small></div></section>
-    <div class="sprint-rule"><span>${icon('target')}</span><div><strong>回答纪律</strong><p>${mode.id==='baidu'?'把安全研究翻译成质量工程：每题都说测试对象、Oracle、数据、故障、指标和剩余风险。':'把方法、工程和应用分开：传统安全要讲机制，Agent安全要讲权限与副作用，研究结论要讲严格证据边界。'}</p></div></div>
+    <div class="sprint-rule"><span>${icon('target')}</span><div><strong>回答纪律</strong><p>${esc(mode.discipline||(mode.id==='baidu'?'把安全研究翻译成质量工程：每题都说测试对象、Oracle、数据、故障、指标和剩余风险。':'把方法、工程和应用分开：传统安全要讲机制，Agent安全要讲权限与副作用，研究结论要讲严格证据边界。'))}</p></div></div>
     <section class="sprint-phase-grid">${mode.phases.map(phase=>sprintPhaseCard(mode,phase)).join('')}</section>
-    <section class="sprint-plan"><div><span class="eyebrow">7-DAY PLAN</span><h2>${mode.id==='baidu'?'百度已发面试：先项目，再测试，再平台':'阿里星：先真实安全深度，再Agent治理与研究高压'}</h2><p>${mode.id==='baidu'?'Day 1 口述与项目；Day 2 测试方法；Day 3 Pytest/接口；Day 4 LLM评测；Day 5 Agent测试和性能；Day 6 系统设计；Day 7 基础题与模拟面试。':'Day 1 三个真实漏洞与项目；Day 2 传统应用/系统安全；Day 3 Prompt/Tool/Memory；Day 4 Sandbox与隐私；Day 5 安全平台设计；Day 6 研究高压；Day 7 全链模拟。'}</p></div><div class="sprint-plan-actions"><button class="secondary-btn" data-go="mock">${icon('mic')}随机模拟</button><button class="primary-btn" data-sprint-start="${mode.id}:${mode.phases[0].id}">${icon('arrow')}从阶段 01 开始</button></div></section>`;
+    <section class="sprint-plan"><div><span class="eyebrow">7-DAY PLAN</span><h2>${esc(mode.planTitle||(mode.id==='baidu'?'百度：先项目，再测试，再平台':'阿里/阿里云：先真实安全深度，再Agent治理与研究高压'))}</h2><p>${esc(mode.plan||(mode.id==='baidu'?'Day 1 口述与项目；Day 2 测试方法；Day 3 Pytest/接口；Day 4 LLM评测；Day 5 Agent测试和性能；Day 6 系统设计；Day 7 基础题与模拟面试。':'Day 1 真实漏洞与项目；Day 2 传统安全；Day 3 Prompt/Tool/Memory；Day 4 Sandbox与隐私；Day 5 安全平台；Day 6 研究高压；Day 7 全链模拟。'))}</p></div><div class="sprint-plan-actions"><button class="secondary-btn" data-go="mock">${icon('mic')}随机模拟</button><button class="primary-btn" data-sprint-start="${mode.id}:${mode.phases[0].id}">${icon('arrow')}从阶段 01 开始</button></div></section>`;
   }
   function sprintPhaseCard(mode,phase){
     const questions=sprintQuestionsForQueries(phase.queries),done=masteredCount(questions),pct=questions.length?Math.round(done/questions.length*100):0;
