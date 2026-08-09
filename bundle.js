@@ -936,10 +936,10 @@ const JOB_SPRINTS = [
       {id:'architecture',order:'02',title:'Agent应用架构',level:'S·高压',desc:'接入、编排、模型/RAG、工具、状态、沙箱和观测分层。',queries:['可上线的 Agent 应用','Model Gateway','模型路由','Agent Runtime 的责任']},
       {id:'rag',order:'03',title:'RAG与Context',level:'S',desc:'切分、Hybrid、Rerank、Agentic RAG、多租户与LightRAG/Neo4j。',queries:['RAG 的线上全链路','Chunk','Hybrid Search','Rerank','Agentic RAG','同时索引文本块']},
       {id:'tools',order:'04',title:'Tool / MCP / A2A',level:'S',desc:'工具调用闭环、参数契约、异构能力接入与Agent间任务。',queries:['Function Calling 的线上执行架构','A2A 与 MCP','国防项目为什么使用 MCP','Tool Description','高风险 Tool']},
-      {id:'backend',order:'05',title:'Agent后端与中间件',level:'S·高压',desc:'异步队列、存储分工、幂等、取消、Streaming、限流和并发。',queries:['Agent 长任务通常需要异步','Redis、MySQL/Postgres','SSE 和 WebSocket','幂等性','分布式令牌桶','重复消费']},
+      {id:'backend',order:'05',title:'Agent后端与中间件',level:'S·高压',desc:'异步队列、存储分工、幂等、取消、Streaming、限流和并发。',queries:['Agent 长任务通常需要异步','Redis、MySQL/Postgres','SSE 与 WebSocket','幂等性','分布式令牌桶','重复消费']},
       {id:'state',order:'06',title:'State / Memory / Durable',level:'S',desc:'显式状态、Session、Checkpoint、Resume、Reducer和上下文压缩。',queries:['State、Context 和 Memory','Workflow Resume 和 Runner Session','Checkpointer 和 Store','Bootstrap Context Injection','Agent Resume 必须考虑幂等']},
       {id:'eval',order:'07',title:'Eval / Trace / 效果测试',level:'A·高压',desc:'任务成功、过程、非确定性、故障注入和成本。',queries:['怎么测试 Agent 效果','大模型输出非确定','多 Agent 错误回答','如何做故障注入','成本和效果']},
-      {id:'production',order:'08',title:'生产安全与部署',level:'A',desc:'沙箱、多租户、Secret、Prompt Injection、容器与可观测。',queries:['代码执行 Agent 的 Sandbox','多租户 Agent','Prompt Injection','Secrets 应如何','Log、Metric 和 Trace']}
+      {id:'production',order:'08',title:'生产安全与部署',level:'A',desc:'沙箱、多租户、Secret、Prompt Injection、容器与可观测。',queries:['代码执行 Agent 的 Sandbox','多租户 Agent','Prompt Injection','Secrets 应如何','日志、指标和 Trace']}
     ]
   },
   {
@@ -953,7 +953,7 @@ const JOB_SPRINTS = [
     phases:[
       {id:'pitch',order:'01',title:'项目与岗位匹配',level:'S',desc:'将AdaptiveVuls讲成AI+Code+Security，区分Coding Agent能力和外层调查方法。',queries:['同时投AI应用','介绍“基于Workflow-Harness','现有漏洞发现','SAST/Fuzz是获取']},
       {id:'representation',order:'02',title:'程序表示基础',level:'S',desc:'AST、CFG、DFG、Call Graph、PDG与CPG。',queries:['AST、CFG、DFG','Code Property Graph','控制流分析和数据流分析']},
-      {id:'analysis',order:'03',title:'污点与跨过程分析',level:'S·高压',desc:'Source/Sink/Sanitizer、上下文/路径/流敏感、Alias与规模权衡。',queries:['Context-sensitive、Path-sensitive','CodeQL 的 Source','数据流与污点分析','SAST 为什么会误报']},
+      {id:'analysis',order:'03',title:'污点与跨过程分析',level:'S·高压',desc:'Source/Sink/Sanitizer、上下文/路径/流敏感、Alias与规模权衡。',queries:['Context-sensitive、Path-sensitive','CodeQL 的 Source','Source→Sink 数据流','SAST 为什么会误报']},
       {id:'tools',order:'04',title:'CodeQL / Joern / Fuzz',level:'S',desc:'查询生态、CPG探索、Harness/Oracle和Crash Triage。',queries:['CodeQL','Joern 与 CodeQL','Fuzzing','AFL++','Crash 为什么不等于']},
       {id:'hybrid',order:'05',title:'LLM + 程序分析',level:'S·高压',desc:'候选生成、规则迁移、路径解释、验证与公平评测。',queries:['不能直接替代 SAST','LLM 生成的静态分析规则','Coding Agent 对 SAST/Fuzzing']},
       {id:'patch',order:'06',title:'自动Patch与验证',level:'S·高压',desc:'从Finding复现、最小Patch、安全/功能回归到审核上线。',queries:['自动漏洞修复','Agent 自动修改代码','AI Coding 从单测生成']},
@@ -1015,6 +1015,117 @@ QUESTIONS.push(
 
 QUESTIONS.push(
   X('adaptivevuls','相关工作','现有漏洞发现与验证相关工作有哪些路线，AdaptiveVuls 补充了什么？','现有路线分别擅长规则/数据流、运行时触发、给定候选验证和通用仓库操作；AV补充的是漏洞类型、位置和候选路径均未知时，外部调查状态与证据反馈如何持续调整仓库级多方向搜索。',['SAST/CodeQL类方法擅长已知Source、Sink、数据流和规则，Fuzzing擅长有Harness与Oracle时扩大输入搜索；它们是AV可调用的证据能力，不是被替代对象。','LLM漏洞检测与函数/代码单元级假设验证通常从较明确的代码范围、漏洞条件或候选出发；Batch-and-Confirm先冻结候选池再逐个确认，适合候选边界相对稳定的任务。','通用Coding Agent已经具备仓库导航、工具调用和PoC能力，因此AV不声称重新赋予搜索能力；Thin Runtime保留其原生循环，领域层研究怎样外部维护可演化的Direction/Portfolio，让Evidence Savepoint改变跨方向投入。','正式结论另走Artifact-backed Claim→Fresh Reviewer→Finding路径；真正要通过公平实验验证的是，相同模型、工具和资源下，这些机制是否带来更合理的搜索投入与更有界的结论。'],['为什么Runtime必须保持Thin？','哪些任务Batch-and-Confirm可能更好？','真实发现数字是否证明方法更优？'],'这是新版简历“项目目的”的核心必答题：先讲任务设定与相关工作，再讲外部状态和证据反馈；运行失败只作为出发点与评测对象。','困难',['最新简历','Related Work','Thin Runtime','研究动机'],'高压')
+);
+;
+/* AI Agent × 安全总面经补充：开放讨论、行为面、岗位动机与第二项目重构。 */
+QUESTIONS.push(
+  X('agent','开放讨论','AI 会不会取代程序员？','更可能先取代一部分重复编码活动并重构岗位分工，而不是一次性取代对需求、架构、验证、责任和跨团队协作负责的人。',['模型会显著降低样板代码、搜索和初稿成本，但需求常不完整，真实系统还受兼容性、数据、权限和组织约束。','程序员的工作会从“逐行产生代码”转向定义问题、组织上下文和工具、设计验证、审查风险并对结果负责。','不同岗位受影响速度不同；回答不要绝对化，应区分生成能力、生产可靠性和责任主体。'],['哪些开发工作最先被改变？','初级岗位会不会减少？','你的能力怎样适应这种变化？'],'可收束到个人定位：Agent系统工程负责让模型进入真实业务，安全能力负责验证和边界。','中等',['开放讨论','AI Coding','职业判断'],'必背'),
+  X('agent','开放讨论','AI 是不是“新编译器”？','这个类比能说明自然语言意图正在变成可执行产物，但不应等同：编译器有明确语义和确定性正确性条件，生成模型输出是概率性的。',['编译器在形式化语言和目标语义之间转换，错误通常可定位；LLM面对的是含糊需求、开放世界知识和不稳定生成。','AI Coding更像“高层意图到代码候选的生成器”，后面仍需要类型检查、构建、测试、静态分析、运行验证和人工责任。','类比的价值是提醒接口会升高；边界是不能因此跳过验证或把自然语言当可执行安全策略。'],['为什么自然语言不是严格规格？','未来会不会出现自然语言编程？','如何构建AI Coding验证链？'],'字节AI for Code和开放讨论题；先承认类比价值，再讲确定性边界。','困难',['开放讨论','新编译器','AI Coding'],'高压'),
+  X('agent','开放讨论','为什么 AI 不直接生成 Machine Code？','机器码空间缺少可读结构和便捷验证，直接生成会失去编译器已有的优化、跨平台、类型检查和调试生态。',['高级语言、IR和编译器提供语法、类型、控制流、优化与目标架构适配，是成熟且可验证的中间层。','LLM更适合生成可读代码或结构化IR，再交给确定性工具链；这也便于Diff、审查、单测和安全扫描。','某些模型可以生成汇编或字节码，但“能够生成”不代表工程上应绕开成熟编译链。'],['LLM生成LLVM IR是否更合理？','编译器优化和模型优化谁负责？','二进制补丁场景例外吗？'],'与AI新编译器问题连续追问，避免只回答“机器码太复杂”。','中等',['开放讨论','Machine Code','编译器'],'深挖'),
+  X('security','开放讨论','AI Coding 时代 SAST 还有价值吗？','有，而且生成规模越大，稳定、可批量、可回归的程序关系检查越重要；LLM与SAST更适合互补而不是替代。',['SAST能在CI中确定性执行规则、保存Source–Sink路径并对每次代码变更回归，适合规模化质量Gate。','LLM擅长理解业务上下文、补框架模型、解释候选、构造验证和提出修复，但自然语言判断不应覆盖程序分析事实。','未来重点是SAST提供候选和关系，Agent组织调查、动态验证和修复，最后由测试与Policy Gate准入。'],['AI生成的规则怎么测试？','SAST误报会不会拖慢AI Coding？','Agent能否自动关闭SAST告警？'],'字节岗位高频开放题，可接“SAST/Fuzz/Agent三个搜索空间”。','中等',['开放讨论','SAST','AI for Code'],'必背'),
+  X('agent','开放讨论','未来源码会不会主要写给 AI 看，而不再给人看？','部分中间代码可能更机器化，但承载接口、责任和长期维护的生产代码仍需要人可理解、可审计和可追责。',['代码不仅用于执行，还用于团队沟通、故障定位、安全审计、合规和多年后的变更；可读性本身是运维能力。','AI之间可以交换AST、IR、Trace或结构化Patch，但关键接口、测试、决策记录和高风险Diff仍需人能检查。','真正变化可能是“人阅读全部代码”变成“人审查规格、关键Diff、证据和异常”，不是可读性消失。'],['生成代码量暴涨后人怎么审？','测试能否替代可读性？','什么代码可以完全机器生成？'],'适合展示工程责任意识，不做技术乌托邦式绝对判断。','困难',['开放讨论','代码可读性','AI Coding'],'深挖'),
+  X('agent','开放讨论','为什么 AI 生成代码越多，验证反而越重要？','生成把“产出候选”的成本降得很低，但没有同步消除需求歧义、共同过拟合、安全缺陷和真实环境差异，因此瓶颈会转向验证。',['同一模型生成代码和可见测试，可能让两者共享错误假设；需要隐藏测试、属性测试、静态/动态分析和独立审查。','验证不仅看编译和单测，还要看业务状态、权限、副作用、兼容性、性能和部署回滚。','高吞吐生成要求自动化Gate按风险分级，否则审查能力会成为系统瓶颈。'],['测试也是AI生成的怎么办？','如何验证没有完整Oracle的需求？','验证成本会不会抵消生成收益？'],'可连接自动Patch Gate、Fresh Reviewer和百度Agent Eval。','中等',['开放讨论','Verification','AI Coding'],'必背'),
+  X('agent','开放讨论','Agent 越强，Harness 是不是越没用了？','强Agent会减少细粒度控制需求，但不会消除权限、持久化、恢复、审计、成本和业务准入；Harness会更薄、更偏确定性边界。',['模型能力增强后不应继续用巨大状态机指定每个文件和工具，应该把开放搜索留给Agent。','生产系统仍需身份、Tool Gateway、Workspace、Artifact、Checkpoint、幂等、取消、预算和Trace，这些不能只靠模型自律。','因此趋势不是Harness消失，而是从“替模型思考”收缩为“提供可靠运行边界”。'],['Thin Runtime具体保留什么？','模型能自己做权限判断吗？','原生Coding Agent已经有Harness怎么办？'],'这是解释Thin Runtime演进的核心开放题。','困难',['开放讨论','Harness','强模型'],'高压'),
+  X('agent','开放讨论','强模型能否解决 Long-Horizon Agent 问题？','能缓解局部推理和上下文理解，但不能独自解决外部状态变化、故障恢复、重复副作用、权限和长期审计。',['更长上下文不等于信息始终正确，历史仍会过期、冲突并形成注意力锚定；长任务还会跨进程和部署。','Session连续性可以减少重复阅读，External State、Checkpoint和Artifact则保证耐久、可恢复与跨Runner。','应通过同模型同预算对照判断系统机制的增益，不能把所有失败都归因于模型，也不能声称系统永久领先模型。'],['百万Token上下文够不够？','哪些问题会随模型升级消失？','怎样设计长期任务实验？'],'与Native Session + External State、Bootstrap/Delta Context直接相连。','困难',['开放讨论','Long-Horizon','Durable Agent'],'高压'),
+  X('agent','开放讨论','Multi-Agent 是未来的必然方向吗？','不是必然；它在角色真的需要不同权限、上下文或并行能力时有价值，否则一个强Agent加工具通常更简单。',['多Agent引入Handoff丢失、重复调查、状态冲突、错误传播、Token成本和调试复杂度。','适合拆分的依据不是“名字听起来专业”，而是权限隔离、独立复核、并行可分任务或不同专业模型。','在AdaptiveVuls里Sticky Investigator保持方向内连续性，Fresh Reviewer只在需要认知隔离和正式准入时介入。'],['什么时候用Supervisor？','多Agent怎样共享State？','投票能提高正确率吗？'],'回答时不要反对Multi-Agent，而要给出使用条件。','中等',['开放讨论','Multi-Agent','系统取舍'],'必背'),
+  X('agent','开放讨论','Memory 是不是越多越好？','不是；有效Memory取决于写入质量、适用范围、时效、召回和冲突处理，错误或过期记忆会稳定地放大偏差。',['当前任务事实、历史经历和通用方法应分层保存，并记录provenance、scope、confidence、expiry和反例。','完整历史可以持久化供审计，但每轮Context只选与当前Action直接相关的切片。','长期经验只能影响先验和调查优先级，当前代码、运行结果和正式证据优先。'],['什么时候删除Memory？','如何评测Memory收益？','记忆冲突怎么办？'],'可直接连接百度一面“错误经验怎么办”和Memory Poisoning。','中等',['开放讨论','Memory','Context Engineering'],'必背'),
+  X('agent','开放讨论','RAG 会不会被 Long Context 取代？','会减少一部分简单场景，但不会完全取代；Long Context解决能放多少，RAG还解决从哪里取、权限、更新、来源和成本。',['企业知识持续更新且存在租户权限，不适合每次把全部材料送入模型；检索可以先做ACL过滤并保留引用。','Long Context适合单次文档整体理解，RAG适合大规模、动态、跨来源知识；两者通常组合。','RAG自身也会有漏召回和投毒风险，需要检索评测、时间过滤和Groundedness，而不是把它神化。'],['什么时候直接用Long Context？','RAG增加延迟怎么办？','缓存能否替代检索？'],'OPPO/通用AI应用开放题。','中等',['开放讨论','RAG','Long Context'],'必背'),
+  X('agent','开放讨论','Agent 当前最重要的瓶颈是模型能力还是系统工程？','取决于任务：开放推理上限常受模型限制，进入真实业务后的稳定性通常受状态、工具、数据、权限、评测和集成共同限制。',['先用失败分类定位：知识/推理错、检索错、Tool错、环境错、Workflow错和Policy错需要不同改进。','盲目换模型可能掩盖工程缺陷，盲目加工作流也不能弥补模型根本不会的任务。','成熟团队应建立Eval和Trace，用数据决定优化模型、Context、Tool还是Runtime。'],['你项目的主要瓶颈是什么？','模型升级后哪些架构可以删除？','如何做Model Router？'],'统一收束到“模型能力与系统工程不是二选一”。','困难',['开放讨论','Agent工程','瓶颈'],'高压'),
+
+  X('adaptivevuls','行为面','AdaptiveVuls 项目中遇到的最大困难是什么？','最大的困难是让长期调查中的证据能可靠交接并真正改变下一步，而不是只在Session里留下一段无法审计的自然语言结论。',['早期后续Agent只看到摘要，容易重复读代码，或把“已尝试”误写成“已证明”；问题根源是隐式上下文与正式状态混在一起。','后来将Direction、Evidence和Artifact引用外部化，Worker提交结构化Delta，Runtime校验引用，正式Claim再由Fresh Reviewer限定。','这个案例要按“现象→定位→修改→验证→仍有边界”讲；不要只说上下文太长或模型幻觉。'],['具体丢了哪类证据？','改后如何证明有效？','为什么不用更长Context？'],'行为面默认案例一：Evidence/State交接。','中等',['行为面','项目困难','Evidence Handoff'],'必背'),
+  X('adaptivevuls','行为面','项目中一次失败的设计是什么？','早期固定多Worker流水线把完整Coding Agent的调查循环切得太碎，交接成本和重复阅读抵消了角色拆分的收益。',['当时这样设计有合理性：模块职责清晰、容易并行，也便于观察不同阶段；真实运行后才暴露连续认知被切断。','后来收缩为目标级Persistent Sticky Investigator拥有方向内搜索，Fresh Agent只用于Re-Survey和正式Review等确实需要隔离的边界。','经验不是“多Agent一定不好”，而是角色拆分必须由权限、上下文隔离或真实可并行性驱动。'],['有什么数据或Trace支持调整？','为什么不继续优化Handoff？','现在还有哪些Worker？'],'行为面默认案例二：具体架构失败，而不是归因“模型不聪明”。','困难',['行为面','失败设计','Sticky Investigator'],'高压'),
+  X('adaptivevuls','行为面','两个项目中团队如何分工，你的个人贡献是什么？','先把“我直接实现、我共同设计、团队已有”三层分开，再只展开自己能用接口、代码、实验和失败日志证明的部分。',['主项目可重点讲统一agent接口/Runner Adapter、Session/Workspace/Artifact运行边界、外部状态与证据协议、实验和结果复核；具体以真实分工为准。','国防项目讲自己实际负责的LightRAG/Neo4j、Planner–Actor、MCP工具层或状态机部分，不把验收环境和团队工具都包装成个人实现。','每一项贡献准备一个“为什么这样设计、接口是什么、遇到什么Bug、怎样测”的追问链。'],['哪一块代码量最大？','如果没有你项目还能运行吗？','哪些是开源组件能力？'],'面试前按真实情况删减占位内容；真实性比“全部主导”更重要。','中等',['行为面','团队分工','个人贡献'],'必背'),
+  X('adaptivevuls','行为面','项目中出现技术分歧时怎么解决？','先把分歧改写成可验证的设计假设，再用Trace、失败样本、小规模对照和维护成本决定，而不是比较谁更会说服人。',['例如“固定多Worker还是Sticky Investigator”，可以控制模型、目标和预算，比较重复阅读、Handoff丢失、成功率与成本。','在实验前约定评价指标和必须保留的安全边界；数据不足时采用可回滚方案并记录决策。','最后说明你如何同步结论、接受反例并更新设计，而不是只讲“充分沟通后达成一致”。'],['如果数据仍不显著怎么办？','负责人坚持另一方案呢？','如何处理时间压力？'],'可使用项目架构收缩作为真实分歧案例，但不要虚构团队冲突。','中等',['行为面','技术分歧','实验决策'],'深挖'),
+  X('adaptivevuls','行为面','如果现在重新设计 AdaptiveVuls，最先改什么？','先把State、Checkpoint、Artifact和Runner Session明确拆成接口化持久层，再完成前瞻基线、消融和失败标注，而不是继续堆更多Agent角色。',['工程上从文件化状态演进到Postgres/SQLite加对象存储，增加revision、原子提交、Schema migration和可重放Trace。','方法上保留Thin Runtime与Sticky Investigator，缩小未经验证的固定控制策略；Fresh机制必须做同预算消融。','产品化再补多租户、Secret、Sandbox、队列、取消、可观测和Policy Gate；顺序体现“先证明，再扩平台”。'],['为什么当前文件方案当时合理？','第一周具体做什么？','哪些机制可能删掉？'],'与“给六个月和团队”不同，这题强调你现在的优先级判断。','困难',['行为面','重新设计','工程演进'],'高压'),
+  X('adaptivevuls','行为面','为什么一个方案当时合理，现在却需要修改？','设计要结合当时信息、目标和成本判断；新Trace和失败样本改变了假设，修改方案是证据驱动，不代表最初决策毫无依据。',['项目初期用文件和角色化流水线能快速验证Runner-neutral、可观察和模块边界，开发成本低。','规模和真实运行增加后，并发、交接、迁移与认知连续性问题才成为主要矛盾，于是架构收缩并需要数据库化接口。','回答要明确触发变化的证据，避免把演进包装成“从一开始就完全正确”。'],['什么信号触发重构？','如何避免频繁推翻？','你做过错误决策吗？'],'体现工程判断、复盘和接受负面结果的能力。','中等',['行为面','设计演进','复盘'],'必背'),
+  X('adaptivevuls','行为面','项目最值得骄傲的结果是什么？','不是单独某个数字，而是把Agent工作流真正运行到真实仓库并形成可由外部主体复核的安全结果，同时保留方法证据边界。',['可简洁给出9个系统、21个发现、11个厂商确认修复、1个CVE和3个CNVD。','随后强调个人更看重从开放调查、Artifact到厂商复核的完整闭环，而不是只生成看起来合理的报告。','主动说明这些成果证明真实产出，不单独证明方法普遍优于强原生Coding Agent。'],['哪个发现最能代表系统？','厂商确认流程是什么？','结果中你的贡献是什么？'],'行为面要有自信，但不要把他人成果或相关性包装成方法因果。','简单',['行为面','项目成果','证据边界'],'必背'),
+  X('adaptivevuls','行为面','AdaptiveVuls 当前最大不足是什么？','最大不足是严格前瞻对照和跨领域泛化证据仍不充分，真实发现数量不能替代同模型、同工具、同预算的因果比较。',['需要冻结任务和指标，比较Native Agent、Agent+Skill与完整Harness，多随机种子保存Trace。','对Fresh Review、External State、Resume等组件做消融，同时度量正确结论、错误关闭、重复行动、成本和延迟。','工程上文件持久化的并发、事务、多租户和权限也未达到生产平台标准。'],['目前已证明什么？','为什么还写进简历？','如果实验结果为负怎么办？'],'这是高压研究题，主动说边界比回避不足更可信。','困难',['行为面','项目不足','严格实验'],'高压'),
+
+  X('agent','求职表达','为什么投 Agent 应用岗位？','我的横向能力是把模型、RAG、Tool/MCP、State、Workflow、Eval和后端组织成可运行系统，安全是我最深入的应用场景而不是岗位限制。',['国防项目展示从知识、Planner、MCP和状态机搭领域Agent；主项目展示复用成熟Coding Agent并管理长程运行边界。','普通业务同样需要异步任务、状态持久化、权限、Trace、成本和失败恢复，这些能力可以直接迁移。','面试OPPO时先讲业务闭环和工程落地，安全作为可靠性和边界意识的差异化。'],['为什么不是纯安全？','你做过普通业务Agent吗？','后端短板是什么？'],'岗位动机要先贴对方业务，不能只说“我的安全项目也算Agent”。','简单',['求职表达','Agent应用','OPPO'],'必背'),
+  X('security','求职表达','为什么投 AI 安全岗位？','我的经历同时覆盖Agent for Security和Security for Agent：既用Agent做漏洞调查与工具编排，也关注不可信上下文、权限、副作用和证据准入。',['AdaptiveVuls提供真实漏洞调查、Evidence和Harness；国防项目提供知识检索、Planner–Actor、MCP工具与异常重规划。','进入企业场景后需要Prompt/RAG/Memory/Tool安全、身份、Sandbox、HITL和审计，这与安全基础能形成闭环。','面试阿里/蚂蚁时要分别收束到云安全Agent或安全运营/行为治理，不平均讲所有技术。'],['AI for Security与Security for AI选哪个？','你做过Agent安全攻击吗？','怎样产品化？'],'统一AI安全岗位动机。','简单',['求职表达','AI安全','阿里','蚂蚁'],'必背'),
+  X('security','求职表达','为什么不继续只做纯安全研究？','我不会放弃安全纵深，但更希望在Agent系统工程与安全交叉处工作，把发现、验证、工具、状态和评测做成可复用系统。',['纯漏洞研究培养了威胁建模、证据和边界意识；Agent工程让我能扩大这些能力的应用范围和自动化程度。','职业选择不是离开安全，而是从单点分析扩展到安全Agent、Agent安全和平台可靠性。','若岗位偏通用AI，安全是差异化；若岗位偏安全，它就是领域主线。'],['以后还会挖漏洞吗？','方向是否摇摆？','你更喜欢平台还是研究？'],'不要贬低纯安全，也不要说只是因为岗位更多。','简单',['求职表达','职业选择','安全研究'],'深挖'),
+  X('agent','求职表达','为什么不做大模型训练或算法岗位？','我的优势更集中在使用和组织强模型解决真实任务，包括Context、Tool、State、Eval、可靠性和安全，而不是预训练算法与大规模训练基础设施。',['本科AI背景让我理解模型基础，但当前最有证据的项目贡献在Agent Runtime、RAG/MCP、漏洞验证和工程闭环。','应用/系统岗位同样需要实验能力，例如模型路由、Prompt/Context消融、Benchmark和成本质量权衡。','表达为主动选择“更匹配的纵深”，而不是说训练不重要或自己完全不会模型。'],['会不会微调？','模型能力不足怎么办？','是否愿意补训练知识？'],'适合OPPO和通用AI岗位的方向选择题。','简单',['求职表达','岗位动机','模型训练'],'深挖'),
+  X('agent','求职表达','未来三年的技术方向是什么？','以Agent系统工程为横向能力，以漏洞与安全研究为领域纵深，先补齐生产后端与评测，再深入可靠Runtime和Agent安全。',['第一阶段把异步任务、数据库/MQ、可观测、Eval、Sandbox和多租户补到生产级，并进入真实业务主链路。','第二阶段围绕长程State/Context、Tool治理、可靠恢复和安全评测形成可复用平台能力。','持续保留程序分析、漏洞验证和安全运营场景，避免只做通用框架而没有领域反馈。'],['更偏平台还是业务？','三年后希望负责什么？','如何衡量成长？'],'所有岗位统一口径，具体公司面试时替换第一阶段业务。','简单',['求职表达','职业规划','三年方向'],'必背'),
+
+  X('agent','国防项目','如果现在重构第二个自主漏洞利用智能体，会怎样调整？','保留Planner–Actor和标准化工具边界，但把知识检索改成按需Tool，把长计划改成短步Replanning，并按部署边界选择Native Tool Calling或MCP。',['不是每步都需要RAG：已知CVE、当前环境状态或参数错误应优先读取当前证据；历史知识只提供先验。','Planner只规划下一小段，Actor返回结构化Observation和Error Type，再决定参数调整、工具替换或路径重规划。','长任务需要时接入Workflow-Harness的State、Checkpoint、Artifact、权限和恢复；高风险动作加Sandbox、范围校验和HITL。'],['为什么不把MCP换成Skill？','图谱还保留吗？','怎样做重构前后评测？'],'用“保留什么、修改什么、为什么”回答，不否定原项目当时设计。','困难',['国防项目','系统重构','Short-horizon Replanning'],'高压'),
+  X('agent','工具设计','Tool Description 为什么重要，工具失败后为什么不能统一重试？','模型依靠名称、描述和Schema选择工具；失败原因不同，临时故障可重试，参数、权限、业务条件和环境问题需要不同状态迁移。',['描述要说明能力、适用条件、关键副作用、参数约束和返回语义；不要把秘密或可被服务端篡改的描述直接当系统指令。','429/短暂网络错误可指数退避；参数非法应修正或Replan；认证失败应停止并请求合法凭证；业务条件不满足要更新State。','每次执行带operation/idempotency key、timeout和结构化Error Code，避免模型从自由文本猜测并重复副作用。'],['Tool描述太长怎么办？','错误来自Prompt Injection怎么办？','哪些错误可以Fallback到其他工具？'],'补齐Tool Calling的高频追问，并可连接第二项目结构化Error Log。','中等',['Tool Description','Failure Classification','Retry'],'必背')
+);
+
+QUESTIONS.push(
+  X('agent','MCP','MCP 和 Skill 有什么区别，为什么不能互相替代？','Skill描述“遇到这类任务怎么做”，MCP标准化“怎样发现和访问外部能力”；前者是经验与方法，后者是能力接入协议。',['Skill可以告诉Agent先扫描、再验证、最后复核，但它本身不提供扫描器进程、远程资源或认证。','MCP暴露Tool/Resource/Prompt及调用协议，但不负责高层Planning、Memory和任务成功标准。','两者可以组合：Skill决定何时以及为何使用能力，MCP负责按Schema、权限和传输契约访问能力。'],['为什么不把所有Skill做成MCP Prompt？','Native Tool和MCP怎样选？','恶意MCP Server如何治理？'],'国防项目固定回答：MCP与Skill处于不同层，不能说“现在用Skill替换MCP”。','简单',['MCP vs Skill','协议边界','国防项目'],'必背'),
+  X('security','AI for Code','SAST、Fuzzing 和 Coding Agent 分别搜索什么空间，怎样协同？','SAST搜索程序关系空间，Fuzzing搜索输入与执行空间，Coding Agent搜索调查空间；三者通过可追溯Artifact形成互补。',['SAST规模化查AST/CFG/DFG与Source–Sink关系，但会受近似和框架模型影响。','Fuzz用Seed、Mutation、Coverage和Oracle寻找真实执行异常，但可达性、Harness和环境决定上限。','Coding Agent可以生成假设、读业务上下文、调用两类工具、构造PoC并做失败归因，但不能用自然语言替代确定性分析结果。'],['先跑SAST还是先Fuzz？','Coding Agent怎样减少误报？','三者如何公平评测？'],'字节AI for Code核心定位题，也用于解释AdaptiveVuls不是SAST/Fuzz替代品。','中等',['SAST Fuzz Agent','Investigation Space','字节'],'必背'),
+  X('agent','国防项目','LightRAG 抽取后的实体怎样去重和合并？','先用规范化键和领域标识做确定匹配，再用别名、属性与语义相似度产生候选，冲突项保留来源并进入审核，不让LLM直接无条件覆盖。',['CVE/CWE等稳定ID优先作为主键；产品名、版本和工具名做大小写、前后缀与别名规范化。','对模糊候选比较类型、邻接关系、原文Chunk和Embedding，相同实体合并描述与provenance，不确定则保持分离。','合并操作需要可回滚和版本记录；错误合并通常比暂时重复更难修复。'],['阈值怎么选？','同名不同产品怎么办？','描述冲突怎么保存？'],'第二项目知识图谱高频实现题，回答以实际做过的规则为准。','困难',['LightRAG Entity Dedup','Neo4j','国防项目'],'深挖'),
+  X('agent','国防项目','知识图谱中出现错误关系怎么办？','关系必须保留原文来源和抽取版本；查询时按来源、置信和时效过滤，离线通过规则、抽样与冲突检测修订，不能把图边直接当漏洞事实。',['用实体类型约束和允许的边类型拦截明显非法关系，例如CVE不能被误当作目标资产类型。','同一关系保存source_chunk、extractor_version、confidence与时间；冲突关系并存并交给审核或下游证据判断。','删除或修订采用版本化更新，重新索引受影响的实体/关系描述，避免向量索引和Neo4j不一致。'],['图谱如何评测？','错误边会怎样影响Planner？','能否让LLM自我修复？'],'强调provenance与可回滚，避免声称LLM抽取天然可靠。','困难',['Graph Quality','Provenance','国防项目'],'高压'),
+  X('agent','国防项目','RAG 历史知识和当前真实环境冲突时信谁？','优先当前目标的可复现实验和源码/配置，其次是当前版本官方资料，再到历史知识与模型记忆；RAG只提供先验，不覆盖现场事实。',['先检查是否版本、配置、资产或时间范围不同，很多“冲突”来自Scope不一致。','Planner应把历史知识转成待验证假设，通过受限工具读取目标状态；不能据此直接宣告漏洞或执行高风险动作。','把冲突记录为新的Evidence Gap，并降低或限定该条知识的适用范围，必要时修订长期知识。'],['当前实验也可能错怎么办？','官方资料与源码冲突呢？','如何把反例写回知识库？'],'第二项目和错误经验题的统一原则：Experience influences prior, not truth。','中等',['Evidence Priority','RAG Conflict','国防项目'],'必背'),
+  X('backend','Agent后端','Agent 长任务怎么取消，怎样处理已经发生的副作用？','取消应是持久化的desired state，Worker在安全点检查并向模型、子进程和工具传播；已发生副作用不能假装回滚，要记录并执行补偿或人工处置。',['API写入cancel_requested并返回受理，Worker用run lease和heartbeat发现状态；阻塞Tool需要timeout、signal或可取消协议。','状态区分requested、cancelling、cancelled、completed和cancel_failed，处理完成与取消同时发生的竞态。','只读动作可直接停止；写操作要靠幂等键、事务、补偿动作和审计，高风险操作最好在执行前Interrupt审批。'],['客户端断开要自动取消吗？','SIGKILL后怎样恢复？','取消消息丢失怎么办？'],'OPPO Agent后端与Durable Execution高频题。','困难',['Agent Cancellation','Async Task','Compensation'],'必背')
+);
+
+const MASTER_CORE_QUERIES = [
+  'LLM、Agent、Coding Agent 与 Harness 有什么区别？',
+  'ReAct 的优势和局限是什么？',
+  '任务规划应该由模型自主拆分，还是由规则/状态机兜底？',
+  'Workflow-Harness 和 Agent Skill 的区别是什么？',
+  '为什么 Workflow-Harness 不只是更复杂的 Prompt Engineering？',
+  '为什么叫 Thin Runtime，“Thin”具体薄在哪里？',
+  'State、Context 和 Memory 如何区分？',
+  '为什么采用 Native Persistent Session + External Persistent State？',
+  'Bootstrap Context Injection 是什么，什么时候触发？',
+  'Reducer 在 StateGraph 中解决什么问题？',
+  'Checkpointer 和 Store 有什么区别？',
+  'Workflow Resume 和 Runner Session Resume 有什么区别？',
+  '什么是幂等性，Agent Workflow 怎样实现？',
+  'Semantic、Episodic、Procedural Memory 分别是什么？',
+  'Agent 依赖人提供的经验，但经验本身是错的，系统怎么办？',
+  '企业级 Function Calling 的完整架构是什么？',
+  'MCP 解决什么问题？',
+  'MCP 和 Skill 有什么区别，为什么不能互相替代？',
+  '请从用户 Query 开始完整口述到最终上下文的线上 RAG 流程。',
+  'RAG 应该评测哪些指标？',
+  '怎样快速判断问题出在检索层还是生成层？',
+  '多 Agent 为什么不一定优于一个强 Agent？',
+  'Fresh 与 Resume 应怎样设计公平对照？',
+  '如何评测一个 Coding Agent 工作流？',
+  '怎样用故障注入测试 Agent 的恢复能力？',
+  '现有漏洞发现与验证相关工作有哪些路线，AdaptiveVuls 补充了什么？',
+  'Investigation Portfolio 为什么不是 TODO List 或任务队列？',
+  'Direction 和 Candidate/Case 有什么区别？',
+  'Evidence Savepoint 和 Workflow Checkpoint 有什么区别？',
+  'Fresh Re-Survey 和 Fresh Reviewer 分别解决什么？',
+  'Case Investigator 与 Fresh Reviewer 为什么要分开？',
+  '请用一分钟介绍“基于知识图谱与 MCP 的自主漏洞利用智能体”。',
+  '如果现在重构第二个自主漏洞利用智能体，会怎样调整？',
+  '什么是间接 Prompt Injection？',
+  '设计一个Agent Tool Gateway。',
+  'SAST、Fuzzing 和 Coding Agent 分别搜索什么空间，怎样协同？',
+  'LLM-as-Judge 怎样缓解位置偏见和长度偏见？',
+  '为什么 Agent 长任务通常需要异步队列？',
+  '为什么你同时投AI应用、AI测开、AI for Code和AI安全，方向不散吗？',
+  '如何定义一个 Agent 任务是否成功？'
+];
+
+JOB_SPRINTS.unshift(
+  {
+    id:'master',name:'AI Agent × 安全总面经',eyebrow:'MASTER INTERVIEW MAP',tone:'blue',
+    role:'Agent基础 + Runtime/State + Tool/RAG/Eval + 两个项目 + 安全 + 工程基础 + 行为面',
+    summary:'先用核心40题建立能连续追问的主干，再按技术层、项目层、安全层和岗位表达补齐；已有题目不重复造轮子，只将它们重新组织成一条总复习路径。',
+    sources:[{name:'当前最新简历',url:'%E6%B8%B8%E6%B4%8B.pdf'}],
+    discipline:'每题先用一句人话给结论，再讲2–3个机制、一个项目例子和一个边界；项目题按“相关工作→空缺→方法→结果→边界”展开。',
+    planTitle:'总面经：核心40先脱稿，再承受两层追问',
+    plan:'Day 1 核心40口述；Day 2 Runtime/State/Memory；Day 3 Tool/MCP/RAG/Eval；Day 4 两个项目；Day 5 Web/程序分析/Fuzz/Agent安全；Day 6 后端/测试/算法；Day 7 开放讨论、行为面和连续模拟。',
+    phases:[
+      {id:'core40',order:'00',title:'真正优先练的40题',level:'S·脱稿',desc:'不看笔记自然讲1–2分钟，并能继续承受至少两层追问。',queries:MASTER_CORE_QUERIES},
+      {id:'foundation',order:'01',title:'LLM / Agent / Workflow',level:'S',desc:'从Agent闭环讲到ReAct、短步重规划、Skill、Workflow、Harness和完成条件。',queries:['LLM、Agent、Coding Agent 与 Harness','Agent Loop','ReAct','任务规划应该由模型自主拆分','Agent Skill 与 Tool、Prompt、Workflow','如何定义一个 Agent 任务是否成功']},
+      {id:'runtime',order:'02',title:'Runtime / State / Durable',level:'S·高压',desc:'Thin Runtime、双层状态、Context、Reducer、Checkpoint、三层Resume和幂等。',queries:['Thin Runtime','State、Context 和 Memory','Native Persistent Session + External Persistent State','Bootstrap Context Injection','Reducer','Checkpointer 和 Store 有什么区别？','Workflow Resume 和 Runner Session','幂等']},
+      {id:'knowledge',order:'03',title:'Tool / MCP / RAG / Memory',level:'S',desc:'工具执行契约、MCP边界、RAG全链、知识冲突和Memory写入治理。',queries:['企业级 Function Calling','Tool Description 为什么重要','MCP 解决什么问题','MCP 和 Skill 有什么区别','完整口述到最终上下文的线上 RAG','RAG 应该评测','判断问题出在检索层还是生成层','Semantic、Episodic、Procedural Memory','Memory 是不是越多']},
+      {id:'eval',order:'04',title:'Agent Eval / Failure',level:'S·高压',desc:'Outcome、Process、鲁棒性、效率、安全、非确定性和故障注入。',queries:['如何评测一个 Coding Agent','大模型输出非确定','如何定义一个 Agent 任务是否成功','工具调用质量','故障注入','LLM-as-Judge','Agent 线上质量监控']},
+      {id:'av',order:'05',title:'AdaptiveVuls 主项目',level:'S·高压',desc:'相关工作空缺、Portfolio、Evidence反馈、Fresh隔离、真实结果和严格边界。',queries:['现有漏洞发现与验证相关工作','介绍 AdaptiveVuls','Portfolio','Direction 和 Candidate/Case','Evidence Savepoint','Fresh Re-Survey','Fresh Reviewer','Fresh Review收益','当前严格实验结果']},
+      {id:'defense',order:'06',title:'LightRAG / MCP 第二项目',level:'S',desc:'知识图谱、混合检索、Planner–Actor、工具契约、异常重规划和当前重构。',queries:['介绍“基于知识图谱与 MCP','同时索引文本块','Planner–Actor、MCP 与状态机','LightRAG 抽取后的实体怎样去重','RAG 历史知识和当前真实环境冲突','现在重构第二个']},
+      {id:'security',order:'07',title:'Web / 程序分析 / Fuzz / Agent安全',level:'S·高压',desc:'从漏洞根因到SAST/Fuzz/Agent三类搜索，再到Prompt、Tool、Memory和Sandbox。',queries:['Authentication、Authorization','IDOR','SQL 注入','SSRF','路径遍历防护','Java 原生反序列化','Use-After-Free','AST、CFG、DFG','Source→Sink 数据流','SAST 为什么会误报','Fuzzing','SAST、Fuzzing 和 Coding Agent','间接 Prompt Injection','Confused Deputy','Memory Poisoning','代码执行 Agent 的 Sandbox']},
+      {id:'engineering',order:'08',title:'后端 / 测试 / 算法基础',level:'A',desc:'异步任务、存储、取消幂等、Streaming、可观测、Pytest、性能和手撕。',queries:['Agent 长任务通常需要异步','Redis、MySQL/Postgres','Agent 长任务怎么取消','SSE 与 WebSocket','日志、指标和 Trace','Pytest fixture','接口自动化框架','QPS、TPS','滑动窗口最大值']},
+      {id:'discussion',order:'09',title:'开放讨论',level:'高压',desc:'避免绝对化，先承认合理部分，再讲工程事实、适用条件和边界。',queries:['AI 会不会取代程序员','新编译器','Machine Code','AI Coding 时代 SAST','未来源码','验证反而越重要','Agent 越强','强模型能否解决','Multi-Agent 是未来','Memory 是不是越多','RAG 会不会被','最重要的瓶颈']},
+      {id:'behavior',order:'10',title:'行为面与岗位动机',level:'S',desc:'用真实故障和设计演进回答，统一定位但面向具体岗位收束。',queries:['项目中遇到的最大困难','一次失败的设计','团队如何分工','技术分歧','重新设计 AdaptiveVuls','当时合理','最值得骄傲','当前最大不足','为什么投 Agent 应用','为什么投 AI 安全','为什么不继续只做','为什么不做大模型训练','未来三年的技术方向','为什么你同时投AI应用']}
+    ]
+  }
 );
 ;
 /* 独立漏洞复盘页数据。公开案例与本地审计案例分开标注，不进入题库计数。 */
@@ -1683,7 +1794,7 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
   let visualFilter = 'all';
   let sourceFilter = 'all';
   let pitchFilter = 'all';
-  let sprintMode = 'baidu';
+  let sprintMode = 'master';
   let vulnFilters = {query:'', product:'all', status:'all'};
   let jobFeed = null;
   let jobFilters = {query:'', industry:'重点岗位', status:'active', saved:false};
@@ -1927,13 +2038,13 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
   }
   function sprintsHTML(){
     const mode=JOB_SPRINTS.find(x=>x.id===sprintMode)||JOB_SPRINTS[0],selection=sprintSelection(`${mode.id}:all`),done=masteredCount(selection.questions),pct=selection.questions.length?Math.round(done/selection.questions.length*100):0;
-    return `${pageHead('岗位冲刺模式','将百度、OPPO、字节、阿里/阿里云和蚂蚁的差异化要求，统一到 Agent Systems、AI for Security 与 Security for AI 三层能力树。','ROLE-SPECIFIC SPRINT',`<button class="secondary-btn" data-go="pitch">${icon('message')}先练自我介绍</button><button class="primary-btn" data-sprint-start="${mode.id}:all">${icon('play')}开始完整题单</button>`)}
+    return `${pageHead('岗位冲刺模式','先用AI Agent × 安全总面经和核心40题建立主干，再进入百度、OPPO、字节、阿里/阿里云和蚂蚁五个岗位专项。','ROLE-SPECIFIC SPRINT',`<button class="secondary-btn" data-go="pitch">${icon('message')}先练自我介绍</button><button class="primary-btn" data-sprint-start="${mode.id}:all">${icon('play')}开始完整题单</button>`)}
     ${applicationMapHTML()}
     <div class="sprint-mode-tabs" role="tablist" aria-label="选择岗位冲刺模式">${JOB_SPRINTS.map(x=>`<button role="tab" aria-selected="${mode.id===x.id}" class="${mode.id===x.id?'active':''}" data-sprint-mode="${x.id}"><span>${esc(x.eyebrow)}</span><strong>${esc(x.name)}</strong><small>${x.phases.length} 个阶段</small></button>`).join('')}</div>
     <section class="sprint-hero ${mode.tone}"><div><span class="eyebrow">${esc(mode.eyebrow)}</span><h2>${esc(mode.name)}</h2><p>${esc(mode.summary)}</p><div class="sprint-role"><strong>岗位核心画像</strong><span>${esc(mode.role)}</span></div><div class="sprint-source-links">${mode.sources.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)} ${icon('external')}</a>`).join('')}</div></div><div class="sprint-progress"><div class="progress-ring" style="--pct:${pct}"><div><strong>${pct}%</strong><small>${done}/${selection.questions.length}</small></div></div><p><strong>${selection.questions.length}</strong> 道精选题</p><small>${selection.questions.filter(x=>x.priority==='高压').length} 道高压 · 已掌握 ${done}</small></div></section>
     <div class="sprint-rule"><span>${icon('target')}</span><div><strong>回答纪律</strong><p>${esc(mode.discipline||(mode.id==='baidu'?'把安全研究翻译成质量工程：每题都说测试对象、Oracle、数据、故障、指标和剩余风险。':'把方法、工程和应用分开：传统安全要讲机制，Agent安全要讲权限与副作用，研究结论要讲严格证据边界。'))}</p></div></div>
     <section class="sprint-phase-grid">${mode.phases.map(phase=>sprintPhaseCard(mode,phase)).join('')}</section>
-    <section class="sprint-plan"><div><span class="eyebrow">7-DAY PLAN</span><h2>${esc(mode.planTitle||(mode.id==='baidu'?'百度：先项目，再测试，再平台':'阿里/阿里云：先真实安全深度，再Agent治理与研究高压'))}</h2><p>${esc(mode.plan||(mode.id==='baidu'?'Day 1 口述与项目；Day 2 测试方法；Day 3 Pytest/接口；Day 4 LLM评测；Day 5 Agent测试和性能；Day 6 系统设计；Day 7 基础题与模拟面试。':'Day 1 真实漏洞与项目；Day 2 传统安全；Day 3 Prompt/Tool/Memory；Day 4 Sandbox与隐私；Day 5 安全平台；Day 6 研究高压；Day 7 全链模拟。'))}</p></div><div class="sprint-plan-actions"><button class="secondary-btn" data-go="mock">${icon('mic')}随机模拟</button><button class="primary-btn" data-sprint-start="${mode.id}:${mode.phases[0].id}">${icon('arrow')}从阶段 01 开始</button></div></section>`;
+    <section class="sprint-plan"><div><span class="eyebrow">7-DAY PLAN</span><h2>${esc(mode.planTitle||(mode.id==='baidu'?'百度：先项目，再测试，再平台':'阿里/阿里云：先真实安全深度，再Agent治理与研究高压'))}</h2><p>${esc(mode.plan||(mode.id==='baidu'?'Day 1 口述与项目；Day 2 测试方法；Day 3 Pytest/接口；Day 4 LLM评测；Day 5 Agent测试和性能；Day 6 系统设计；Day 7 基础题与模拟面试。':'Day 1 真实漏洞与项目；Day 2 传统安全；Day 3 Prompt/Tool/Memory；Day 4 Sandbox与隐私；Day 5 安全平台；Day 6 研究高压；Day 7 全链模拟。'))}</p></div><div class="sprint-plan-actions">${mode.id==='master'?`<button class="secondary-btn" data-core-mock>${icon('mic')}核心40随机模拟</button>`:`<button class="secondary-btn" data-go="mock">${icon('mic')}随机模拟</button>`}<button class="primary-btn" data-sprint-start="${mode.id}:${mode.phases[0].id}">${icon('arrow')}${mode.id==='master'?'从核心40开始':'从阶段 01 开始'}</button></div></section>`;
   }
   function sprintPhaseCard(mode,phase){
     const questions=sprintQuestionsForQueries(phase.queries),done=masteredCount(questions),pct=questions.length?Math.round(done/questions.length*100):0;
@@ -2021,6 +2132,7 @@ function visualCard(v,compact=false){return `<figure class="visual-card ${compac
     $$('[data-copy-pitch]').forEach(b=>b.onclick=async()=>{const p=INTERVIEW_PITCHES.find(x=>x.id===b.dataset.copyPitch);if(!p)return;const content=`${p.title}（${p.duration}）\n\n${p.script.join('\n\n')}`;try{await copyText(content);showToast(`已复制：${p.title}`)}catch{showToast('复制失败，请手动选择文本')}});
     $$('[data-sprint-mode]').forEach(b=>b.onclick=()=>{sprintMode=b.dataset.sprintMode;render()});
     $$('[data-sprint-start]').forEach(b=>b.onclick=()=>{filters={...filters,query:'',category:'all',difficulty:'all',priority:'all',bookmark:false,stage:null,securityFamily:null,sprint:b.dataset.sprintStart};$('#globalSearch').value='';setView('questions')});
+    const coreMock=$('[data-core-mock]');if(coreMock)coreMock.onclick=()=>{const pool=sprintSelection('master:core40').questions;mock={pool:shuffle(pool).slice(0,10),index:0,started:true,showing:false,seconds:120,timer:null};setView('mock');startMockTimer()};
     $$('[data-lightbox]').forEach(b=>b.onclick=()=>openFigure(b.dataset.lightbox,b.dataset.alt));
     $$('[data-random]').forEach(b=>b.onclick=randomQuestion);
     $$('.expand-btn').forEach(b=>b.onclick=e=>{e.stopPropagation();const card=b.closest('.question-card');card.classList.toggle('open');b.setAttribute('aria-expanded',card.classList.contains('open')); if(card.classList.contains('open')) b.innerHTML=icon('chevron','rotated');});
