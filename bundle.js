@@ -1133,6 +1133,49 @@ JOB_SPRINTS.unshift(
   }
 );
 ;
+/* “再牢两年半”公开面经对标专项。题目只采用帖子中明确出现的问法；答案按游洋当前简历与真实项目改写。 */
+QUESTIONS.push(
+  X('security','同类候选人面经','你的简历看起来很 AI，你真正的安全能力体现在哪里？','我的核心并不是只会调用模型，而是同时做过真实漏洞调查和 Agent 安全研究。AdaptiveVuls 中我负责把强 Coding Agent、程序分析、PoC、动态实验和独立复核组织成长程调查；此外我们还独立发现、复现并私下报告过 Hermes Agent 的凭证泄露、DNS Rebinding、危险命令审批授权绕过和验签前 XML 实体膨胀问题。因此 AI 是我扩大安全调查能力的工具，安全边界、攻击路径和程序证据才是我判断结果的基础。',[],['如果不用大模型，你还会哪些安全分析方法？','四个 Hermes 问题中哪个最有代表性？'],'高压追问时先给“真实漏洞 + 程序证据”，不要从框架名开始。','中等',['真实面经','AI安全','项目定位'],'必背'),
+  X('security','同类候选人面经','你有没有对某一个安全方向做过比较深入的研究？','我目前最深入的方向是代码执行型 Agent 的信任边界，重点研究外部输入怎样跨越身份、凭证、审批和本地服务边界进入高权限动作。以 Hermes Agent 为例，我们分别验证过 URL 信任判断导致的 Provider Key 外泄、localhost 服务的 DNS Rebinding、多人聊天中危险命令审批人与会话所有者未绑定，以及企业微信回调在验签前解析 XML。它们表面上属于不同漏洞，底层都在回答同一个问题：系统把什么当成可信主体或可信数据，这个判断是否真的约束了后续高权限操作。',[],['为什么把这些问题归到同一方向？','Agent 安全和传统应用安全有什么不同？'],'用四类漏洞抽象出统一 Trust Boundary，不要只罗列漏洞名称。','中等',['真实面经','Agent安全','Trust Boundary'],'必背'),
+  X('security','同类候选人面经','讲一个你独立发现并私下报告的 Agent 漏洞。','我会讲 Hermes 的危险命令审批绕过。系统在 Feishu、Discord 和 Slack 中展示危险命令审批按钮，但回调处理没有稳定地把点击者身份绑定到发起该 Session 的授权用户；在共享频道里，其他参与者可能替受害者批准终端或文件操作。我们沿审批状态创建、回调身份提取和 resolve_gateway_approval 的调用链做源码确认，再用不同用户直接触发处理器并记录受害者 session_key 被解析为 allow 的运行结果。报告提交后，维护者明确回复这是一个真实漏洞，并通过三类适配器 fail-closed 和中心策略修复。这个案例说明 HITL 只有界面没有用，审批必须绑定 subject、session、action 和 resource。',[],['为什么这是 Authorization 而不只是 UI Bug？','怎样设计修复回归测试？'],'这是 Hermes 四案中的主讲案例；公开表达使用经过脱敏的调用链与证据。','困难',['真实面经','Hermes','Authorization','HITL'],'高压'),
+  X('agent','同类候选人面经','Claude Code 这类 Coding Agent 的安全设计有哪些值得借鉴的思路？','我认为最值得借鉴的是把模型自主性和宿主安全边界分开：模型可以决定读什么、改什么和调用什么工具，但真实执行仍由权限模式、工作目录、命令策略、网络边界、敏感操作确认和审计控制。系统 Prompt 只能影响行为，不能承担授权；仓库文件、工具结果和网页都要按不可信输入处理。对危险操作，审批还必须绑定当前用户、Session、具体参数和资源，不能只出现一个“允许”按钮。我的 Hermes 审批绕过经历正好说明，如果身份绑定缺失，即使有 HITL 也可能只是形式上的安全。',[],['Sandbox 能否替代命令审批？','仓库中的 Prompt Injection 怎么处理？'],'先讲通用设计，再用 Hermes 案例证明你真正分析过边界。','困难',['真实面经','Claude Code','Coding Agent安全'],'高压'),
+  X('agent','同类候选人面经','如果要用 Agent 架构服务企业业务，你会怎么分层设计？','我会先明确业务目标和成功标准，再分成接入与身份、领域服务、Agent 编排与状态、模型和知识、工具执行、数据存储以及可观测与安全治理七层。接入层做认证、租户和流式交互；编排层保存 Run、Session、Checkpoint 和人工中断；模型侧通过 Gateway 管路由、限流和成本；RAG 按权限检索企业知识；工具层通过 Native Tool 或 MCP 接业务系统，并由 Tool Gateway 做对象级授权、参数校验、幂等和 Sandbox；数据库保存权威状态，对象存储保存 Artifact，Redis/MQ承担缓存和异步调度；最后用 Trace、Eval、审计和告警形成闭环。核心原则是模型负责开放语义判断，代码负责权限、状态和副作用边界。',[],['哪个层拥有最终业务状态？','为什么不能所有能力都做成 MCP？'],'腾讯主管面同类现场架构题；口述时可以边说边画七层。','困难',['真实面经','企业Agent','系统设计'],'必背'),
+  X('agent','同类候选人面经','超长输入超过 Context Window 时怎么办？','我不会只做机械截断，而会先按任务拆分信息：当前必须推理的事实进入工作 Context，完整原文和工具结果保存为 Artifact，可检索知识进入索引，长期任务状态进入结构化 State。代码和文档可以按符号、章节或调用关系切分后 Hybrid Retrieve，再对高相关片段重排；历史对话则保留最近动作、稳定事实和未解决问题，过期假设不继续注入。对于必须整体理解的单文档，可以使用长上下文模型或分层摘要，但关键结论仍回到原始片段核对。我的项目采用 Native Session 保持局部连续性，External State 和 Bootstrap/Delta Context 负责跨 Session 恢复。',[],['摘要会不会丢失关键条件？','为什么不直接换百万 Token 模型？'],'对应腾讯二面“超过 context window 怎么办”。','中等',['真实面经','Long Context','Context Engineering'],'必背'),
+  X('agent','同类候选人面经','如果给你视频帧、标题、OCR、作者信息和人工标注，怎样用大模型辅助或替代人审？','我会把它设计成风险分级的人机协同系统，而不是让一个大模型直接决定所有内容。先定义违规类别、误杀和漏放成本，再对视频抽帧、OCR、ASR、标题和账号特征做时间对齐与规范化；低成本模型先过滤明显正常或明显违规样本，边界样本由多模态大模型结合政策知识输出结构化标签、证据片段和置信度，高风险或低置信结果进入人工复核。离线按类别看 Precision、Recall、PR-AUC 和高风险召回，使用脏数据、对抗样本和新分布做切片；上线先 Shadow 和灰度，监控漂移、申诉率与人工接管率。模型输出只是审核建议，最终动作还要经过业务 Policy。',[],['基座模型怎么选？','如何降低人工审核成本但不放大误杀？'],'字节 TikTok 风控现场开放题。','困难',['真实面经','内容安全','多模态'],'高压'),
+  X('agent','同类候选人面经','一个 AI 安全项目应该怎样选择基座模型？','我会先从任务和部署约束反推模型，而不是先选最强模型。首先明确输入模态、长度、语言、输出格式、工具调用和推理要求；然后建立包含正常、长尾、对抗、无答案和真实脏数据的验证集，对候选模型比较任务指标、稳定性、延迟、吞吐、显存、成本、隐私和可部署区域。若任务主要是高频分类，小模型或规则通常更合适；若需要复杂语义解释和工具规划，再让大模型处理难例。最后通过离线评测、Shadow、灰度和回滚验证选择，不能只凭公开榜单或一次 Demo。',[],['为什么不直接用最大的模型？','开源模型和 API 模型怎么选？'],'对应字节、小米、京东的模型选型连续追问。','中等',['真实面经','模型选型','AI安全'],'必背'),
+  X('agent','同类候选人面经','训练或评测数据是谁标注的，怎样保证标注质量？','我会如实区分自己直接标注、团队标注和已有数据集，不能把团队数据包装成个人工作。质量上先把标签定义、边界和反例写成 Guideline，用培训集校准标注员，再对高风险或主观样本做双人独立标注和仲裁；统计一致性、分歧类型和每类样本量，并定期抽检。数据切分要按时间、主体或攻击家族防止泄漏，难例、脏数据和线上失败单独保留。标签、来源、版本和修改历史都要可追溯，模型不确定或标注分歧大的样本进入主动学习，而不是强行生成一个伪 Ground Truth。',[],['如何衡量标注一致性？','LLM 能不能代替人工标注？'],'对应腾讯二面“标注是你做的吗”。','中等',['真实面经','数据标注','Data Quality'],'必背'),
+  X('adaptivevuls','同类候选人面经','你的项目有什么典型 Bad Case？','AdaptiveVuls 早期出现过 Fresh Busy Loop：Sticky Investigator 认为搜索饱和后请求 Fresh，Fresh Proposal 被整合又造成状态变化，Sticky 很快再次请求 Fresh，但中间没有新的程序证据，某些运行约四成预算被独立重调查消耗。我们通过 Trace 定位到 Runtime 没有定义什么变化才算新的科学状态，后来让一次 Fresh 消耗 eligibility，只有普通 Sticky 产生新的 Material Evidence 才能重新 rearm；Fresh integration、状态 bookkeeping 和时间流逝都不能触发下一次 Fresh。同时加入 yield 和 park，把 Worker 暂时无工作与实验生命周期分开。后续长程运行中 Fresh 占比降到约一成七，忙循环不再出现。',[],['为什么不简单限制最多 Fresh 三次？','park 和任务结束有什么区别？'],'这是模型、系统和科研面都能使用的真实 Bad Case。','困难',['真实面经','Bad Case','Fresh Busy Loop'],'必背'),
+  X('agent','同类候选人面经','商业安全产品为什么不能只看 Accuracy？','安全数据通常类别极不均衡，如果一万条流量只有十条攻击，全部预测正常也能得到接近百分之百的 Accuracy，却完全没有安全价值。我会根据误报和漏报成本重点看攻击类 Recall、Precision、F1、PR-AUC、每类混淆矩阵和阈值曲线，同时报告不同协议、攻击家族、时间、新型攻击和脏数据切片。产品层还要看每百万事件误报数、人工研判量、检测延迟、资源成本和漂移。指标目标不能只写“越高越好”，而要结合下游响应能力和不可接受风险设定。',[],['为什么不只看 F1？','Recall 提升导致误报暴涨怎么办？'],'对应字节商业产品和小米指标压力题。','简单',['真实面经','安全指标','Imbalanced Data'],'必背'),
+  X('agent','同类候选人面经','怎样用业务语言解释 Precision、Recall、Accuracy 和 F1？','以攻击检测为例，Recall 是一百个真实攻击里抓到了多少，Precision 是系统判成攻击的告警里有多少真是攻击，Accuracy 是所有正常和攻击样本中总体判断正确的比例，F1 是 Precision 与 Recall 的调和平均。当攻击样本很少时，Accuracy 很容易被大量正常流量抬高；Recall 低会漏攻击，Precision 低会让运营人员被误报淹没。因此我会先根据业务成本选择主指标，再看阈值和分场景结果，而不是孤立比较一个总分。',[],['F1 为什么使用调和平均？','什么时候更看重 Precision？'],'对应小米面试中的概念压力题。','简单',['真实面经','Precision','Recall','F1'],'必背'),
+  X('security','同类候选人面经','怎样判断一次 SQL 注入是否真正成功？','我会先判断是否能够稳定改变数据库解释语义，而不是只看页面报错。错误型可以用语法错误和数据库特征做初筛；布尔盲注使用只改变谓词真假的成对请求，比较状态码、正文特征和长度；时间盲注需要多次基线、对照和统计，排除网络抖动；联合或报错注入则验证是否能返回数据库控制的数据。随后确认参数确实进入 SQL、排除缓存和应用分支，再在授权环境中用最小无破坏 Payload 证明读取或条件控制能力。修复应使用参数化查询、最小数据库权限和回归测试，WAF 只能作为补充。',[],['时间盲注怎样排除偶然延迟？','ORM 是否天然不会 SQL 注入？'],'对应字节安全开发一面。','中等',['真实面经','SQL注入','漏洞验证'],'必背'),
+  X('network','同类候选人面经','HTTPS 从输入 URL 到收到响应大致经历什么？','浏览器先解析 URL、检查缓存与安全策略并通过 DNS 获得地址；HTTP/1.1 和 HTTP/2 通常先完成 TCP 三次握手，再进行 TLS 握手：客户端发送版本、随机数、套件、SNI 和 ALPN，服务端返回选择结果、证书和密钥交换材料，客户端验证证书链、域名和有效期，双方基于临时密钥计算会话密钥并用 Finished 校验握手完整性。之后 HTTP 请求在加密通道中传输，HTTP/2 可多路复用；HTTP/3 则基于 QUIC，在 UDP 上把传输与 TLS 1.3 握手结合。连接还可能经过代理、Session Resumption 和 0-RTT，所以回答时要说明协议版本。',[],['证书验证具体检查什么？','TLS 1.3 为什么更快？'],'对应腾讯安全一面的基础协议题。','中等',['真实面经','HTTPS','TLS'],'必背'),
+  X('security','同类候选人面经','冰蝎、哥斯拉和蚁剑是什么，它们在应急响应中意味着什么？','它们都是常见的 WebShell 管理工具，能够通过服务端脚本或内存马与受控主机通信，执行命令、管理文件和数据库等操作。蚁剑偏开放插件化，冰蝎以加密通信和动态载荷著称，哥斯拉常使用加密协议和内存加载降低静态特征，但具体版本能力会变化。应急响应中不能只按工具名或固定字符串判断，而要结合异常脚本、进程树、网络会话、动态类加载、文件时间线和账号行为确认入侵，并进行隔离、取证、清除持久化、轮换凭证和入口修复。',[],['内存马为什么没有落地文件？','发现 WebShell 后第一步做什么？'],'对应腾讯二面传统安全圈层题。','中等',['真实面经','WebShell','应急响应'],'必背'),
+  X('backend','同类候选人面经','你的实际开发技术栈是什么？','我的主力语言是 Python，主要用于 Agent Runtime、Runner Adapter、状态与 Artifact 管理、安全自动化和实验脚本；在 Linux 环境中大量使用 Shell、Git、构建工具和进程调试。此前我用 C++ 做过文本规整引擎并参与过大型网络系统维护，也具备 C/C++ 和 Java 的阅读与基础开发能力。我的优势不是只会训练模型，而是能把模型、工具、文件系统和程序实验连成可运行闭环；目前还在继续补齐数据库、消息队列、异步任务和可观测性，把研究型 Harness 推向生产后端能力。',[],['最复杂的 Python 模块是什么？','你能否快速接手 Go 或 Java 服务？'],'严格按照简历回答，不临场虚构 Go、前端或大规模后端经历。','简单',['真实面经','开发能力','技术栈'],'必背'),
+  X('agent','同类候选人面经','为什么不用大模型直接完成所有安全检测？','因为安全检测同时包含高频确定性计算、复杂语义判断和高风险处置，大模型只适合其中一部分。规则、SAST、小模型和 Fuzzer 在固定关系、吞吐、成本和可重复性上更强；大模型适合理解业务上下文、解释候选、生成调查假设和选择工具，但会有非确定、幻觉、延迟和 Prompt Injection 风险。因此我更倾向分层：确定性工具先产生关系和信号，大模型组织调查与难例判断，动态实验提供真实证据，最终高风险结论和动作再经过 Policy 或人工准入。',[],['什么时候大模型反而是最佳选择？','两级架构怎么分配阈值？'],'对应某二次元大厂“为什么不用大模型直接检测”。','中等',['真实面经','大小模型','Security Agent'],'必背'),
+  X('agent','同类候选人面经','安全检测中的小模型加大模型两级架构怎样设计？','我会让小模型承担高吞吐、低成本和边界明确的第一阶段，例如规则匹配、特征模型或轻量分类器输出类别、分数和关键特征；明显正常与明显攻击可以按校准阈值直接处理，低置信、冲突、新分布或高价值事件进入大模型。大模型读取原始证据、业务上下文和知识，通过结构化输出完成解释、补充调查或调用工具，而不是覆盖原始检测事实。系统需要单独评测一级召回、二级精度、路由命中、总体误报漏报、延迟和成本，并对大模型不可用设计降级与人工接管。',[],['一级漏掉的攻击二级还能看到吗？','路由阈值怎样校准？'],'对应某二次元大厂模型方案追问。','中等',['真实面经','级联模型','模型路由'],'必背'),
+  X('adaptivevuls','同类候选人面经','如果现在重新做 AdaptiveVuls，最先改什么？','如果现在重做，我不会先增加更多 Agent 角色，而会优先做三件事：第一，把 Canonical State、Artifact、Checkpoint 和 Runner Session 做成接口化持久层，补 revision、原子提交和 Schema Migration；第二，冻结处理方法，完成 Bare、Bare+Fresh 和 Full 的匹配预算对照与消融，先证明 Portfolio、Evidence Feedback 和 Fresh 的净收益；第三，把 Sandbox、Secret、取消、队列和 OpenTelemetry 补到生产边界。当前文件化状态和单 Persistent Investigator 在研究阶段是合理的，因为它们便于快速验证语义；下一阶段重点应该从增加机制转向严格实验和可靠工程。',[],['为什么当前设计当时合理？','哪些机制可能被实验删掉？'],'对应京东行为面“项目有瑕疵，重做怎么改”。','困难',['真实面经','重新设计','行为面'],'高压'),
+  X('agent','同类候选人面经','如果几家公司都给你 Offer，你会怎么选择？','我会先看岗位是否让我持续做 Agent 系统工程与安全交叉的真实业务，而不是只按公司名排序。具体会比较工作内容和导师是否匹配、能否负责完整闭环、团队对工程与研究的投入、学习成长、转正与地点等因素。我的主线比较稳定：横向做 Agent Runtime、State、Tool、Eval 和可靠性，纵向保留漏洞与安全深度；如果岗位能让我把这两部分真正用于生产并获得高质量反馈，我会优先选择。最终我会在信息透明后尽快决定，也会尊重各家的流程，不用模糊话长期占用名额。',[],['薪资和方向冲突时怎么选？','你目前最偏向哪一家公司？'],'对应京东 HR 面；具体公司面试时把第一优先级贴合对方业务。','简单',['真实面经','Offer选择','行为面'],'必背'),
+  X('algorithm','同类候选人面经','K 个一组翻转链表怎么做？','我会先用哑节点统一处理头结点，每轮从上一组尾部出发向后找第 k 个节点；如果剩余不足 k 个就直接返回。记录下一组起点 groupNext 后，把当前组从 groupPrev.next 到 kth 进行原地反转，反转时让 prev 从 groupNext 开始，这样组尾能直接连接后续链表；随后把上一组尾接到新的组头，并把原组头更新为新的 groupPrev。每个节点只被寻找和反转常数次，时间复杂度 O(n)，额外空间 O(1)。关键边界是 k=1、链表为空和最后不足 k 个节点保持原顺序。',[],['为什么 prev 要初始化为 groupNext？','能否用递归实现？'],'字节安全开发一面真实手撕题，答案之外仍需在“手撕”目录独立编码。','困难',['真实面经','链表','LeetCode25'],'高压'),
+  X('algorithm','同类候选人面经','最小窗口子串怎么做？','我会用可变长度滑动窗口。先统计目标字符串每个字符的需求量 need，并用 missing 表示窗口还缺多少个字符；右指针逐个扩张，只有当前字符仍在需求额度内时才减少 missing，同时更新窗口计数。当 missing 变成零，说明当前窗口已经覆盖目标，就不断移动左指针：先记录更短答案，再归还左侧字符；一旦归还后该字符不足，窗口失效并继续扩张右边。这样每个字符最多被左右指针各访问一次，时间 O(n+m)，空间与字符集大小有关。重复字符必须按计数处理，不能只用集合。',[],['如何返回所有最短窗口？','为什么不是固定长度窗口？'],'字节 TikTok 风控一面真实手撕题。','中等',['真实面经','滑动窗口','LeetCode76'],'必背'),
+  X('agent','同类候选人面经','Claude Code 或 VS Code 里怎样接入一个 MCP Server？','我会先确认当前使用的客户端和版本，因为不同客户端的配置入口并不相同，不能背一个通用字段名。Claude Code 可以通过 `claude mcp add` 或项目配置注册本地 stdio、HTTP 等 Server；VS Code 当前通常通过命令面板或工作区 `.vscode/mcp.json` 添加，具体以对应版本官方文档为准。无论哪种方式，都要配置启动命令或 URL、参数和必要环境变量，然后检查能力发现、Schema 和一次最小调用。企业环境还要限制凭证、网络、工作目录和可见工具，不把不可信 Server 的描述直接当系统指令。',[],['stdio 与 Streamable HTTP 怎么选？','MCP 配置中的 Secret 怎么管理？'],'纠正面经中把某个 settings 字段当成所有客户端统一配置的风险。','中等',['真实面经','MCP','Claude Code','VS Code'],'必背')
+);
+
+JOB_SPRINTS.push({
+  id:'peer-ai-security',name:'同类候选人 · AI安全×Agent',eyebrow:'REAL INTERVIEW BENCHMARK',tone:'purple',
+  role:'腾讯 / 字节 / 小米 / 京东 / 哔哩哔哩公开面经对标',
+  summary:'不再按概念浏览，而是按真实面试顺序训练项目深挖、业务场景、传统安全、Agent架构、算法和行为面。',
+  sources:[{name:'小红书 · 再牢两年半公开面经',url:'https://www.xiaohongshu.com/user/profile/'}],
+  plan:'Day 1 项目与Hermes漏洞；Day 2 数据指标与Bad Case；Day 3传统安全；Day 4 Agent架构/MCP；Day 5算法；Day 6行为面；Day 7十题模拟。',
+  phases:[
+    {id:'project',order:'01',title:'项目防守与真实漏洞',level:'S·高压',desc:'解决“简历太AI”“你真正研究过什么安全方向”。',queries:['简历看起来很 AI','比较深入的研究','独立发现并私下报告','典型 Bad Case','重新做 AdaptiveVuls']},
+    {id:'model',order:'02',title:'数据、模型与业务指标',level:'S',desc:'模型选型、标注、脏数据、不均衡指标和大小模型级联。',queries:['选择基座模型','数据是谁标注','商业安全产品','业务语言解释','不用大模型直接','小模型加大模型']},
+    {id:'scenario',order:'03',title:'Agent与现场架构题',level:'S·高压',desc:'从模糊业务问题现场拆成可落地系统。',queries:['Agent 架构服务企业业务','超过 Context Window','视频帧、标题','Claude Code 这类','接入一个 MCP Server']},
+    {id:'security',order:'04',title:'传统安全基础',level:'S',desc:'SQL注入、HTTPS、WebShell与Agent信任边界。',queries:['SQL 注入是否真正成功','HTTPS 从输入','冰蝎、哥斯拉','真正的安全能力']},
+    {id:'coding',order:'05',title:'开发与手撕算法',level:'S',desc:'开发栈、链表和滑动窗口必须能现场写。',queries:['实际开发技术栈','K 个一组翻转链表','最小窗口子串']},
+    {id:'behavior',order:'06',title:'主管面与行为面',level:'A',desc:'选择、反思、成长和业务判断。',queries:['几家公司都给你 Offer','重新做 AdaptiveVuls','典型 Bad Case']}
+  ]
+});
+;
 /* 独立漏洞复盘页数据。公开案例与本地审计案例分开标注，不进入题库计数。 */
 const VULNERABILITY_CASES = [
   {
@@ -1342,6 +1385,58 @@ const VULNERABILITY_CASES = [
   }
 ];
 
+/* Hermes Agent 私下报告案例：只保留面试所需的根因、验证和边界，不公开完整利用细节。 */
+VULNERABILITY_CASES.push(
+  {
+    id:'hermes-openrouter-key-leak',product:'Hermes Agent',version:'0.9.0 / 2026-04 main',
+    title:'OpenRouter URL 信任判断过宽导致 Provider API Key 外泄',severity:'Moderate',status:'已私下报告',confidence:'独立发现并复现',cwe:'CWE-200 / CWE-20',type:'凭证边界',
+    summary:'Runtime 用完整 URL 的原始子串匹配判断目标是否属于 OpenRouter，攻击者控制的自定义端点只要在主机名或路径中包含受信字符串，就可能被错误选择为 OpenRouter 并收到对应 Bearer Key。',
+    conditions:['用户同时配置多个 Provider 凭证','自定义 Base URL 进入 OpenRouter runtime resolution','攻击者能够诱导使用包含受信子串的非官方端点'],
+    chain:[['Source','攻击者影响自定义模型 Base URL。'],['Mechanism','系统对完整 URL 做子串信任判断，而不是解析并精确校验主机。'],['Boundary','错误选择高价值 OPENROUTER_API_KEY，并将其作为 Authorization 发往非官方服务。'],['Impact','凭证泄露，可被用于消耗配额和冒用 Provider 身份。']],
+    evidence:['真实 runtime provider resolution 路径','本地 OpenAI-compatible mock server 捕获实际 Authorization Header','普通自定义端点为负控，仅改变 URL 中是否出现受信子串'],
+    remediation:['用标准 URL Parser 解析并规范化 hostname','对官方域名做精确匹配或明确的受控子域策略','自定义端点默认使用独立凭证，不按显示字符串推断 Provider','增加恶意 host/path、userinfo、端口和编码回归测试'],
+    boundary:'需要用户配置或被诱导使用自定义端点；证明的是 Provider 凭证边界错误，不扩大成无需交互的远程接管。',
+    pitch:'这个漏洞的核心不是普通字符串 Bug，而是把 URL 文本相似性当成了服务身份。我们通过同一路径的正负对照捕获真实出站凭证，证明了信任判断与实际接收者不一致。',
+    source:{label:'私下安全报告 · 2026-04-16',url:''}
+  },
+  {
+    id:'hermes-dns-rebinding',product:'Hermes Agent',version:'0.9.0 / 2026-04 main',
+    title:'Localhost Dashboard 与 WhatsApp Bridge 缺少 Host 校验导致 DNS Rebinding',severity:'High',status:'已修复并获提交归因',confidence:'独立发现并复现',cwe:'CWE-346 / CWE-942',type:'本地服务边界',
+    summary:'两个仅绑定 localhost 的 HTTP 组件把网络绑定和 CORS 当成安全边界，却没有校验 Host/Origin。恶意网页可通过 DNS Rebinding 变成浏览器眼中的同源客户端，读取 Dashboard 注入的 Session Token，或访问 WhatsApp Bridge 的消息接口。',
+    conditions:['受害者本机运行相应 Localhost 服务','浏览器访问攻击者控制的可重绑定域名','应用没有 Host/Origin 或独立认证边界'],
+    chain:[['Source','攻击者控制网页和域名解析。'],['Mechanism','域名先指向攻击者服务，随后重绑定到 127.0.0.1；应用仍接受恶意 Host。'],['Boundary','浏览器同源后读取 Token 化页面或调用无认证 Bridge API。'],['Impact','访问 Dashboard 保护接口、读取或发送 WhatsApp 消息。']],
+    evidence:['恶意 Host 请求仍能获取含 Session Token 的 Dashboard HTML','无凭证 API 返回 401，使用从页面提取的 Token 后成功作为对照','Bridge 的读取与发送接口在恶意 Host 下仍接受请求'],
+    remediation:['Localhost 服务对 Host、Origin 和允许客户端 fail closed','敏感页面不向未验证来源注入 Session Secret','Bridge 增加独立认证、CSRF/Origin 与消息级授权','绑定 localhost 仅作为网络层纵深防御，不作为唯一身份判断'],
+    boundary:'依赖受害者运行本地服务并访问攻击者页面；根因不是服务绑定到 0.0.0.0，而是应用层没有验证到达本地端口的浏览器来源。',
+    pitch:'这个案例证明 localhost 不是浏览器安全边界。我们用恶意 Host 复现完整 Token 获取和受保护接口调用链，并获得项目后续修复提交中的报告归因。',
+    source:{label:'私下安全报告 · 2026-04-16',url:''}
+  },
+  {
+    id:'hermes-approval-authz',product:'Hermes Agent',version:'0.9.0 / 2026-04 main',
+    title:'Feishu / Discord / Slack 危险命令审批未绑定会话所有者',severity:'High',status:'维护者确认并修复',confidence:'维护者明确确认 real bug',cwe:'CWE-862 / CWE-863',type:'授权绕过',
+    summary:'多个聊天适配器展示了危险命令审批 UI，但回调路径在 allowlist 未配置或状态绑定不足时，没有验证点击者就是拥有待审批 Session 的授权用户；同一共享频道中的其他参与者可能替受害者允许终端或文件操作。',
+    conditions:['危险命令审批发生在共享聊天或频道','其他参与者能看到并点击交互组件','适配器 allowlist 未配置或回调没有绑定 Session owner'],
+    chain:[['Source','未授权频道参与者点击审批按钮。'],['Mechanism','回调只解析 approval_id/choice，未把 operator identity 与 session owner 重新授权。'],['Boundary','攻击者替另一个用户跨过 Human-in-the-loop Gate。'],['Impact','未获目标操作者批准的终端命令或敏感文件操作被解锁。']],
+    evidence:['直接执行真实回调 Handler 并记录 resolver 调用','攻击者对消息 Session 无操作权限的负面身份事实','最终 victim session_key 被以 allow-once 等选择解析','维护者回复“was a real bug. Good catch.”并说明 fail-closed 修复'],
+    remediation:['审批 Token 绑定 subject、session、action、resource 和 expiry','每个回调重新做对象级授权，不能依赖按钮可见性','allowlist 缺失时 fail closed','跨 Feishu、Discord、Slack 建统一策略和回归矩阵'],
+    boundary:'攻击者需要位于能看到审批组件的共享会话；它跨越的是危险命令审批边界，不代表无需聊天访问即可远程执行命令。',
+    pitch:'这是最能说明 Agent HITL 边界的案例：有审批界面不等于有授权。我们证明未授权用户能解析受害者 Session 的等待状态，维护者明确确认并完成三类适配器的 fail-closed 修复。',
+    source:{label:'私下安全报告 · 2026-04-16；维护者确认 2026-06-24',url:''}
+  },
+  {
+    id:'hermes-wecom-xml-expansion',product:'Hermes Agent',version:'0.9.0 / 2026-04 main',
+    title:'WeCom 回调在验签前解析 XML，形成 Pre-auth Entity Expansion',severity:'Moderate',status:'私下修复流程',confidence:'独立发现并复现',cwe:'CWE-611 / CWE-400',type:'预认证资源放大',
+    summary:'企业微信回调先用通用 XML Parser 解析请求体并读取 Encrypt 字段，之后才调用密码组件验证签名。攻击者因此能在认证前触发内部实体膨胀，让很小的请求先扩展成大字符串，再被验签拒绝。',
+    conditions:['网络侧可访问 WeCom Callback 路由','请求体在签名验证前交给支持 DTD/实体的 Parser','服务允许足以产生显著放大的请求并发'],
+    chain:[['Source','未经认证的恶意 XML 请求体。'],['Mechanism','XML 实体在签名 Gate 之前被解析和展开。'],['Evidence','数百字节请求在进入 Crypto 前扩展到百万级 Encrypt 内容，最终签名仍失败。'],['Impact','重复或并发请求造成认证前 CPU 与内存压力。']],
+    evidence:['Malformed XML 负控：Parser 失败且 Crypto 未到达','普通未签名 XML 对照：Crypto 被调用但随后拒绝','实体膨胀请求：Crypto 前观察到显著扩展后的 Encrypt 长度'],
+    remediation:['在解析前拒绝 DTD/Entity，使用 defusedxml 等安全 Parser','尽可能在低成本提取与尺寸约束后先完成签名校验','限制 Body、深度、实体和并发预算','添加“认证失败但不得发生大规模解析工作”的回归测试'],
+    boundary:'实证影响是预认证可用性与资源放大，不声称 XXE 文件读取、外联或代码执行。',
+    pitch:'关键问题是安全检查顺序：请求最终被拒绝，并不代表认证前没有产生攻击者可控成本。我们用 malformed、普通未签名和实体膨胀三组对照定位了解析发生在验签之前。',
+    source:{label:'私下安全报告 · 2026-04-15',url:''}
+  }
+);
+
 const VULNERABILITY_PRODUCTS = ['NLTK','Nextcloud','MLflow','vLLM'];
 
 const VULNERABILITY_PROJECT_INFO = {
@@ -1414,6 +1509,13 @@ const VULNERABILITY_PLAIN = {
   }
 };
 
+Object.assign(VULNERABILITY_PLAIN,{
+  'hermes-openrouter-key-leak':{point:'Hermes 用完整 URL 的子串匹配判断一个自定义端点是不是 OpenRouter，路径或主机名只要包含受信字符串就可能被误判。',impact:'系统会把高价值 OpenRouter API Key 发给非官方、攻击者控制的服务端点。'},
+  'hermes-dns-rebinding':{point:'本地 Dashboard 和 WhatsApp Bridge 只依赖 localhost/CORS，没有验证 Host；恶意网页可借 DNS Rebinding 让浏览器转向受害者本机服务。',impact:'攻击者可能读取 Dashboard Token 和保护接口，或读取、发送受害者的 WhatsApp 消息。'},
+  'hermes-approval-authz':{point:'Feishu、Discord、Slack 的危险命令审批按钮没有稳定校验点击者是否拥有等待审批的 Session。',impact:'共享频道里的未授权参与者可能替受害者批准终端命令或敏感文件操作。'},
+  'hermes-wecom-xml-expansion':{point:'企业微信回调先解析并展开不可信 XML，之后才验证签名，所以攻击者能在认证前制造解析放大。',impact:'很小的未认证请求可以消耗明显更多 CPU 和内存，重复并发时影响服务可用性。'}
+});
+
 VULNERABILITY_CASES.forEach(item=>{
   const plain=VULNERABILITY_PLAIN[item.id];
   item.plainPoint=plain.point;
@@ -1453,6 +1555,20 @@ const INTERVIEW_SOURCES = [
   {group:'agent',name:'LangGraph / LlamaIndex Docs',kind:'官方文档',url:'https://docs.langchain.com/oss/python/langgraph/overview',level:'框架实现',topics:['State Graph','Durable Execution','RAG','Agent'],use:'选一个框架做可运行 Demo，重点说明状态、恢复、幂等和可观测性。',note:'框架变化快，避免背过时类名；优先回答通用抽象。'},
   {group:'agent',name:'Hugging Face LLM Course',kind:'开放课程',url:'https://huggingface.co/learn/llm-course/',level:'模型基础',topics:['Transformer','Tokenizer','微调','推理'],use:'补齐模型基础后再学习 RAG/Agent，避免只会调用 SDK。',note:'代码示例的库版本可能变化，以当前文档为准。'}
 ];
+
+/* 2026 暑期 AI安全 / 安全开发 / Agent 岗真实面经；仅记录来源和明确问题，不复制原图。 */
+INTERVIEW_SOURCES.push(
+  {group:'experience',name:'再牢两年半 · 哔哩哔哩安全岗一面',kind:'小红书公开面经',url:'https://www.xiaohongshu.com/discovery/item/6a102b2a00000000350308d5',level:'团队与主动性',topics:['项目角色','团队匹配','主动性'],use:'观察小团队安全岗如何从技术面转向团队资源、业务和候选人主动性。',note:'帖子配图与正文只作趋势校准，具体业务以面试官和官方JD为准。'},
+  {group:'experience',name:'再牢两年半 · 字节安全开发一面',kind:'小红书公开面经',url:'https://www.xiaohongshu.com/discovery/item/6a111f7b0000000036001f9f',level:'项目+算法',topics:['商业指标','SQL注入','链表'],use:'训练项目角色、商业安全指标、SQL注入成功判断和K组翻转链表。',note:'原帖岗位为网络安全开发实习生。'},
+  {group:'experience',name:'再牢两年半 · 腾讯安全一面',kind:'小红书公开面经',url:'https://www.xiaohongshu.com/discovery/item/6a12751d000000000603775a',level:'项目+基础',topics:['项目深挖','HTTPS','Claude Code安全'],use:'训练三个项目连续追问、HTTPS/TLS和Coding Agent安全设计。',note:'图片只明确给出少量八股问题，未公开的项目追问不补造。'},
+  {group:'experience',name:'再牢两年半 · 字节TikTok风控一面',kind:'小红书公开面经',url:'https://www.xiaohongshu.com/discovery/item/6a1435740000000038036c4e',level:'业务场景题',topics:['内容审核','模型选型','最小窗口'],use:'训练从多模态审核业务拆解数据、模型、评测、上线和人工接管。',note:'不要照搬候选人的现场答案，重点练习自己的业务拆解。'},
+  {group:'experience',name:'再牢两年半 · 小米AI安全一面',kind:'小红书公开面经',url:'https://www.xiaohongshu.com/discovery/item/6a1581b7000000003502c30d',level:'指标压力面',topics:['Precision','Accuracy','技术决策'],use:'训练在压力下用业务语言解释指标，并为每项模型决策给出依据。',note:'原帖未公开全部项目问题，本站不推测补全。'},
+  {group:'experience',name:'再牢两年半 · 某二次元大厂安全二面',kind:'小红书公开面经',url:'https://www.xiaohongshu.com/discovery/item/6a195cd4000000003502206e',level:'安全+模型',topics:['SQL注入','大小模型','安全运营'],use:'补齐Web安全基础、检测数据来源、新攻击和级联模型架构。',note:'来源使用“某二次元大厂”的公开称呼，不擅自确认具体公司。'},
+  {group:'experience',name:'再牢两年半 · 京东安全开发一面',kind:'小红书公开面经',url:'https://www.xiaohongshu.com/discovery/item/6a1970370000000036001c3c',level:'项目选型深挖',topics:['Transformer','教师学生模型','LLM安全检测'],use:'训练“为什么选这个方案、对比过什么、底层数据怎样处理、下一步怎样优化”。',note:'该轮没有Web八股，不代表京东或安全岗普遍不考安全基础。'},
+  {group:'experience',name:'再牢两年半 · 京东安全二面',kind:'小红书公开面经',url:'https://www.xiaohongshu.com/discovery/item/6a22b48c000000003501eb34',level:'行为与价值观',topics:['成功失败','项目重做','Offer选择'],use:'训练可追问的成功、失败、劣势、学习和职业选择案例。',note:'家庭类问题按个人边界简洁回答，技术复习重点是可验证的行为案例。'},
+  {group:'experience',name:'再牢两年半 · 腾讯安全二面',kind:'小红书公开面经',url:'https://www.xiaohongshu.com/discovery/item/6a2692360000000022021b2f',level:'安全+开发+AI',topics:['安全纵深','Long Context','MCP','WebShell'],use:'完整对标安全基础、开发技术栈、项目Bad Case和Agent工具接入。',note:'帖子中的“Cloud Code”按上下文理解为Claude Code；MCP配置随客户端和版本变化。'},
+  {group:'experience',name:'再牢两年半 · 腾讯主管三面',kind:'小红书公开面经',url:'https://www.xiaohongshu.com/discovery/item/6a282235000000002100b73e',level:'Agent思维',topics:['企业Agent架构','任务拆解','主管面'],use:'训练在模糊业务约束下现场分层，并说明Agent、Tool、State、权限和基础设施。',note:'面试官观点只代表该次面试语境，不能扩大成腾讯全部团队统一标准。'}
+);
 ;
 /* 面试口述稿：基于最新简历与 2026-08-02 工作区中的 av.md 事实整理。 */
 const INTERVIEW_PITCH_GROUPS = [
